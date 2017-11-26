@@ -11,7 +11,8 @@ export default class JokeList extends React.PureComponent {
     render() {
         const filter = (this.props.filter || '').toLowerCase()
         const data = this.props.data.filter(d => (
-            (d.title || '').includes(filter) || (d.body || '').includes(filter)
+            (d.title || '').toLowerCase().includes(filter) ||
+            (d.body || '').toLowerCase().includes(filter)
         ))
 
         return (
