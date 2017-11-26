@@ -9,14 +9,14 @@ export default class JokeList extends React.PureComponent {
     }
 
     render() {
-        const filter = (this.props.filter || '').toLowerCase()
+        const filter = (this.props.filter || '').toLowerCase().trim()
         const data = this.props.data.filter(d => (
             (d.title || '').toLowerCase().includes(filter) ||
             (d.body || '').toLowerCase().includes(filter)
         ))
 
         return (
-            <FlipMove enterAnimation="accordionVertical" leaveAnimation="accordionVertical">
+            <FlipMove enterAnimation="fade" leaveAnimation="fade">
                 {data.map(this.renderJoke)}
             </FlipMove>
         );
