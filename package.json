@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "description": "HCDE project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeWaninger/HCDE556.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukeWaninger/HCDE556/issues"
+  },
+  "homepage": "https://github.com/lukeWaninger/HCDE556#readme",
+  "dependencies": {
+    "next": "^4.1.4",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-flip-move": "^2.9.17"
+  }
+}
