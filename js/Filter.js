@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Fitler extends React.PureComponent {
+export default class Filter extends React.PureComponent {
     onChange = (e) => {
         this.props.onChange(e.target.value)
     }
@@ -14,7 +14,7 @@ export default class Fitler extends React.PureComponent {
                 <input
                     className="search"
                     onChange={this.onChange}
-                    placeholder="Enter something to fitler"
+                    placeholder="Enter something to filter"
                     value={this.props.filter}
                     type="text"
                 />

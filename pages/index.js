@@ -171,17 +171,19 @@ export default class Main extends React.Component {
                     <select id="size_mapping" className="selector topic_selector">
                         <option value="frequency">count</option>
                         <option value="score">score</option>
-                        <option value="tfidf">tf/idf</option>
                     </select>
                 </nav>
-                <div>
-                    <DensityPlot data={data} />
-                </div>
-                <div>
+                
+                <div class="content_left">
                     <ScatterPlot data={data} />
                 </div>
+
+                <div class="content_left">
+                    <DensityPlot data={data} />
+                </div>
+
                 <Filter filter={this.state.filter} onChange={this.onFilterChange} />
-                <JokeList filter={this.state.filter} data={this.state.data} />
+                   {/* <JokeList filter={this.state.filter} data={this.state.data} /> */}
             </div>
             </div>
         );
