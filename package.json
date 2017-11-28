@@ -3,7 +3,7 @@
   "description": "HCDE project",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "next & http-server -p 3001 -cors",
     "build": "next build",
     "start": "next start"
   },
@@ -23,6 +23,7 @@
     "d3-scale": "^1.0.7",
     "d3-selection": "^1.2.0",
     "d3-transition": "^1.1.1",
+    "http-server": "^0.10.0",
     "next": "^4.1.4",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",

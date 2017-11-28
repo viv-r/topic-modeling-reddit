@@ -2,7 +2,7 @@ import { select } from 'd3-selection';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import { max } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis'
-// import './Fisheye';
+import './Fisheye';
 import 'd3-transition';
 import * as d3 from 'd3';
 import Svg from './Svg';
@@ -20,11 +20,11 @@ const ScatterPlot = Svg((node, props) => {
         height = 700;
 
     // Various scales and distortions.
-    // var xScale = d3.fisheye.scale(scaleLog).domain([300, 1e2]).range([0, width]),
-    // yScale = d3.fisheye.scale(scaleLinear).domain([20, 90]).range([height, 0]);
+    var xScale = d3.fisheye.scale(scaleLog).domain([300, 1e2]).range([0, width]),
+        yScale = d3.fisheye.scale(scaleLinear).domain([20, 90]).range([height, 0]);
 
-    var xScale = scaleLog().domain([300, 1e2]).range([0, width]),
-        yScale = scaleLinear().domain([20, 90]).range([height, 0]);
+    // var xScale = scaleLog().domain([300, 1e2]).range([0, width]),
+    //     yScale = scaleLinear().domain([20, 90]).range([height, 0]);
 
 
     const colorScale = scaleLinear()
