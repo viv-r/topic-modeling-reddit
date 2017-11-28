@@ -48,6 +48,8 @@ export default class Main extends React.Component {
                             <option value="frequency">count</option>
                             <option value="score">score</option>
                         </select>
+
+                        <button id="help_button" className="selector word_joke_selector" onclick="help()">?</button>
                     </nav>
 
                     <div id="content_left">
@@ -64,6 +66,10 @@ export default class Main extends React.Component {
                         <Filter filter={this.state.filter} onChange={this.onFilterChange} />
                         {/* <JokeList filter={this.state.filter} data={this.state.data} /> */}
                     </div>
+                </div>
+                
+                <div id="help_overlay">
+                    <button id="help_close" className="selector word_joke_selector" onclick="help()">X</button>
                 </div>
             </div>
         );

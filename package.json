@@ -3,7 +3,8 @@
   "description": "HCDE project",
   "main": "index.js",
   "scripts": {
-    "dev": "next & http-server -p 3001 -cors",
+    "dev": "next",
+    "static": "http-server -p 3001 -cors",
     "build": "next build",
     "start": "next start"
   },
