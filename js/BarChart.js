@@ -4,7 +4,7 @@ import { max } from 'd3-array';
 import 'd3-transition';
 import Svg from './Svg';
 
-const DensityPlot = Svg((node, props) => {
+const BarChart = Svg((node, props) => {
     const bars = Math.random() * 100 + 250;
     const data = [];
     for (let i = 0; i < bars; i++) data.push(Math.random());
@@ -46,4 +46,4 @@ const DensityPlot = Svg((node, props) => {
         })
 });
 
-export default DensityPlot;
+export default BarChart;

@@ -1,7 +1,7 @@
 import React from 'react'
 import data from '../data/reddit_jokes.json'
 import JokeList from '../js/JokeList'
-import DensityPlot from '../js/DensityPlot'
+import BarChart from '../js/BarChart'
 import ScatterPlot from '../js/ScatterPlot'
 import Filter from '../js/Filter'
 import Head from 'next/head'
@@ -149,15 +149,6 @@ export default class Main extends React.Component {
                             min-width: 700px;
                         }
 
-                        #joke_content {
-                            text-align: center;
-                            margin-top: -20px;
-                        }
-
-                        #joke_content table {
-                            text-align: left;
-                        }
-
                         .text_input {
                             font-family: 'Montserrat' sans-serif;
                             font-size: 20px;
@@ -189,7 +180,6 @@ export default class Main extends React.Component {
             <Head>
                 <title>Topic Modeling the Reddit Jokeset</title>
                 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"/>
-                <script src="http://d3js.org/d3.v3.min.js"></script>
             </Head>
             <div>
                 <nav id="interactions">
@@ -212,16 +202,20 @@ export default class Main extends React.Component {
                     </select>
                 </nav>
                 
-                <div class="content_left">
-                    <ScatterPlot data={data} />
+                <div id="content_left">
+                    <div id="scatter_plot">
+                        <ScatterPlot data={data} />
+                    </div>
                 </div>
 
-                <div class="content_left">
-                    <DensityPlot data={data} />
+                <div id="content_right">
+                    <BarChart data={data} />
                 </div>
 
-                <Filter filter={this.state.filter} onChange={this.onFilterChange} />
-                   {/* <JokeList filter={this.state.filter} data={this.state.data} /> */}
+                <div id="joke_content">
+                    <Filter filter={this.state.filter} onChange={this.onFilterChange} />
+                    {/* <JokeList filter={this.state.filter} data={this.state.data} /> */}
+                </div>
             </div>
 >>>>>>> 2133d556041c00761b832807b11215ab69a62b3b
             </div>
