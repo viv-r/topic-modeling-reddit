@@ -4,8 +4,6 @@ export default class JokeItem extends React.PureComponent {
     render() {
         const joke = this.props.joke;
 
-        if (!joke) return null;
-
         return (
             <div className="joke">
                 <style jsx>{`
