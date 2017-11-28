@@ -151,7 +151,7 @@ export default class Main extends React.Component {
             <Head>
                 <title>Topic Modeling the Reddit Jokeset</title>
                 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"/>
-                <script src="http://d3js.org/d3.v4.min.js"></script>
+                <script src="http://d3js.org/d3.v3.min.js"></script>
             </Head>
             <div>
                 <nav id="interactions">
