@@ -23,6 +23,8 @@ const ScatterPlot = Svg((node, props) => {
     // var xScale = d3.fisheye.scale(scaleLog).domain([300, 1e2]).range([0, width]),
     // yScale = d3.fisheye.scale(scaleLinear).domain([20, 90]).range([height, 0]);
 
+    var xScale = scaleLog().domain([300, 1e2]).range([0, width]),
+        yScale = scaleLinear().domain([20, 90]).range([height, 0]);
 
 
     const colorScale = scaleLinear()
