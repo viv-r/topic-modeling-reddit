@@ -1,8 +1,10 @@
 import { select } from 'd3-selection';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleLog } from 'd3-scale';
 import { max } from 'd3-array';
+import { axisLeft, axisBottom } from 'd3-axis'
 // import './Fisheye';
 import 'd3-transition';
+import * as d3 from 'd3';
 import Svg from './Svg';
 
 const ScatterPlot = Svg((node, props) => {
@@ -18,26 +20,26 @@ const ScatterPlot = Svg((node, props) => {
         height = 700;
 
     // Various scales and distortions.
-    // var xScale = fisheye.scale(d3.scale.log).domain([300, 1e2]).range([0, width]),
-    //     yScale = fisheye.scale(d3.scale.linear).domain([20, 90]).range([height, 0]);
-     var xScale = scaleLog().domain([300, 1e2]).range([0, width]),
-         yScale = scaleLinear().domain([20, 90]).range([height, 0]);
-    
-    
+    // var xScale = d3.fisheye.scale(scaleLog).domain([300, 1e2]).range([0, width]),
+    // yScale = d3.fisheye.scale(scaleLinear).domain([20, 90]).range([height, 0]);
+
+
+
     const colorScale = scaleLinear()
         .domain([0, 1])
         .range([0, 1])
-
-    // The x & y axes.
-    var xAxis = svg.axis().orient("bottom").scale(xScale).tickFormat(d3.format(",d")).tickSize(-height),
-        yAxis = svg.axis().scale(yScale).orient("left").tickSize(-width);
 
     // Create the SVG container and set the origin.
     var svg = select(node)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // The x & y axes.
+    var xAxis = axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-height),
+        yAxis = axisLeft(yScale).tickSize(-width);
+
 
     // Add a background rect for mousemove.
     svg.append("rect")
@@ -78,25 +80,25 @@ const ScatterPlot = Svg((node, props) => {
     var dot = svg.append("g")
         .attr("class", "dots")
         .selectAll(".dot")
-        .data(nations)
+        .data(props)
         .enter().append("circle")
         .attr("class", "dot")
-        .style("fill", function(d) { return colorScale(color(d)); })
+        .style("fill", function (d) { return colorScale(color(d)); })
         .call(position)
-        .sort(function(a, b) { return radius(b) - radius(a); });
+        .sort(function (a, b) { return radius(b) - radius(a); });
 
     // Add a title.
     dot.append("title")
-        .text(function(d) { return d.name; });
+        .text(function (d) { return d.name; });
 
     // Positions the dots based on data.
     function position(dot) {
-        dot .attr("cx", function(d) { return xScale(x(d)); })
-            .attr("cy", function(d) { return yScale(y(d)); })
-            .attr("r", function(d) { return radiusScale(radius(d)); });
+        dot.attr("cx", function (d) { return xScale(x(d)); })
+            .attr("cy", function (d) { return yScale(y(d)); })
+            .attr("r", function (d) { return radiusScale(radius(d)); });
     }
 
-    svg.on("mousemove", function() {
+    svg.on("mousemove", function () {
         const mouseX = event.pageX;
         const mouseY = event.pageY;
         xScale.distortion(2.5).focus(mouseX);
@@ -107,3 +109,5 @@ const ScatterPlot = Svg((node, props) => {
         svg.select(".y.axis").call(yAxis);
     });
 })
+
+export default ScatterPlot;

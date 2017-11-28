@@ -1,24 +1,24 @@
-import * as d3 from 'd3'
+import d3 from 'd3'
 
-(function() {
+(function () {
   d3.fisheye = {
-    scale: function(scaleType) {
+    scale: function (scaleType) {
       return d3_fisheye_scale(scaleType(), 3, 0);
     },
-    circular: function() {
+    circular: function () {
       var radius = 200,
-          distortion = 2,
-          k0,
-          k1,
-          focus = [0, 0];
+        distortion = 2,
+        k0,
+        k1,
+        focus = [0, 0];
 
       function fisheye(d) {
         var dx = d.x - focus[0],
-            dy = d.y - focus[1],
-            dd = Math.sqrt(dx * dx + dy * dy);
-        if (!dd || dd >= radius) return {x: d.x, y: d.y, z: dd >= radius ? 1 : 10};
+          dy = d.y - focus[1],
+          dd = Math.sqrt(dx * dx + dy * dy);
+        if (!dd || dd >= radius) return { x: d.x, y: d.y, z: dd >= radius ? 1 : 10 };
         var k = k0 * (1 - Math.exp(-dd * k1)) / dd * .75 + .25;
-        return {x: focus[0] + dx * k, y: focus[1] + dy * k, z: Math.min(k, 10)};
+        return { x: focus[0] + dx * k, y: focus[1] + dy * k, z: Math.min(k, 10) };
       }
 
       function rescale() {
@@ -28,19 +28,19 @@ import * as d3 from 'd3'
         return fisheye;
       }
 
-      fisheye.radius = function(_) {
+      fisheye.radius = function (_) {
         if (!arguments.length) return radius;
         radius = +_;
         return rescale();
       };
 
-      fisheye.distortion = function(_) {
+      fisheye.distortion = function (_) {
         if (!arguments.length) return distortion;
         distortion = +_;
         return rescale();
       };
 
-      fisheye.focus = function(_) {
+      fisheye.focus = function (_) {
         if (!arguments.length) return focus;
         focus = _;
         return fisheye;
@@ -54,28 +54,28 @@ import * as d3 from 'd3'
 
     function fisheye(_) {
       var x = scale(_),
-          left = x < a,
-          range = d3.extent(scale.range()),
-          min = range[0],
-          max = range[1],
-          m = left ? a - min : max - a;
+        left = x < a,
+        range = d3.extent(scale.range()),
+        min = range[0],
+        max = range[1],
+        m = left ? a - min : max - a;
       if (m == 0) m = max - min;
       return (left ? -1 : 1) * m * (d + 1) / (d + (m / Math.abs(x - a))) + a;
     }
 
-    fisheye.distortion = function(_) {
+    fisheye.distortion = function (_) {
       if (!arguments.length) return d;
       d = +_;
       return fisheye;
     };
 
-    fisheye.focus = function(_) {
+    fisheye.focus = function (_) {
       if (!arguments.length) return a;
       a = +_;
       return fisheye;
     };
 
-    fisheye.copy = function() {
+    fisheye.copy = function () {
       return d3_fisheye_scale(scale.copy(), d, a);
     };
 
