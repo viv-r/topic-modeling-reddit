@@ -3,6 +3,7 @@ import data from '../data/reddit_jokes.json'
 import JokeList from '../js/JokeList'
 import BarChart from '../js/BarChart'
 import ScatterPlot from '../js/ScatterPlot'
+import TopicSelector from '../js/TopicSelector'
 import Filter from '../js/Filter'
 import Head from 'next/head'
 
@@ -20,6 +21,18 @@ export default class Main extends React.Component {
         });
     }
 
+    showHelpOverlay = () => {
+        alert("balls")
+    }
+
+    closeHelpOverlay = () => {
+
+    }   
+
+    switchWordJokes(to) {
+
+    }
+
     render() {
         return (
             <div>
@@ -31,25 +44,10 @@ export default class Main extends React.Component {
                 </Head>
                 <div>
                     <nav id="interactions">
-                        <select id="topic_a_selector" className="selector topic_selector">
-                            <option value="1" selected>Topic 1</option>
-                            <option value="2">Topic 2</option>
-                            <option value="3">Topic 3</option>
-                        </select>
-                        <select id="topic_b_selector" className="selector topic_selector">
-                            <option value="1">Topic 1</option>
-                            <option value="2" selected>Topic 2</option>
-                            <option value="3">Topic 3</option>
-                        </select>
-                        <button id="word_selector" className="selector word_joke_selector active" onclick="switch_word_joke_filter(0)">words</button>
-                        <button id="joke_selector" className="selector word_joke_selector" onclick="switch_word_joke_filter(1)">jokes</button>
+                       <TopicSelector id={"topic_a"} />
+                       <TopicSelector id={"topic_b"} />                   
 
-                        <select id="size_mapping" className="selector topic_selector">
-                            <option value="frequency">count</option>
-                            <option value="score">score</option>
-                        </select>
-
-                        <button id="help_button" className="selector word_joke_selector" onclick="help()">?</button>
+                        <button id="help_button" className="selector word_joke_selector" onClick={this.showHelpOverlay}>?</button>
                     </nav>
 
                     <div id="content_left">
@@ -69,7 +67,7 @@ export default class Main extends React.Component {
                 </div>
                 
                 <div id="help_overlay">
-                    <button id="help_close" className="selector word_joke_selector" onclick="help()">X</button>
+                    <button id="help_close" className="selector word_joke_selector" onChange={this.closeHelpOverlay}>X</button>
                 </div>
             </div>
         );

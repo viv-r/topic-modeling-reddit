@@ -9,7 +9,7 @@ const BarChart = Svg((node, props) => {
     const data = [];
     for (let i = 0; i < bars; i++) data.push(Math.random());
 
-    props = { ...props, width: 200, height: 60, barWidth: 10, barSpacing: 3, data };
+    props = { ...props, width: 200, height: 200, barWidth: 35, barSpacing: 5, data };
 
     const size = [props.width, props.height];
 
