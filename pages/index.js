@@ -19,15 +19,7 @@ export default class Main extends React.Component {
         this.setState({
             filter,
         });
-    }
-
-    showHelpOverlay = () => {
-        
-    }
-
-    closeHelpOverlay = () => {
-
-    }
+    }   
 
     render() {
         return (
@@ -40,8 +32,8 @@ export default class Main extends React.Component {
                 </Head>
                 <div>
                     <nav id="interactions">
-                        <TopicSelector id={"topic_a"} />
-                        <TopicSelector id={"topic_b"} />
+                        <TopicSelector id={"topic_a"} init={"1"}/>
+                        <TopicSelector id={"topic_b"} init={"2"} />
 
                         <button id="help_button" className="selector word_joke_selector" onClick={this.showHelpOverlay}>?</button>
                     </nav>
@@ -64,9 +56,8 @@ export default class Main extends React.Component {
                     </div>
                 </div>
 
-                <div id="help_overlay" hidden>
-
-                    <button id="help_close" className="selector word_joke_selector" onChange={this.closeHelpOverlay}>X</button>
+                <div id="help_overlay">
+                    
                 </div>
             </div>
         );

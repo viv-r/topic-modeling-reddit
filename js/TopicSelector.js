@@ -4,7 +4,7 @@ export default class TopicSelector extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = { 
-            value: ""
+            value: this.props.init
          };
       }
     
