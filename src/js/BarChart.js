@@ -1,8 +1,5 @@
-import { select } from 'd3-selection';
-import { scaleLinear } from 'd3-scale';
-import { max } from 'd3-array';
-import 'd3-transition';
 import Svg from './Svg';
+const d3 = window.d3;
 
 const BarChart = Svg((node, props) => {
     const bars = Math.random() * 100 + 250;
@@ -13,18 +10,18 @@ const BarChart = Svg((node, props) => {
 
     const size = [props.width, props.height];
 
-    const dataMax = max(props.data)
-    const yScale = scaleLinear()
+    const dataMax = d3.max(props.data)
+    const yScale = d3.scaleLinear()
         .domain([0, dataMax])
         .range([0, size[1]])
 
-    const fill = (d, i) => i % 2 == 0 ? '#444' : '#333';
+    const fill = (d, i) => i % 2 === 0 ? '#444' : '#333';
 
-    select(node)
+    d3.select(node)
         .selectAll('rect')
         .remove()
 
-    select(node)
+    d3.select(node)
         .selectAll('rect')
         .data(props.data)
         .enter()
@@ -35,11 +32,11 @@ const BarChart = Svg((node, props) => {
         .attr('height', props.barWidth)
         .style('fill', fill)
         .on('mouseover', (data, index, nodes) => {
-            select(nodes[index])
+            d3.select(nodes[index])
                 .style('fill', '#5555aa')
         })
         .on('mouseout', function (data, index, nodes) {
-            select(nodes[index])
+            d3.select(nodes[index])
                 .transition()
                 .duration(200)
                 .style('fill', fill)

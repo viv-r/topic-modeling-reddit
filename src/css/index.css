@@ -82,6 +82,8 @@ nav .selector {
 }
 
 #scatter_plot {
+    margin: 20px;
+    padding: 20px;
     min-width: 700px;
 }
 

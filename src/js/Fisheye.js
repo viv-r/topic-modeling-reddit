@@ -1,6 +1,5 @@
-import * as d3 from 'd3'
 
-
+const d3 = window.d3;
 (function () {
   d3.rebind = function (target, source) {
     var i = 1, n = arguments.length, method;
