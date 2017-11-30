@@ -27,6 +27,13 @@ export default class Main extends React.Component {
 
     closeHelpOverlay = () => {
 
+<<<<<<< HEAD
+=======
+    }
+
+    switchWordJokes(to) {
+
+>>>>>>> f2e747eca31aace25629ad7785133aa586129b01
     }
 
     render() {
@@ -36,12 +43,12 @@ export default class Main extends React.Component {
                     <title>Topic Modeling the Reddit Jokeset</title>
                     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" />
                     <script src="http://d3js.org/d3.v3.min.js"></script>
-                    <link rel="stylesheet" href="http://localhost:3001/css/index.css" />
+                    <link rel="stylesheet" href="/static/index.css" />
                 </Head>
                 <div>
                     <nav id="interactions">
-                       <TopicSelector id={"topic_a"} />
-                       <TopicSelector id={"topic_b"} />                   
+                        <TopicSelector id={"topic_a"} />
+                        <TopicSelector id={"topic_b"} />
 
                         <button id="help_button" className="selector word_joke_selector" onClick={this.showHelpOverlay}>?</button>
                     </nav>
@@ -61,8 +68,13 @@ export default class Main extends React.Component {
                         {/* <JokeList filter={this.state.filter} data={this.state.data} /> */}
                     </div>
                 </div>
+<<<<<<< HEAD
                 
                 <div id="help_overlay" hidden>
+=======
+
+                <div id="help_overlay">
+>>>>>>> f2e747eca31aace25629ad7785133aa586129b01
                     <button id="help_close" className="selector word_joke_selector" onChange={this.closeHelpOverlay}>X</button>
                 </div>
             </div>
