@@ -17,12 +17,8 @@ const BarChart = Svg((node, props) => {
 
     const fill = (d, i) => i % 2 === 0 ? '#444' : '#333';
 
-<<<<<<< HEAD:src/js/BarChart.js
     d3.select(node)
-=======
-    select(node)
         .attr('id', props.id)
->>>>>>> d24b6db8a0dfc85221090be4314db89e92f94cbc:js/BarChart.js
         .selectAll('rect')
         .remove()
 
@@ -31,9 +27,8 @@ const BarChart = Svg((node, props) => {
         .data(props.data)
         .enter()
         .append('rect')
-<<<<<<< HEAD:src/js/BarChart.js
         .attr('y', (d, i) => i * (props.barWidth + props.barSpacing))
-        .attr('x', d => size[1] - yScale(d))
+        .attr('x', d => 0)
         .attr('width', d => yScale(d))
         .attr('height', props.barWidth)
         .style('fill', fill)
@@ -47,23 +42,6 @@ const BarChart = Svg((node, props) => {
                 .duration(200)
                 .style('fill', fill)
         })
-=======
-            .attr('y', (d, i) => i * (props.barWidth + props.barSpacing))
-            .attr('x', d => 0)
-            .attr('width', d => yScale(d))
-            .attr('height', props.barWidth)
-            .style('fill', fill)
-            .on('mouseover', (data, index, nodes) => {
-                select(nodes[index])
-                    .style('fill', '#5555aa')
-            })
-            .on('mouseout', function (data, index, nodes) {
-                select(nodes[index])
-                    .transition()
-                    .duration(200)
-                    .style('fill', fill)
-            })
->>>>>>> d24b6db8a0dfc85221090be4314db89e92f94cbc:js/BarChart.js
 });
 
 export default BarChart;

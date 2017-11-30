@@ -55,42 +55,10 @@ nav {
     min-height: 700px;
 }
 
-<<<<<<< HEAD:src/css/index.css
-#scatter_plot {
-    margin: 20px;
-    padding: 20px;
-    min-width: 700px;
-}
-
-#joke_content {
-    text-align: center;
-    margin-top: -20px;
-}
-
-#joke_content table {
-    text-align: left;
-}
-
-.text_input {
-    font-family: 'Montserrat' sans-serif;
-    font-size: 20px;
-    height: 35px;
-    border-radius: 2px;
-    margin: 0px 10px 10px 0px;
-    background-color: transparent;
-    padding-left: 10px;
-    width: 90%;
-    text-align: center;
-}
-
-.text_input:active,
-.text_input:focus {
-=======
 #help_button {
     position: relative;
     float: right;
     width: 50px;
->>>>>>> d24b6db8a0dfc85221090be4314db89e92f94cbc:static/index.css
     background-color: #007EFF;
     font-weight: bold;
     color: white;
