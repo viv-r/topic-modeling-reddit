@@ -57,8 +57,10 @@ export default class Main extends React.Component {
                     </div>
 
                     <div id="joke_content">
+                    {/* 
                         <Filter filter={this.state.filter} onChange={this.onFilterChange} />
-                        {/* <JokeList filter={this.state.filter} data={this.state.data} /> */}
+                        <JokeList filter={this.state.filter} data={this.state.data} />
+                    */}
                     </div>
                 </div>
 
