@@ -1,5 +1,5 @@
 import React from 'react'
-import data from './data/reddit_jokes.json'
+// import data from './data/reddit_jokes.json'
 // import JokeList from './js/JokeList'
 import BarChart from './js/BarChart'
 import ScatterPlot from './js/ScatterPlot'
@@ -10,7 +10,7 @@ export default class Main extends React.Component {
     constructor() {
         super();
         this.state = {
-            data: data.map((d, i) => ({ ...d, id: d.id + i })),
+            // data: data.map((d, i) => ({ ...d, id: d.id + i })),
             filter: '',
         };
     }
@@ -44,12 +44,12 @@ export default class Main extends React.Component {
 
                 <div id="content_left">
                     <div id="scatter_plot">
-                        <ScatterPlot data={data} />
+                        <ScatterPlot data={null} />
                     </div>
                 </div>
 
                 <div id="content_right">
-                    <BarChart data={data} />
+                    <BarChart data={null} />
                 </div>
 
                 <div id="joke_content">
