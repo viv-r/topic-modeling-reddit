@@ -22,14 +22,10 @@ export default class Main extends React.Component {
     }
 
     showHelpOverlay = () => {
-        alert("balls")
+        
     }
 
     closeHelpOverlay = () => {
-
-    }   
-
-    switchWordJokes(to) {
 
     }
 
@@ -66,7 +62,7 @@ export default class Main extends React.Component {
                     </div>
                 </div>
                 
-                <div id="help_overlay">
+                <div id="help_overlay" hidden>
                     <button id="help_close" className="selector word_joke_selector" onChange={this.closeHelpOverlay}>X</button>
                 </div>
             </div>
