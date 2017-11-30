@@ -45,7 +45,9 @@ export default class Main extends React.Component {
                     </div>
 
                     <div id="content_right">
-                        <BarChart data={data} />
+                        <BarChart data={data} id="topic_a_bar" />
+                        <br/>
+                        <BarChart data={data} id="topic_b_bar" />
                     </div>
 
                     <div id="joke_content">

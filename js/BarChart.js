@@ -21,6 +21,7 @@ const BarChart = Svg((node, props) => {
     const fill = (d, i) => i % 2 == 0 ? '#444' : '#333';
 
     select(node)
+        .attr('id', props.id)
         .selectAll('rect')
         .remove()
 
