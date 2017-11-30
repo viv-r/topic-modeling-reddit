@@ -14,31 +14,16 @@ body {
     width: 120px;
     border: 1px solid #3a3939;
     box-shadow: 2px 2px 1px #3a3939;
-    margin-right: 2px;
+    margin-right: 50px;
     border-radius: 2px;
     text-align-last: center;
     transition: all .1s;
     -webkit-transition: all .2s;
 }
 
-.word_joke_selector:hover,
-.word_joke_selector:active,
-.word_joke_selector:focus {
-    box-shadow: 0px 0px 0px #3a3939;
-    background-color: #007EFF;
-    border-radius: 2px;
-    border-width: 4px;
-    font-weight: bold;
-    color: white;
-}
-.word_joke_selector:hover {
-    background-color: #FF8B00;
-}
-
 .topic_selector {
     padding-left: 15px;
 }
-
 
 .active {
     box-shadow: 0px 0px 0px #3a3939;
@@ -49,38 +34,28 @@ body {
     color: white;
 }
 
-#help_button {
-    position: relative;
-    float: right;
-    width: 50px;
-    background-color: #007EFF;
-    font-weight: bold;
-    color: white;
-}
-
 nav {
     text-align: center;
     padding: 5px 10px 10px 10px;
     min-width: 850px;
 }
 
-nav .selector {
-    margin: 0px 20px;
-}
-
 #content_left {
     display: inline-block;
     width: 60%;
+    min-width: 700px;
+    min-height: 700px;
 }
 
 #content_right {
     display: inline-block;
-    position: relative;
-    width:39.5%;
+    width:30%;
     left: 3px;
-    text-align: center;
+    text-align: right;
+    min-height: 700px;
 }
 
+<<<<<<< HEAD:src/css/index.css
 #scatter_plot {
     margin: 20px;
     padding: 20px;
@@ -110,15 +85,13 @@ nav .selector {
 
 .text_input:active,
 .text_input:focus {
+=======
+#help_button {
+    position: relative;
+    float: right;
+    width: 50px;
+>>>>>>> d24b6db8a0dfc85221090be4314db89e92f94cbc:static/index.css
     background-color: #007EFF;
+    font-weight: bold;
     color: white;
-}
-
-.img {
-    width: 90%;
-    margin: 20px;
-}
-
-.small {
-    height: 200px;
 }
