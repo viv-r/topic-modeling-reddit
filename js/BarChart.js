@@ -5,7 +5,7 @@ import 'd3-transition';
 import Svg from './Svg';
 
 const BarChart = Svg((node, props) => {
-    const bars = Math.random() * 100 + 250;
+    const bars = 4;
     const data = [];
     for (let i = 0; i < bars; i++) data.push(Math.random());
 
@@ -29,21 +29,21 @@ const BarChart = Svg((node, props) => {
         .data(props.data)
         .enter()
         .append('rect')
-        .attr('y', (d, i) => i * (props.barWidth + props.barSpacing))
-        .attr('x', d => size[1] - yScale(d))
-        .attr('width', d => yScale(d))
-        .attr('height', props.barWidth)
-        .style('fill', fill)
-        .on('mouseover', (data, index, nodes) => {
-            select(nodes[index])
-                .style('fill', '#5555aa')
-        })
-        .on('mouseout', function (data, index, nodes) {
-            select(nodes[index])
-                .transition()
-                .duration(200)
-                .style('fill', fill)
-        })
+            .attr('y', (d, i) => i * (props.barWidth + props.barSpacing))
+            .attr('x', d => 0)
+            .attr('width', d => yScale(d))
+            .attr('height', props.barWidth)
+            .style('fill', fill)
+            .on('mouseover', (data, index, nodes) => {
+                select(nodes[index])
+                    .style('fill', '#5555aa')
+            })
+            .on('mouseout', function (data, index, nodes) {
+                select(nodes[index])
+                    .transition()
+                    .duration(200)
+                    .style('fill', fill)
+            })
 });
 
 export default BarChart;
