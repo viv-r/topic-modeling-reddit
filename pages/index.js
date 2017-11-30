@@ -27,13 +27,6 @@ export default class Main extends React.Component {
 
     closeHelpOverlay = () => {
 
-<<<<<<< HEAD
-=======
-    }
-
-    switchWordJokes(to) {
-
->>>>>>> f2e747eca31aace25629ad7785133aa586129b01
     }
 
     render() {
@@ -68,13 +61,9 @@ export default class Main extends React.Component {
                         {/* <JokeList filter={this.state.filter} data={this.state.data} /> */}
                     </div>
                 </div>
-<<<<<<< HEAD
-                
-                <div id="help_overlay" hidden>
-=======
 
-                <div id="help_overlay">
->>>>>>> f2e747eca31aace25629ad7785133aa586129b01
+                <div id="help_overlay" hidden>
+
                     <button id="help_close" className="selector word_joke_selector" onChange={this.closeHelpOverlay}>X</button>
                 </div>
             </div>
