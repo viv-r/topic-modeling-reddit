@@ -54,6 +54,7 @@ export default class Scatter extends React.Component {
         return (
             <div className="scatter-container">
                 <Graph
+                    size={400}
                     data={this.getScatterData()}
                     enableDistortion={this.props.enableDistortion}
                 />
@@ -63,15 +64,14 @@ export default class Scatter extends React.Component {
 }
 
 const Graph = Svg((node, props) => {
-    function x(d) { return d.p_topicA * 10; }
-    function y(d) { return d.p_topicB * 10; }
-    function radius(d) { return Math.log(d.count); }
-    function color(d) { return d.p_topicA; }
+    const x = d => d.p_topicA * 10;
+    const y = d => d.p_topicB * 10;
+    const radius = d => Math.log(d.count);
+    const color = d => d.p_topicA / (d.p_topicB + d.p_topicA);
 
-    // Chart dimensions.
-    var margin = { top: 0, right: 10, bottom: 20, left: 50 },
-        width = 400,
-        height = 400;
+    const svg = d3.select(node);
+    const width = props.size;
+    const height = props.size;
 
     let line = [];
     for (let i = 1; i < width; i++) {
@@ -82,27 +82,34 @@ const Graph = Svg((node, props) => {
         ? d3.fisheye.scale(scale)
         : scale();
 
-    var xScale = distortion(d3.scaleLinear).domain([0, 10]).range([0, width]),
-        yScale = distortion(d3.scaleLinear).domain([0, 10]).range([height, 0]);
-    var radiusScale = distortion(d3.scaleLinear).domain([0, 100]).range([0, 20]);
+    const xScale = distortion(d3.scaleLinear)
+        .domain([0, 10])
+        .range([0, width]);
+
+    const yScale = distortion(d3.scaleLinear)
+        .domain([0, 10])
+        .range([height, 0]);
+
+    const radiusScale = distortion(d3.scaleLinear)
+        .domain([0, 100])
+        .range([0, 20]);
 
     const colorScale = d3.scaleLinear()
         .domain([0, 1])
         .range(['red', 'blue'])
 
-    var svg = d3.select(node);
-
     svg.selectAll("*").remove();
-    svg.attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+    svg.attr("width", width + 40)
+        .attr("height", height + 40)
+        .style("margin", 5)
+        .style("padding", 15)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var xAxis = d3.axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-height),
-        yAxis = d3.axisRight(yScale).tickSize(-width);
+    const xAxis = d3.axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-height);
+    const yAxis = d3.axisLeft(yScale).tickFormat(d3.format(",d")).tickSize(-width);
 
     svg.append("rect")
-        .attr("fill", "none")
+        .attr("fill", "#fefefe")
         .attr("width", width)
         .attr("height", height);
 
@@ -113,13 +120,12 @@ const Graph = Svg((node, props) => {
         .call(xAxis);
 
     // the red dotted line
-    // Define the line
-    var positionLine = d3.line()
+    const positionLine = d3.line()
         .curve(d3.curveBasis)
-        .x(function (d) { return xScale(d.x); })
-        .y(function (d) { return yScale(d.y); })
+        .x(d => xScale(d.x))
+        .y(d => yScale(d.y))
 
-    var lineP = svg.append("path")
+    const drawLineP = () => svg.append("path")
         .attr("class", "sep-line")
         .datum(line)
         .attr("fill", "none")
@@ -128,32 +134,33 @@ const Graph = Svg((node, props) => {
         .attr("stroke-linecap", "round")
         .attr("stroke-width", 1.5)
         .attr("stroke-dasharray", "5 5")
-        .attr("d", positionLine)
+        .attr("d", positionLine);
 
+    let lineP = drawLineP();
 
     // Add the y-axis.
     svg.append("g")
         .attr("class", "y axis")
-        .attr("transform", "translate(" + width + ", 0)")
+        .attr("transform", "translate(" + 0 + ", 0)")
         .call(yAxis);
 
-    // // Add an x-axis label.
-    // svg.append("text")
-    //     .attr("class", "x label")
-    //     .attr("text-anchor", "end")
-    //     .attr("x", width - 6)
-    //     .attr("y", height - 6)
-    //     .text("probability towards second selected topic");
+    // Add an x-axis label.
+    svg.append("text")
+        .attr("class", "x label")
+        .attr("text-anchor", "end")
+        .attr("x", width - 6)
+        .attr("y", height - 6)
+        .text("Topic A");
 
-    // // Add a y-axis label.
-    // svg.append("text")
-    //     .attr("class", "y label")
-    //     .attr("text-anchor", "end")
-    //     .attr("x", -6)
-    //     .attr("y", 6)
-    //     .attr("dy", ".75em")
-    //     .attr("transform", "rotate(-90)")
-    //     .text("probability towards first selected topic");
+    // Add a y-axis label.
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "end")
+        .attr("x", -6)
+        .attr("y", 6)
+        .attr("dy", ".75em")
+        .attr("transform", "rotate(-90)")
+        .text("Topic B");
 
     // Add a dot per word and set the colors
     var dot = svg.append("g")
@@ -172,9 +179,9 @@ const Graph = Svg((node, props) => {
 
     // Positions the dots based on data.
     function position(dot) {
-        dot.attr("cx", function (d) { return xScale(x(d)); })
-            .attr("cy", function (d) { return yScale(y(d)); })
-            .attr("r", function (d) { return radiusScale(radius(d)); });
+        dot.attr("cx", d => xScale(x(d)))
+            .attr("cy", d => yScale(y(d)))
+            .attr("r", d => radiusScale(radius(d)))
     }
 
     svg.on("mousemove", function () {
@@ -187,14 +194,7 @@ const Graph = Svg((node, props) => {
         dot.call(position);
 
         lineP.remove();
-        lineP = svg.append("path")
-            .datum(line)
-            .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-linejoin", "round")
-            .attr("stroke-linecap", "round")
-            .attr("stroke-width", 1.5)
-            .attr("d", positionLine)
+        lineP = drawLineP();
 
         svg.select(".x.axis").call(xAxis);
         svg.select(".y.axis").call(yAxis);
