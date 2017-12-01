@@ -42,22 +42,24 @@ export default class Main extends React.Component {
                     <button id="help_button" className="selector word_joke_selector" onClick={this.showHelpOverlay}>?</button>
                 </nav>
 
-                <div id="content_left">
-                    <div id="scatter_plot">
-                        <ScatterPlot data={null} />
-                    </div>
-                </div>
+                <section id="scatter_plot">
+                    <h3>Scatter plot shows shit</h3>
+                    <ScatterPlot data={null} />
+                </section>
 
-                <div id="content_right">
-                    <BarChart data={null} />
-                </div>
+                <aside id="bar_Charts">
+                    <h3>Topic A</h3>
+                    <BarChart data={null} id={"topic_a_bar"}/>
+                    <br/>
+                    <h3>Topic B</h3>
+                    <BarChart data={null} id={"topic_b_bar"} />
+                </aside>
 
                 <div id="joke_content">
                     {/* <Filter filter={this.state.filter} onChange={this.onFilterChange} /> */}
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
                 <div id="help_overlay">
-                    <button id="help_close" className="selector word_joke_selector" onChange={this.closeHelpOverlay}>X</button>
                 </div>
             </div>
         );

@@ -40,26 +40,11 @@ nav {
     min-width: 850px;
 }
 
-#content_left {
-    display: inline-block;
-    width: 60%;
-    min-width: 700px;
-    min-height: 700px;
+#scatter_plot {
+    margin-top: 10px;
+    float:left;
 }
 
-#content_right {
-    display: inline-block;
-    width:30%;
-    left: 3px;
-    text-align: right;
-    min-height: 700px;
-}
-
-#help_button {
-    position: relative;
-    float: right;
-    width: 50px;
-    background-color: #007EFF;
-    font-weight: bold;
-    color: white;
+#bar_Charts {
+    margin-top: 28px;
 }
