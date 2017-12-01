@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
-export default f => class Svg extends PureComponent {
-    componentWillUpdate() {
+export default f => class Svg extends React.Component {
+    componentWillUpdate(nextProps) {
         if (!f) {
             console.warn("unused svg component");
             return;
         }
-        f(this.node, this.props);
+        f(this.node, nextProps);
     }
 
     componentDidMount() {
@@ -20,6 +20,6 @@ export default f => class Svg extends PureComponent {
     setRef = ref => this.node = ref;
 
     render() {
-        return <svg {...this.props} ref={this.setRef} />;
+        return <svg ref={this.setRef} />;
     }
 }

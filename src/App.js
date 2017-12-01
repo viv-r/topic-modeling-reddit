@@ -4,6 +4,7 @@ import React from 'react'
 import BarChart from './js/BarChart'
 import ScatterPlot from './js/ScatterPlot'
 import TopicSelector from './js/TopicSelector'
+import { Button, Dialog } from "@blueprintjs/core"
 // import Filter from './js/Filter'
 
 export default class Main extends React.Component {
@@ -16,54 +17,14 @@ export default class Main extends React.Component {
             topics = [...topics, t];
         }
 
+        // initial app state
         this.state = {
             topics,
-            topicA: 0,
-            topicB: 1,
+            topicA: 1,
+            topicB: 2,
+            enableDistortion: false,
+            isOpen: false, // help dialog
         }
-    }
-
-    getScatterData() {
-        let maxA = -1;
-        const tA = this.state.topics[this.state.topicA].words.map(v => {
-            maxA = maxA > v.prob ? maxA : v.prob;
-            return {
-                p_topicA: v.prob,
-                count: v.count,
-                name: v.name
-            }
-        });
-        let maxB = -1;
-        const tB = this.state.topics[this.state.topicB].words.map(v => {
-            maxB = maxB > v.prob ? maxB : v.prob;
-            return {
-                p_topicB: v.prob,
-                count: v.count,
-                name: v.name
-            }
-        });
-        const words = [...tA, ...tB];
-        console.log(maxA, maxB)
-
-        let wordMap = words.reduce((map, val) => ({
-            ...map,
-            [val.name]: {
-                ...(map[val.name] || {}),
-                ...val
-            }
-        }), {});
-
-        const scatter = Object.keys(wordMap).map(k => wordMap[k]).map(v => {
-            const pa = v.p_topicA || 0;
-            const pb = v.p_topicB || 0;
-
-            return {
-                ...v,
-                p_topicA: pa, //maxA,
-                p_topicB: pb //maxB,
-            };
-        });
-        return scatter;
     }
 
     setTopicA = (topicA) => {
@@ -90,33 +51,57 @@ export default class Main extends React.Component {
 
     }
 
+    toggleOverlay = () => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    }
+
+    toggleDistortion = () => {
+        this.setState({
+            enableDistortion: !this.state.enableDistortion
+        })
+    }
+
     render() {
         return (
             <div>
                 <nav id="interactions">
+                    <Button text={"D"} onClick={this.toggleDistortion} className={"selector small float_left"} />
+
                     <TopicSelector id="topic_a" value={this.state.topicA} onChange={this.setTopicA} />
                     <TopicSelector id="topic_b" value={this.state.topicB} onChange={this.setTopicB} />
 
-                    <button id="help_button" className="selector word_joke_selector" onClick={this.showHelpOverlay}>?</button>
+                    <Button text="?" onClick={this.toggleOverlay} className={"selector small float_right"} />
+
+                    <Dialog
+                        isOpen={this.state.isOpen}
+                        onClose={this.toggleOverlay}
+                        hasBackdrop={true}
+                        title={"Help"}
+                    >
+                    </Dialog>
                 </nav>
 
-                <div id="content_left">
-                    <div id="scatter_plot">
-                        <ScatterPlot data={this.getScatterData()} />
-                    </div>
-                </div>
+                <section id="scatter_plot">
+                    <h3>Scatter plot shows shit</h3>
+                    <ScatterPlot {...this.state} />
+                </section>
 
-                <div id="content_right">
-                    <BarChart data={null} />
-                </div>
+                <aside id="bar_Charts">
+                    <h3>Topic A</h3>
+                    <BarChart data={null} id={"topic_a_bar"} />
+                    <br />
+                    <h3>Topic B</h3>
+                    <BarChart data={null} id={"topic_b_bar"} />
+                </aside>
 
                 <div id="joke_content">
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
-                <div id="help_overlay">
-                    <button id="help_close" className="selector word_joke_selector" onChange={this.closeHelpOverlay}>X</button>
-                </div>
-            </div>
+
+
+            </div >
         );
     }
 }

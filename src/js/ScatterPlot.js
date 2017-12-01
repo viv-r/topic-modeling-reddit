@@ -7,17 +7,62 @@ import '../css/scatter.css';
 const d3 = window.d3;
 
 export default class Scatter extends React.Component {
+
+    getScatterData() {
+        let maxA = -1;
+        const tA = this.props.topics[this.props.topicA].words.map(v => {
+            maxA = maxA > v.prob ? maxA : v.prob;
+            return {
+                p_topicA: v.prob,
+                count: v.count,
+                name: v.name
+            }
+        });
+        let maxB = -1;
+        const tB = this.props.topics[this.props.topicB].words.map(v => {
+            maxB = maxB > v.prob ? maxB : v.prob;
+            return {
+                p_topicB: v.prob,
+                count: v.count,
+                name: v.name
+            }
+        });
+        const words = [...tA, ...tB];
+
+        let wordMap = words.reduce((map, val) => ({
+            ...map,
+            [val.name]: {
+                ...(map[val.name] || {}),
+                ...val
+            }
+        }), {});
+
+        const scatter = Object.keys(wordMap).map(k => wordMap[k]).map(v => {
+            const pa = v.p_topicA || 0;
+            const pb = v.p_topicB || 0;
+
+            return {
+                ...v,
+                p_topicA: pa / maxA,
+                p_topicB: pb / maxB,
+            };
+        });
+        return scatter;
+    }
+
     render() {
         return (
             <div className="scatter-container">
-                <Graph {...this.props} />
+                <Graph
+                    data={this.getScatterData()}
+                    enableDistortion={this.props.enableDistortion}
+                />
             </div>
         );
     }
 }
 
 const Graph = Svg((node, props) => {
-    // Various accessors that specify the four dimensions of data to visualize.
     function x(d) { return d.p_topicA * 10; }
     function y(d) { return d.p_topicB * 10; }
     function radius(d) { return Math.log(d.count); }
@@ -27,25 +72,24 @@ const Graph = Svg((node, props) => {
     var margin = { top: 0, right: 10, bottom: 20, left: 50 },
         width = 400,
         height = 400;
-    // let line = [{ x: 2, y: 2 }, { x: 4, y: 4 }, { x: 8, y: 8 }];
+
     let line = [];
     for (let i = 1; i < width; i++) {
         line = [...line, { x: i / 40, y: i / 40 }]
     }
 
-    // Various scales and distortions.
-    var xScale = d3.fisheye.scale(d3.scaleLinear).domain([0, 10]).range([0, width]),
-        yScale = d3.fisheye.scale(d3.scaleLinear).domain([0, 10]).range([height, 0]);
-    var radiusScale = d3.fisheye.scale(d3.scaleLinear).domain([0, 100]).range([0, 20]);
+    const distortion = (scale) => props.enableDistortion
+        ? d3.fisheye.scale(scale)
+        : scale();
 
-    // var xScale = scaleLog().domain([300, 1e2]).range([0, width]),
-    //     yScale = scaleLinear().domain([20, 90]).range([height, 0]);
+    var xScale = distortion(d3.scaleLinear).domain([0, 10]).range([0, width]),
+        yScale = distortion(d3.scaleLinear).domain([0, 10]).range([height, 0]);
+    var radiusScale = distortion(d3.scaleLinear).domain([0, 100]).range([0, 20]);
 
     const colorScale = d3.scaleLinear()
         .domain([0, 1])
         .range(['red', 'blue'])
 
-    // Create the SVG container and set the origin.
     var svg = d3.select(node);
 
     svg.selectAll("*").remove();
@@ -54,19 +98,17 @@ const Graph = Svg((node, props) => {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // The x & y axes.
     var xAxis = d3.axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-height),
         yAxis = d3.axisRight(yScale).tickSize(-width);
 
-    // Add a background rect for mousemove.
     svg.append("rect")
         .attr("fill", "none")
         .attr("width", width)
         .attr("height", height);
 
-    // Add the x-axis.
     svg.append("g")
         .attr("class", "x axis")
+        .attr("stroke", "(3, 3)")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
@@ -81,10 +123,11 @@ const Graph = Svg((node, props) => {
         .attr("class", "sep-line")
         .datum(line)
         .attr("fill", "none")
-        .attr("stroke", "steelblue")
+        .attr("stroke", "red")
         .attr("stroke-linejoin", "round")
         .attr("stroke-linecap", "round")
         .attr("stroke-width", 1.5)
+        .attr("stroke-dasharray", "5 5")
         .attr("d", positionLine)
 
 
@@ -113,27 +156,10 @@ const Graph = Svg((node, props) => {
     //     .text("probability towards first selected topic");
 
     // Add a dot per word and set the colors
-    console.log(props)
     var dot = svg.append("g")
         .attr("class", "dots")
         .selectAll(".dot")
         .data(props.data)
-        // [{
-        //     c_topic: 1,
-        //     p_topicA: .20,
-        //     p_topicB: .20,
-        //     frequency: 20
-        // }, {
-        //     c_topic: 2,
-        //     p_topicA: .60,
-        //     p_topicB: .40,
-        //     frequency: 40
-        // }, {
-        //     c_topic: 3,
-        //     p_topicA: .10,
-        //     p_topicB: .10,
-        //     frequency: 10
-        // }])
         .enter().append("circle")
         .attr("class", "dot")
         .style("fill", function (d) { return colorScale(color(d)); })
@@ -152,6 +178,7 @@ const Graph = Svg((node, props) => {
     }
 
     svg.on("mousemove", function () {
+        if (!props.enableDistortion) return;
         const mouseX = event.pageX;
         const mouseY = event.pageY;
         xScale.distortion(2.5).focus(mouseX);

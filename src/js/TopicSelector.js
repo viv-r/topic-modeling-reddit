@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class TopicSelector extends React.PureComponent {
     changeHandler = (e) => {
-        this.props.onChange(e.value)
+        this.props.onChange(+e.target.value)
     }
 
     renderTopics() {
@@ -19,7 +19,7 @@ export default class TopicSelector extends React.PureComponent {
         return (
             <select
                 id={this.props.id}
-                onChange={this.changeHandler.bind(this)}
+                onChange={this.changeHandler}
                 value={this.props.value}
                 className="selector topic_selector">
                 {this.renderTopics()}
