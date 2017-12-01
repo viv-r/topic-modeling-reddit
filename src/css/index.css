@@ -1,17 +1,19 @@
 body {
     font-family: 'Montserrat', sans-serif;
+    padding: 10px;
 }
 
 #interactions {
     background-color: rgba(241, 238, 238, 0.472);
 }
 
-.selector{
+.selector {
     font-family: 'Montserrat';
-    height: 50px;
+    height: 45px;
     font-size: 20px;
     background-color: transparent;
     width: 120px;
+    padding-left: 5px;
     border: 1px solid #3a3939;
     box-shadow: 2px 2px 1px #3a3939;
     margin-right: 50px;
@@ -20,18 +22,8 @@ body {
     transition: all .1s;
     -webkit-transition: all .2s;
 }
-
-.topic_selector {
-    padding-left: 15px;
-}
-
-.active {
-    box-shadow: 0px 0px 0px #3a3939;
-    background-color: #007EFF;
-    border-radius: 2px;
-    border-width: 4px;
-    font-weight: bold;
-    color: white;
+.selector:focus {
+    box-shadow: 1px 1px 0px #3a3939;
 }
 
 nav {
@@ -47,4 +39,11 @@ nav {
 
 #bar_Charts {
     margin-top: 28px;
+}
+
+.help_button {
+    float: right;
+    width: 50px;    
+    font-weight: bold;
+    color: white;
 }

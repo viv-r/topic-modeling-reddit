@@ -4,6 +4,7 @@ import React from 'react'
 import BarChart from './js/BarChart'
 import ScatterPlot from './js/ScatterPlot'
 import TopicSelector from './js/TopicSelector'
+import {Button, Dialog} from "@blueprintjs/core"
 // import Filter from './js/Filter'
 
 export default class Main extends React.Component {
@@ -32,6 +33,12 @@ export default class Main extends React.Component {
 
     }
 
+    toggleOverlay = () => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    }
+
     render() {
         return (
             <div>
@@ -39,7 +46,17 @@ export default class Main extends React.Component {
                     <TopicSelector id={"topic_a"} />
                     <TopicSelector id={"topic_b"} />
 
-                    <button id="help_button" className="selector word_joke_selector" onClick={this.showHelpOverlay}>?</button>
+                    <Button text="?" onClick={this.toggleOverlay} className={"selector help_button"} />
+
+                    <Dialog 
+                        isOpen={this.state.isOpen} 
+                        onClose={this.toggleOverlay} 
+                        hasBackdrop={true}
+                        title={"Help"}
+                        >
+
+                        
+                    </Dialog>
                 </nav>
 
                 <section id="scatter_plot">
@@ -59,8 +76,8 @@ export default class Main extends React.Component {
                     {/* <Filter filter={this.state.filter} onChange={this.onFilterChange} /> */}
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
-                <div id="help_overlay">
-                </div>
+               
+                
             </div>
         );
     }
