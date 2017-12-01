@@ -96,8 +96,6 @@ export default class Main extends React.Component {
                 <div id="joke_content">
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
-
-
             </div >
         );
     }

@@ -1,6 +1,5 @@
 import Svg from './Svg';
 import React from 'react';
-import Tooltip from '@blueprintjs/core'
 
 const d3 = window.d3;
 
@@ -40,7 +39,7 @@ const BarChart = Svg((node, props) => {
 
     // chart dimensions
     var magin = { top: 0, right: 10, bottom: 20, left: 10 },
-        width = 200,
+        width = 300,
         height = 400,
         barWidth = 20,
         barSpacing = 5;
@@ -51,27 +50,29 @@ const BarChart = Svg((node, props) => {
 
     const lengthScale = d3.scaleLinear()
         .domain([0, dataMax])
-        .range([0, width])
+        .range([0, width-100])
     
     const colorScale = d3.scaleLinear()
         .domain([0, dataMax])
         .range(['#444', props.color])
 
-    const fill = (d, i) => i % 2 === 0 ? '#444' : '#333';
+    const fill = (d, i) => i % 2 === 0 ? '#444' : '#333';  
 
-    d3.select(node)
-        .selectAll('rect')
+    var svg = d3.select(node)
+
+    svg.selectAll('*').remove();
+    svg.selectAll('rect')
         .data(props.data)
-        .enter()       
+        .enter()
         .append('rect')
             .attr('y', (d, i) => i * (barWidth + barSpacing))
-            .attr('x', d => 0)
+            .attr('x', d => 100)
             .attr('width', d => lengthScale(prob(d)))
             .attr('height', barWidth)
             .style('fill', d => colorScale(prob(d)))
             .on('mouseover', (data, index, nodes) => {
                 d3.select(nodes[index])
-                    .style('fill', '#444')    
+                    .style('fill', '#444')                    
             })
             .on('mouseout', function (data, index, nodes) {
                 d3.select(nodes[index])
@@ -79,6 +80,15 @@ const BarChart = Svg((node, props) => {
                     .duration(200)
                     .style('fill', d => colorScale(prob(d)))
             })
-            .append('title')
-                .text(function(d) { return d.name; }) 
+            .append('title').text(function (d) { return d.name; });
+    
+    svg.selectAll('g')
+        .data(props.data)
+        .enter()
+        .append('text')        
+            .attr('y', (d, i) => i * (barWidth + barSpacing))
+            .attr('dy', '1.2em')
+            .attr('x', d => 0)
+            .attr('class', 'bar-title')
+            .text(function(d) { return d.name; })
 });
