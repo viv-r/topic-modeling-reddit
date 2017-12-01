@@ -1,28 +1,7 @@
 {
-<<<<<<< HEAD
-  "version": "1.0.0",
-  "description": "HCDE project",
-  "main": "index.js",
-  "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lukeWaninger/HCDE556.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lukeWaninger/HCDE556/issues"
-  },
-  "homepage": "https://github.com/lukeWaninger/HCDE556#readme",
-=======
   "name": "jokes",
   "version": "0.1.0",
   "private": true,
->>>>>>> a240aef24be6091b197bbd4c0f66020968fc2831
   "dependencies": {
     "@blueprintjs/core": "^1.33.0",
     "react": "^16.2.0",
