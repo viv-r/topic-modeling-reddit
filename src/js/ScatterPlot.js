@@ -1,51 +1,56 @@
-import { select } from 'd3-selection';
-import { scaleLinear, scaleLog } from 'd3-scale';
-import { max } from 'd3-array';
-import { axisLeft, axisBottom } from 'd3-axis'
+/* eslint-disable */
 import './Fisheye';
-import 'd3-transition';
-import * as d3 from 'd3';
 import Svg from './Svg';
+
+const d3 = window.d3;
+
 
 const ScatterPlot = Svg((node, props) => {
     // Various accessors that specify the four dimensions of data to visualize.
-    function x(d) { return d.p_topicA; }
-    function y(d) { return d.p_topicB; }
+    function x(d) { return d.p_topicA * 10; }
+    function y(d) { return d.p_topicB * 10; }
     function radius(d) { return d.frequency; }
     function color(d) { return d.c_topic; }
 
     // Chart dimensions.
-    var margin = { top: 5.5, right: 19.5, bottom: 12.5, left: 39.5 },
-        width = 700,
-        height = 700;
+    var margin = { top: 0, right: 10, bottom: 20, left: 50 },
+        width = 400,
+        height = 400;
+    // let line = [{ x: 2, y: 2 }, { x: 4, y: 4 }, { x: 8, y: 8 }];
+    let line = [];
+    for (let i = 1; i < width; i++) {
+        line = [...line, { x: i / 40, y: i / 40 }]
+    }
 
     // Various scales and distortions.
-    var xScale = d3.fisheye.scale(scaleLog).domain([300, 1e2]).range([0, width]),
-        yScale = d3.fisheye.scale(scaleLinear).domain([20, 90]).range([height, 0]);
+    var xScale = d3.fisheye.scale(d3.scaleLinear).domain([0, 10]).range([0, width]),
+        yScale = d3.fisheye.scale(d3.scaleLinear).domain([0, 10]).range([height, 0]);
+    var radiusScale = d3.fisheye.scale(d3.scaleLinear).domain([0, 100]).range([0, 20]);
 
     // var xScale = scaleLog().domain([300, 1e2]).range([0, width]),
     //     yScale = scaleLinear().domain([20, 90]).range([height, 0]);
 
-
-    const colorScale = scaleLinear()
+    const colorScale = d3.scaleLinear()
         .domain([0, 1])
         .range([0, 1])
 
     // Create the SVG container and set the origin.
-    var svg = select(node)
-        .attr("width", width + margin.left + margin.right)
+    var svg = d3.select(node);
+
+    svg.selectAll("*").remove();
+    svg.attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // The x & y axes.
-    var xAxis = axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-height),
-        yAxis = axisLeft(yScale).tickSize(-width);
+    var xAxis = d3.axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-height),
+        yAxis = d3.axisRight(yScale).tickSize(-width);
 
 
     // Add a background rect for mousemove.
     svg.append("rect")
-        .attr("class", "background")
+        .attr("fill", "none")
         .attr("width", width)
         .attr("height", height);
 
@@ -55,9 +60,28 @@ const ScatterPlot = Svg((node, props) => {
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
+    // the red dotted line
+    // Define the line
+    var positionLine = d3.line()
+        .curve(d3.curveBasis)
+        .x(function (d) { return xScale(d.x); })
+        .y(function (d) { return yScale(d.y); })
+
+    var lineP = svg.append("path")
+        .attr("class", "sep-line")
+        .datum(line)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 1.5)
+        .attr("d", positionLine)
+
+
     // Add the y-axis.
     svg.append("g")
         .attr("class", "y axis")
+        .attr("transform", "translate(" + width + ", 0)")
         .call(yAxis);
 
     // Add an x-axis label.
@@ -82,7 +106,22 @@ const ScatterPlot = Svg((node, props) => {
     var dot = svg.append("g")
         .attr("class", "dots")
         .selectAll(".dot")
-        .data(props)
+        .data([{
+            c_topic: 1,
+            p_topicA: .20,
+            p_topicB: .20,
+            frequency: 20
+        }, {
+            c_topic: 2,
+            p_topicA: .60,
+            p_topicB: .40,
+            frequency: 40
+        }, {
+            c_topic: 3,
+            p_topicA: .10,
+            p_topicB: .10,
+            frequency: 10
+        }])
         .enter().append("circle")
         .attr("class", "dot")
         .style("fill", function (d) { return colorScale(color(d)); })
@@ -107,6 +146,17 @@ const ScatterPlot = Svg((node, props) => {
         yScale.distortion(2.5).focus(mouseY);
 
         dot.call(position);
+
+        lineP.remove();
+        lineP = svg.append("path")
+            .datum(line)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-width", 1.5)
+            .attr("d", positionLine)
+
         svg.select(".x.axis").call(xAxis);
         svg.select(".y.axis").call(yAxis);
     });
