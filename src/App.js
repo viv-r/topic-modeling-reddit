@@ -39,14 +39,20 @@ export default class Main extends React.Component {
         })
     }
 
+    toggleDistortion = () => {
+
+    }
+
     render() {
         return (
             <div>
                 <nav id="interactions">
-                    <TopicSelector id={"topic_a"} />
-                    <TopicSelector id={"topic_b"} />
+                    <Button text={"D"} onclick={this.toggleDistortion} className={"selector small float_left"} />
 
-                    <Button text="?" onClick={this.toggleOverlay} className={"selector help_button"} />
+                    <TopicSelector id={"topic_a"} className={"topic_selector"} />
+                    <TopicSelector id={"topic_b"} className={"topic_selector"}/>
+
+                    <Button text="?" onClick={this.toggleOverlay} className={"selector small float_right"} />
 
                     <Dialog 
                         isOpen={this.state.isOpen} 
