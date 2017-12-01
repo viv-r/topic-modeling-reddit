@@ -22,6 +22,8 @@ export default class Main extends React.Component {
             topics,
             topicA: 1,
             topicB: 2,
+            topicA_color: 'red',
+            topicB_color: 'blue',
             enableDistortion: false,
             isOpen: false, // help dialog
         }
@@ -37,10 +39,6 @@ export default class Main extends React.Component {
         this.setState({
             topicB
         })
-    }
-
-    showHelpOverlay = () => {
-        alert("balls")
     }
 
     closeHelpOverlay = () => {
@@ -78,22 +76,21 @@ export default class Main extends React.Component {
                         isOpen={this.state.isOpen}
                         onClose={this.toggleOverlay}
                         hasBackdrop={true}
-                        title={"Help"}
-                    >
+                        title={"Help"} >
                     </Dialog>
                 </nav>
 
                 <section id="scatter_plot">
-                    <h3>Scatter plot shows shit</h3>
+                    <h4>Word probabilities towards selected topics</h4>
                     <ScatterPlot {...this.state} />
                 </section>
 
                 <aside id="bar_Charts">
                     <h3>Topic A</h3>
-                    <BarChart data={null} id={"topic_a_bar"} />
+                    <BarChart {...this.state} topic={1} />
                     <br />
                     <h3>Topic B</h3>
-                    <BarChart data={null} id={"topic_b_bar"} />
+                    <BarChart {...this.state} topic={2} />
                 </aside>
 
                 <div id="joke_content">

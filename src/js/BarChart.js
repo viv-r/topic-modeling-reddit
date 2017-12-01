@@ -1,42 +1,84 @@
 import Svg from './Svg';
+import React from 'react';
+import Tooltip from '@blueprintjs/core'
+
 const d3 = window.d3;
 
-const BarChart = Svg((node, props) => {
-    const bars = 4;
-    const data = [];
-    for (let i = 0; i < bars; i++) data.push(Math.random());
+export default class Bar extends React.Component {
+    getBarData() {
+        let set = (this.props.topic === 1)
+            ? this.props.topics[this.props.topicA].words.slice(0,20)
+            : this.props.topics[this.props.topicB].words.slice(0, 20)
+        set = set.map(v => {
+            return {
+                p_topic: v.prob,
+                count: v.count,
+                name: v.name
+            }});       
+        return set;
+    }
 
-    props = { ...props, width: 200, height: 200, barWidth: 35, barSpacing: 5, data };
+    getColor() {
+        const tColor = (this.props.topic === 1) 
+            ? this.props.topicA_color 
+            : this.props.topicB_color
+        return tColor;
+    }
 
-    const size = [props.width, props.height];
+    render() {
+        return (
+            <div className="bar-container">
+                <BarChart data={this.getBarData()} color={this.getColor()} />
+            </div>
+        );
+    }
+}
 
-    const dataMax = d3.max(props.data)
-    const yScale = d3.scaleLinear()
+const BarChart = Svg((node, props) => {    
+    function prob(d) { return d.p_topic; }
+    function count(d) { return d.count; }
+
+    // chart dimensions
+    var magin = { top: 0, right: 10, bottom: 20, left: 10 },
+        width = 200,
+        height = 400,
+        barWidth = 20,
+        barSpacing = 5;
+
+    const dataMax = d3.max(props.data.map(v => {
+        return v.p_topic
+    }));
+
+    const lengthScale = d3.scaleLinear()
         .domain([0, dataMax])
-        .range([0, size[1]])
+        .range([0, width])
+    
+    const colorScale = d3.scaleLinear()
+        .domain([0, dataMax])
+        .range(['#444', props.color])
 
     const fill = (d, i) => i % 2 === 0 ? '#444' : '#333';
 
     d3.select(node)
         .selectAll('rect')
         .data(props.data)
-        .enter()
+        .enter()       
         .append('rect')
-            .attr('y', (d, i) => i * (props.barWidth + props.barSpacing))
+            .attr('y', (d, i) => i * (barWidth + barSpacing))
             .attr('x', d => 0)
-            .attr('width', d => yScale(d))
-            .attr('height', props.barWidth)
-            .style('fill', fill)
+            .attr('width', d => lengthScale(prob(d)))
+            .attr('height', barWidth)
+            .style('fill', d => colorScale(prob(d)))
             .on('mouseover', (data, index, nodes) => {
                 d3.select(nodes[index])
-                    .style('fill', '#5555aa')
+                    .style('fill', '#444')    
             })
             .on('mouseout', function (data, index, nodes) {
                 d3.select(nodes[index])
                     .transition()
                     .duration(200)
-                    .style('fill', fill)
+                    .style('fill', d => colorScale(prob(d)))
             })
+            .append('title')
+                .text(function(d) { return d.name; }) 
 });
-
-export default BarChart;

@@ -22,7 +22,7 @@ export default class TopicSelector extends React.PureComponent {
                 onChange={this.changeHandler}
                 value={this.props.value}
                 className="selector topic_selector">
-                {this.renderTopics()}
+                {this.renderTopics()}                
             </select>
         );
     }
