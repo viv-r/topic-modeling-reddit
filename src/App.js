@@ -81,7 +81,6 @@ export default class Main extends React.Component {
                 </nav>
 
                 <section id="scatter_plot">
-                    <h4>Word probabilities towards selected topics</h4>
                     <ScatterPlot {...this.state} />
                 </section>
 
