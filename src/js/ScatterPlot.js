@@ -54,7 +54,7 @@ export default class Scatter extends React.Component {
         return (
             <div className="scatter-container">
                 <Graph
-                    size={400}
+                    size={420}
                     data={this.getScatterData()}
                     enableDistortion={this.props.enableDistortion}
                     ta_color={this.props.topicA_color}
@@ -76,7 +76,7 @@ const Graph = Svg((node, props) => {
     const height = props.size;
 
     let line = [];
-    for (let i = 1; i < width; i++) {
+    for (let i = 1; i < width - 20; i++) {
         line = [...line, { x: i / 40, y: i / 40 }]
     }
 

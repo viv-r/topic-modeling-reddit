@@ -89,7 +89,6 @@ export default class Main extends React.Component {
                         className={"selector color_selector"}
                         onClick={this.toggleColorPicker.bind(this, 1)}
                         style={{background: this.state.topicA_color }} />  
-                
                           
                     <TopicSelector value={this.state.topicA} onChange={this.setTopicA} />
                     <TopicSelector value={this.state.topicB} onChange={this.setTopicB} />
@@ -141,6 +140,8 @@ export default class Main extends React.Component {
                 <div id="joke_content">
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
+
+                <div id="tooltip"><h4>a word</h4></div>
             </div >
         );
     }

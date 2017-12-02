@@ -52,7 +52,7 @@ nav {
     height: 40px;
     margin-top: 5px;
     color: white !important;
-    background: #738694 !important;
+    background: #394B59 !important;
 }
 
 .float_right {
@@ -61,4 +61,27 @@ nav {
 
 .float_left {
     float: left;
+}
+
+#tooltip {
+    position: absolute;
+    padding: 10px;		
+    width: 200px;					
+    height: 90px;								
+    border-radius: 2px;			
+	pointer-events: none;	
+    z-index: 999;	
+    opacity: 0;
+	-webkit-transition: opacity 1s;
+    transition: opacity 1s;
+    background: #394B59;
+    color:white; 
+}
+#tooltip h4 {
+    margin-top: 0px;
+    color: white;
+}
+#tooltip em {
+    margin-right: 10px;
+    margin-bottom: 5px;
 }
