@@ -15,13 +15,18 @@ export default class TopicSelector extends React.PureComponent {
         return options;
     }
 
+    getClass() {
+        return this.props.position === 1 
+            ? "selector float_left"
+            : "selector float_right"
+    }
+
     render() {
         return (
             <select
-                id={this.props.id}
                 onChange={this.changeHandler}
-                value={this.props.value}
-                className="selector topic_selector">
+                value={this.props.value}                
+                className={this.getClass()}>
                 {this.renderTopics()}                
             </select>
         );

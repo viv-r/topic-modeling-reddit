@@ -83,24 +83,32 @@ export default class Main extends React.Component {
                 <nav id="interactions">
                     <Button text={'D'} 
                         onClick={this.toggleDistortion} 
-                        className={"selector small float_left"} />
+                        className={"small float_left"} />
+
+                    <TopicSelector
+                        position={1}                        
+                        value={this.state.topicA} 
+                        onChange={this.setTopicA} />
 
                     <Button
-                        className={"selector color_selector"}
+                        className={"selector color_selector float_left"}
                         onClick={this.toggleColorPicker.bind(this, 1)}
                         style={{background: this.state.topicA_color }} />  
                           
-                    <TopicSelector value={this.state.topicA} onChange={this.setTopicA} />
-                    <TopicSelector value={this.state.topicB} onChange={this.setTopicB} />
-                    
-                    <Button
-                        className={"selector color_selector"}
-                        onClick={this.toggleColorPicker.bind(this, 2)}
-                        style={{background: this.state.topicB_color }} />  
-
+                   
                     <Button text="?" 
                         onClick={this.toggleHelpOverlay} 
-                        className={"selector small float_right"} />
+                        className={"small float_right"} />
+
+                    <TopicSelector
+                        position={2}
+                        value={this.state.topicB} 
+                        onChange={this.setTopicB} />                    
+                    
+                    <Button
+                        className={"selector color_selector float_right"}
+                        onClick={this.toggleColorPicker.bind(this, 2)}
+                        style={{background: this.state.topicB_color }} />  
 
                     <Dialog
                         isOpen={this.state.helpIsOpen}
