@@ -1,5 +1,6 @@
 body {
     font-family: 'Montserrat', sans-serif;
+    background: rgb(247, 247, 247);
 }
 
 .selector {
@@ -24,7 +25,7 @@ body {
 }
 
 .color_container {
-    width: fit-content;
+    width: fit-content !important;
     height: fit-content;
     padding-bottom: 0;
 }
@@ -91,4 +92,23 @@ nav {
 #logo {
     height: 45px;
     margin-top: 5px;
+}
+
+.pt-dialog {
+    width: 80%;
+    background: #5C7080;
+    color: #E1E8ED;
+}
+.pt-dialog-header {
+    background: #394B59;
+}
+.pt-dialog-header h5 {
+    color: rgb(235, 132, 107);
+}
+.help_content {
+    height: 455px;
+    padding: 20px;
+}
+.help_content h6 {
+    color: rgb(243, 171, 155);
 }

@@ -109,31 +109,47 @@ export default class Main extends React.Component {
                     <Button
                         className={"selector color_selector float_right"}
                         onClick={this.toggleColorPicker.bind(this, 2)}
-                        style={{background: this.state.topicB_color }} />  
-
-                    <Dialog
-                        isOpen={this.state.helpIsOpen}
-                        onClose={this.toggleHelpOverlay}
-                        hasBackdrop={true}
-                        title={"Help"} >
-                        <div>
-                            some help
-                        </div>
-                    </Dialog>
-
-                    <Dialog 
-                        isOpen={this.state.displayColorPicker}
-                        onClose={this.toggleColorPicker} 
-                        className={"color_container"} >
-                        <SketchPicker
-                            onChangeComplete={ this.handleColorChange }
-                            color = { 
-                                this.state.color_to_change === 1 ? 
-                                this.state.topicA_color : 
-                                this.state.topicB_color}
-                            className={ "colorSelector" } />
-                    </Dialog>
+                        style={{background: this.state.topicB_color }} />                   
                 </nav>
+
+                 {/* help dialog */}
+                 <Dialog
+                    isOpen={this.state.helpIsOpen}
+                    onClose={this.toggleHelpOverlay}
+                    hasBackdrop={true}
+                    title={"Help"} >
+                    <div className="help_content">
+                        <h6>What are we looking at?</h6>
+                        <p>This web app visualizes the results of performing LDA topic modeling analysis with the Reddit joke dataset - 200K jokes!</p>
+                        
+                        <h6>Switching Topics</h6>
+                        <p>Topics can be changed with the dropdowns in the upper left and right of the navbar. Their associated <strong>colors</strong> can also be changed by clicking on the color squares next to the dropdowns!</p>
+
+                        <h6>Scatter Plot</h6>
+                        <p>Each dot on the scatter plot represents a word. The dot's position along the horizontal and vertical axises describe the probablity that the associated word belongs to the first or second selected topics respectively. The hue of the dot helps distinguish associated topics as well indicating how probable the associated word belongs to a particular topic. The stronger the hue is towards a topic's main color the more probable they're associated!</p>
+                        <p><strong>cartesian distortion</strong> can be applied to the scatter plot to help compare word positions. You can enable or disable it by clicking the 'D' in the far left of the nav bar!</p>
+                        
+                        <h6>Bar Plots</h6>
+                        <p>Most text modeling algorithms tend to destroy the semantic context associated with their results. Unfortunately, LDA modeling is one of them. As such, we're only able to discover a predetermined number of topics but not give a topic name to bring context to the associated words. Our model performed the best when tuned to 50 topics. The bar plots are used to give you back some more of that semantic context. It's quite fun to flip through the topics and see what they're about!</p>      
+
+                        <h6>Area (Density) Plot</h6>
+                        <p>The area chart shows how likely a joke written about a particular topic is going to recieve more views. If the area is all crammed up towards the left (also called right skewed ~ weirdo statitians) don't write a joke in that topic because it's unlikely to score well!</p>
+                    </div>
+                </Dialog>
+
+                {/* color picker */}
+                <Dialog 
+                    isOpen={this.state.displayColorPicker}
+                    onClose={this.toggleColorPicker} 
+                    className={"color_container"} >
+                    <SketchPicker
+                        onChangeComplete={ this.handleColorChange }
+                        color = { 
+                            this.state.color_to_change === 1 ? 
+                            this.state.topicA_color : 
+                            this.state.topicB_color}
+                        className={ "colorSelector" } />
+                </Dialog>
 
                 <section id="scatter_plot">
                     <ScatterPlot {...this.state} />
@@ -153,7 +169,7 @@ export default class Main extends React.Component {
                 <div id="tooltip">
                     <div id="color_indicator" />
                 </div>
-            </div >
+            </div>
         );
     }
 }
