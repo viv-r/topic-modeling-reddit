@@ -3,6 +3,7 @@ import React from 'react'
 // import JokeList from './js/JokeList'
 import BarChart from './js/BarChart'
 import ScatterPlot from './js/ScatterPlot'
+import DensityPlot from './js/DensityPlot'
 import TopicSelector from './js/TopicSelector'
 import { Button, Dialog } from '@blueprintjs/core'
 import SketchPicker from 'react-color'
@@ -55,18 +56,18 @@ export default class Main extends React.Component {
         this.setState({
             enableDistortion: !this.state.enableDistortion
         })
-    }    
+    }
 
     toggleColorPicker = (t) => {
-        this.setState({ 
+        this.setState({
             color_to_change: t,
             displayColorPicker: !this.state.displayColorPicker
-        });  
+        });
     }
 
     handleColorChange = (color) => {
         if (this.state.color_to_change === 1) {
-            this.setState({ 
+            this.setState({
                 topicA_color: color.hex,
             })
         }
@@ -81,31 +82,31 @@ export default class Main extends React.Component {
         return (
             <div>
                 <nav id="interactions">
-                    <Button text={'D'} 
-                        onClick={this.toggleDistortion} 
+                    <Button text={'D'}
+                        onClick={this.toggleDistortion}
                         className={"small float_left"} />
 
                     <TopicSelector
-                        position={1}                        
-                        value={this.state.topicA} 
+                        position={1}
+                        value={this.state.topicA}
                         onChange={this.setTopicA} />
 
                     <Button
                         className={"selector color_selector float_left"}
                         onClick={this.toggleColorPicker.bind(this, 1)}
-                        style={{background: this.state.topicA_color }} />  
-                          
-                   <img id="logo" src={ require("./css/reddit_logo.png" )} alt="reddit logo" />                   
+                        style={{ background: this.state.topicA_color }} />
 
-                    <Button text="?" 
-                        onClick={this.toggleHelpOverlay} 
+                    <img id="logo" src={require("./css/reddit_logo.png")} alt="reddit logo" />
+
+                    <Button text="?"
+                        onClick={this.toggleHelpOverlay}
                         className={"small float_right"} />
 
                     <TopicSelector
                         position={2}
-                        value={this.state.topicB} 
-                        onChange={this.setTopicB} />                    
-                    
+                        value={this.state.topicB}
+                        onChange={this.setTopicB} />
+
                     <Button
                         className={"selector color_selector float_right"}
                         onClick={this.toggleColorPicker.bind(this, 2)}
@@ -163,6 +164,7 @@ export default class Main extends React.Component {
                 </div>
 
                 <div id="joke_content">
+                    <DensityPlot {...this.state} />
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
 
