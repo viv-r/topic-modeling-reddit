@@ -170,14 +170,34 @@ const Graph = Svg((node, props) => {
         .selectAll(".dot")
         .data(props.data)
         .enter().append("circle")
+        .on("mouseover", function(d) {
+            d3.select("#tooltip")    
+                .html(
+                    "<h4>" + d.name + "</h4>" +                    
+                    "<p><em>probability of topic A:</em>" + d.p_topicA.toFixed(4) +
+                    "</br><em>probability of topic B:</em>" + d.p_topicB.toFixed(4) +
+                    "</br><em>count:</em> " + d.count +
+                    "</p>"
+                )
+                .attr('style', 
+                    'opacity:.95;border: 2px solid ' + colorScale(color(d)) +  
+                    ';border-top: 15px solid ' + colorScale(color(d)) +            
+                    ';top:' + (d3.event.clientY - 10) + 
+                    'px;left:' + (d3.event.clientX + 10) + "px;" +
+                    'width: 250px;height:120px')
+        })
+        .on("mouseout", function(d) {
+            d3.select("#tooltip")
+            .attr('style',
+                'opacity:0;border: 2px solid ' + colorScale(color(d)) +     
+                ';border-top: 15px solid ' + colorScale(color(d)) +                                     
+                ';top:' + (d3.event.clientY - 10) + 
+                'px;left:' + (d3.event.clientX + 10) + "px")      
+        })
         .attr("class", "dot")
         .style("fill", function (d) { return colorScale(color(d)); })
         .call(position)
         .sort(function (a, b) { return radius(b) - radius(a); });
-
-    // Add a title.
-    dot.append("title")
-        .text(function (d) { return d.name; });
 
     // Positions the dots based on data.
     function position(dot) {

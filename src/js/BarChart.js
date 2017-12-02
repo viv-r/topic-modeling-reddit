@@ -99,21 +99,25 @@ const BarChart = Svg((node, props) => {
                     
             })
             .on('mouseout', function (data, index, nodes) {
+                var col = colorScale(prob(data))
                 d3.select(nodes[index])
                     .transition()
                     .duration(200)
-                    .style('fill', d => colorScale(prob(d)));
+                    .style('fill', col);
 
                 d3.select("#tooltip")
                     .attr('style',
-                        'opacity:0;border: 1px solid ' + props.color +
+                        'opacity:0;border: 2px solid ' + col +
+                        ';border-top: 15px solid ' + col + 
                         ';top:' + (d3.event.clientY - 10) + 
                         'px;left:' + (d3.event.clientX + 10) + "px")      
             })
-            .on('mousemove', function(data, index, nodes) {                
+            .on('mousemove', function(data, index, nodes) {
+                var col = colorScale(prob(data))                
                 d3.select("#tooltip")
                     .attr('style', 
-                        'opacity:.9;border: 1px solid ' + props.color +
+                        'opacity:.95;border: 2px solid ' + col +
+                        ';border-top: 15px solid ' + col + 
                         ';top:' + (d3.event.clientY - 10) + 
                         'px;left:' + (d3.event.clientX + 10) + "px")      
             })    

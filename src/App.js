@@ -150,7 +150,9 @@ export default class Main extends React.Component {
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
 
-                <div id="tooltip"><h4>a word</h4></div>
+                <div id="tooltip">
+                    <div id="color_indicator" />
+                </div>
             </div >
         );
     }
