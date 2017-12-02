@@ -3,6 +3,7 @@ import React from 'react'
 // import JokeList from './js/JokeList'
 import BarChart from './js/BarChart'
 import ScatterPlot from './js/ScatterPlot'
+import DensityPlot from './js/DensityPlot'
 import TopicSelector from './js/TopicSelector'
 import { Button, Dialog } from '@blueprintjs/core'
 import SketchPicker from 'react-color'
@@ -55,18 +56,18 @@ export default class Main extends React.Component {
         this.setState({
             enableDistortion: !this.state.enableDistortion
         })
-    }    
+    }
 
     toggleColorPicker = (t) => {
-        this.setState({ 
+        this.setState({
             color_to_change: t,
             displayColorPicker: !this.state.displayColorPicker
-        });  
+        });
     }
 
     handleColorChange = (color) => {
         if (this.state.color_to_change === 1) {
-            this.setState({ 
+            this.setState({
                 topicA_color: color.hex,
             })
         }
@@ -81,26 +82,26 @@ export default class Main extends React.Component {
         return (
             <div>
                 <nav id="interactions">
-                    <Button text={'D'} 
-                        onClick={this.toggleDistortion} 
+                    <Button text={'D'}
+                        onClick={this.toggleDistortion}
                         className={"selector small float_left"} />
 
                     <Button
                         className={"selector color_selector"}
                         onClick={this.toggleColorPicker.bind(this, 1)}
-                        style={{background: this.state.topicA_color }} />  
-                
-                          
+                        style={{ background: this.state.topicA_color }} />
+
+
                     <TopicSelector value={this.state.topicA} onChange={this.setTopicA} />
                     <TopicSelector value={this.state.topicB} onChange={this.setTopicB} />
-                    
+
                     <Button
                         className={"selector color_selector"}
                         onClick={this.toggleColorPicker.bind(this, 2)}
-                        style={{background: this.state.topicB_color }} />  
+                        style={{ background: this.state.topicB_color }} />
 
-                    <Button text="?" 
-                        onClick={this.toggleHelpOverlay} 
+                    <Button text="?"
+                        onClick={this.toggleHelpOverlay}
                         className={"selector small float_right"} />
 
                     <Dialog
@@ -113,17 +114,17 @@ export default class Main extends React.Component {
                         </div>
                     </Dialog>
 
-                    <Dialog 
+                    <Dialog
                         isOpen={this.state.displayColorPicker}
-                        onClose={this.toggleColorPicker} 
+                        onClose={this.toggleColorPicker}
                         className={"color_container"} >
                         <SketchPicker
-                            onChangeComplete={ this.handleColorChange }
-                            color = { 
-                                this.state.color_to_change === 1 ? 
-                                this.state.topicA_color : 
-                                this.state.topicB_color}
-                            className={ "colorSelector" } />
+                            onChangeComplete={this.handleColorChange}
+                            color={
+                                this.state.color_to_change === 1 ?
+                                    this.state.topicA_color :
+                                    this.state.topicB_color}
+                            className={"colorSelector"} />
                     </Dialog>
                 </nav>
 
@@ -139,6 +140,7 @@ export default class Main extends React.Component {
                 </div>
 
                 <div id="joke_content">
+                    <DensityPlot {...this.state} />
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
             </div >
