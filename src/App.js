@@ -23,8 +23,8 @@ export default class Main extends React.Component {
             topics,
             topicA: 1,
             topicB: 2,
-            topicA_color: 'red',        // color of 1st topic
-            topicB_color: 'blue',       // color of 2nd topic
+            topicA_color: '#FF005A',        // color of 1st topic
+            topicB_color: '#02FF00',       // color of 2nd topic
             words_to_show: 100,         // number of words to show in the bar chart
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
@@ -95,7 +95,8 @@ export default class Main extends React.Component {
                         onClick={this.toggleColorPicker.bind(this, 1)}
                         style={{background: this.state.topicA_color }} />  
                           
-                   
+                   <img id="logo" src={ require("./css/reddit_logo.png" )} alt="reddit logo" />                   
+
                     <Button text="?" 
                         onClick={this.toggleHelpOverlay} 
                         className={"small float_right"} />
