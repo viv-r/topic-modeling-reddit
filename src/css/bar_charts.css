@@ -1,0 +1,10 @@
+.bar_charts {
+    margin: 40px 20px 20px 0px;
+    display: inline-block;
+    border-left: 1px solid lightgrey;
+    padding-left: 10px;
+}
+
+.bar_container {
+    margin-top: 20px;
+}

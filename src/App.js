@@ -4,7 +4,8 @@ import React from 'react'
 import BarChart from './js/BarChart'
 import ScatterPlot from './js/ScatterPlot'
 import TopicSelector from './js/TopicSelector'
-import { Button, Dialog } from "@blueprintjs/core"
+import { Button, Dialog } from '@blueprintjs/core'
+import SketchPicker from 'react-color'
 // import Filter from './js/Filter'
 
 export default class Main extends React.Component {
@@ -22,10 +23,13 @@ export default class Main extends React.Component {
             topics,
             topicA: 1,
             topicB: 2,
-            topicA_color: 'red',
-            topicB_color: 'blue',
-            enableDistortion: false,
-            isOpen: false, // help dialog
+            topicA_color: 'red',        // color of 1st topic
+            topicB_color: 'blue',       // color of 2nd topic
+            words_to_show: 100,         // number of words to show in the bar chart
+            enableDistortion: false,    // toggle cartesian distortion
+            helpIsOpen: false,          // help dialog
+            displayColorPicker: false,  // color picker
+            color_to_change: -1
         }
     }
 
@@ -41,17 +45,9 @@ export default class Main extends React.Component {
         })
     }
 
-    closeHelpOverlay = () => {
-
-    }
-
-    switchWordJokes(to) {
-
-    }
-
-    toggleOverlay = () => {
+    toggleHelpOverlay = () => {
         this.setState({
-            isOpen: !this.state.isOpen
+            helpIsOpen: !this.state.helpIsOpen
         })
     }
 
@@ -59,24 +55,75 @@ export default class Main extends React.Component {
         this.setState({
             enableDistortion: !this.state.enableDistortion
         })
+    }    
+
+    toggleColorPicker = (t) => {
+        this.setState({ 
+            color_to_change: t,
+            displayColorPicker: !this.state.displayColorPicker
+        });  
+    }
+
+    handleColorChange = (color) => {
+        if (this.state.color_to_change === 1) {
+            this.setState({ 
+                topicA_color: color.hex,
+            })
+        }
+        else {
+            this.setState({
+                topicB_color: color.hex,
+            })
+        }
     }
 
     render() {
         return (
             <div>
                 <nav id="interactions">
-                    <Button text={"D"} onClick={this.toggleDistortion} className={"selector small float_left"} />
+                    <Button text={'D'} 
+                        onClick={this.toggleDistortion} 
+                        className={"selector small float_left"} />
 
-                    <TopicSelector id="topic_a" value={this.state.topicA} onChange={this.setTopicA} />
-                    <TopicSelector id="topic_b" value={this.state.topicB} onChange={this.setTopicB} />
+                    <Button
+                        className={"selector color_selector"}
+                        onClick={this.toggleColorPicker.bind(this, 1)}
+                        style={{background: this.state.topicA_color }} />  
+                
+                          
+                    <TopicSelector value={this.state.topicA} onChange={this.setTopicA} />
+                    <TopicSelector value={this.state.topicB} onChange={this.setTopicB} />
+                    
+                    <Button
+                        className={"selector color_selector"}
+                        onClick={this.toggleColorPicker.bind(this, 2)}
+                        style={{background: this.state.topicB_color }} />  
 
-                    <Button text="?" onClick={this.toggleOverlay} className={"selector small float_right"} />
+                    <Button text="?" 
+                        onClick={this.toggleHelpOverlay} 
+                        className={"selector small float_right"} />
 
                     <Dialog
-                        isOpen={this.state.isOpen}
-                        onClose={this.toggleOverlay}
+                        isOpen={this.state.helpIsOpen}
+                        onClose={this.toggleHelpOverlay}
                         hasBackdrop={true}
                         title={"Help"} >
+                        <div>
+                            some help
+                        </div>
+                    </Dialog>
+
+                    <Dialog 
+                        isOpen={this.state.displayColorPicker}
+                        onClose={this.toggleColorPicker} 
+                        className={"color_container"} >
+                        <SketchPicker
+                            onChangeComplete={ this.handleColorChange }
+                            color = { 
+                                this.state.color_to_change === 1 ? 
+                                this.state.topicA_color : 
+                                this.state.topicB_color}
+                            className={ "colorSelector" } />
                     </Dialog>
                 </nav>
 
@@ -84,13 +131,12 @@ export default class Main extends React.Component {
                     <ScatterPlot {...this.state} />
                 </section>
 
-                <aside id="bar_Charts">
-                    <h3>Topic A</h3>
+                <div className="bar_charts">
                     <BarChart {...this.state} topic={1} />
-                    <br />
-                    <h3>Topic B</h3>
+                </div>
+                <div className="bar_charts">
                     <BarChart {...this.state} topic={2} />
-                </aside>
+                </div>
 
                 <div id="joke_content">
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}

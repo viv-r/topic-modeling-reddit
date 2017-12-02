@@ -1,12 +1,13 @@
 import Svg from './Svg';
 import React from 'react';
+import '../css/bar_charts.css';
 
 const d3 = window.d3;
 
 export default class Bar extends React.Component {
     getBarData() {
         let set = (this.props.topic === 1)
-            ? this.props.topics[this.props.topicA].words.slice(0,20)
+            ? this.props.topics[this.props.topicA].words.slice(0, 20)
             : this.props.topics[this.props.topicB].words.slice(0, 20)
         set = set.map(v => {
             return {
@@ -35,12 +36,10 @@ export default class Bar extends React.Component {
 
 const BarChart = Svg((node, props) => {    
     function prob(d) { return d.p_topic; }
-    function count(d) { return d.count; }
 
     // chart dimensions
-    var magin = { top: 0, right: 10, bottom: 20, left: 10 },
-        width = 300,
-        height = 400,
+    var width = 300,
+        height = 600,
         barWidth = 20,
         barSpacing = 5;
 
@@ -56,11 +55,10 @@ const BarChart = Svg((node, props) => {
         .domain([0, dataMax])
         .range(['#444', props.color])
 
-    const fill = (d, i) => i % 2 === 0 ? '#444' : '#333';  
-
-    var svg = d3.select(node)
-
+    var svg = d3.select(node);
     svg.selectAll('*').remove();
+
+    svg.attr('height', height)
     svg.selectAll('rect')
         .data(props.data)
         .enter()

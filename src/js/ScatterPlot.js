@@ -57,6 +57,8 @@ export default class Scatter extends React.Component {
                     size={400}
                     data={this.getScatterData()}
                     enableDistortion={this.props.enableDistortion}
+                    ta_color={this.props.topicA_color}
+                    tb_color={this.props.topicB_color}
                 />
             </div>
         );
@@ -96,7 +98,7 @@ const Graph = Svg((node, props) => {
 
     const colorScale = d3.scaleLinear()
         .domain([0, 1])
-        .range(['red', 'blue'])
+        .range([props.ta_color, props.tb_color])
 
     svg.selectAll("*").remove();
     svg.attr("width", width + 40)
