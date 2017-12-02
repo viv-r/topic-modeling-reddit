@@ -63,13 +63,14 @@ const Graph = Svg((node, props) => {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var rect = d3.area().x(function (d, i) { return x(d.data[0].x); })
-        .y0(function (d) { return y(d[0]); })
+        // .y0(function (d) { return y(d[0]); })
+        .y0(height)
         .y1(function (d) { return y(d[1] - d[0]); })
         .curve(d3.curveBasis)
 
     svg.selectAll("path").data(layers).enter().append("path").attr("d", rect)
-        .style("fill-opacity", 0.5)
-        .style("fill", function (d, i) { console.log(i, props); return i ? props.colorA : props.colorB; })
+        .style("fill-opacity", 0.3)
+        .style("fill", function (d, i) { return i ? props.colorA : props.colorB; })
         .style("stroke", "black")
 
     svg.append("g")
