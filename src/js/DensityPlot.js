@@ -31,7 +31,6 @@ const Graph = Svg((node, props) => {
         return bumpLayer(i, m);
     }))),
         yStackMax = d3.max(layers, function (layer) { return d3.max(layer, function (d) { return d[1]; }); });
-    console.log(yStackMax)
 
     var margin = { top: 40, right: 10, bottom: 20, left: 10 },
         width = 980 - margin.left - margin.right,
@@ -104,8 +103,6 @@ const Graph = Svg((node, props) => {
                 y: res[i] / count,
             };
         }
-        console.log(res, res.length)
-        console.log(max)
         return res;
     }
 });
