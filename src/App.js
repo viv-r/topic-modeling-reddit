@@ -24,8 +24,8 @@ export default class Main extends React.Component {
             topics,
             topicA: 1,
             topicB: 2,
-            topicA_color: 'red',        // color of 1st topic
-            topicB_color: 'blue',       // color of 2nd topic
+            topicA_color: '#FF005A',        // color of 1st topic
+            topicB_color: '#02FF00',       // color of 2nd topic
             words_to_show: 100,         // number of words to show in the bar chart
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
@@ -84,25 +84,33 @@ export default class Main extends React.Component {
                 <nav id="interactions">
                     <Button text={'D'}
                         onClick={this.toggleDistortion}
-                        className={"selector small float_left"} />
+                        className={"small float_left"} />
+
+                    <TopicSelector
+                        position={1}
+                        value={this.state.topicA}
+                        onChange={this.setTopicA} />
 
                     <Button
-                        className={"selector color_selector"}
+                        className={"selector color_selector float_left"}
                         onClick={this.toggleColorPicker.bind(this, 1)}
                         style={{ background: this.state.topicA_color }} />
 
-
-                    <TopicSelector value={this.state.topicA} onChange={this.setTopicA} />
-                    <TopicSelector value={this.state.topicB} onChange={this.setTopicB} />
-
-                    <Button
-                        className={"selector color_selector"}
-                        onClick={this.toggleColorPicker.bind(this, 2)}
-                        style={{ background: this.state.topicB_color }} />
+                    <img id="logo" src={require("./css/reddit_logo.png")} alt="reddit logo" />
 
                     <Button text="?"
                         onClick={this.toggleHelpOverlay}
-                        className={"selector small float_right"} />
+                        className={"small float_right"} />
+
+                    <TopicSelector
+                        position={2}
+                        value={this.state.topicB}
+                        onChange={this.setTopicB} />
+
+                    <Button
+                        className={"selector color_selector float_right"}
+                        onClick={this.toggleColorPicker.bind(this, 2)}
+                        style={{ background: this.state.topicB_color }} />
 
                     <Dialog
                         isOpen={this.state.helpIsOpen}
@@ -142,6 +150,10 @@ export default class Main extends React.Component {
                 <div id="joke_content">
                     <DensityPlot {...this.state} />
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
+                </div>
+
+                <div id="tooltip">
+                    <div id="color_indicator" />
                 </div>
             </div >
         );

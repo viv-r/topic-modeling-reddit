@@ -34,8 +34,8 @@ const Graph = Svg((node, props) => {
     console.log(yStackMax)
 
     var margin = { top: 40, right: 10, bottom: 20, left: 10 },
-        width = 500 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        width = 980 - margin.left - margin.right,
+        height = 200 - margin.top - margin.bottom;
 
     var x = d3.scaleLinear()
         .domain([0, 12])
@@ -57,8 +57,9 @@ const Graph = Svg((node, props) => {
     svg.selectAll('*').remove();
 
     svg.attr("width", width + margin.left + margin.right + 80)
-        .attr("height", height + margin.top + margin.bottom + 80)
-        .style("padding", "40px")
+        .attr("height", height + margin.top + margin.bottom + 40)
+        .style("padding", "20px")
+        .style("padding-left", "60px")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 

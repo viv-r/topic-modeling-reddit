@@ -28,28 +28,32 @@ export default class Bar extends React.Component {
     render() {
         return (
             <div className="bar-container">
-                <BarChart data={this.getBarData()} color={this.getColor()} />
+                <BarChart 
+                    data={this.getBarData()} 
+                    color={this.getColor()}
+                />
             </div>
         );
     }
 }
 
-const BarChart = Svg((node, props) => {    
-    function prob(d) { return d.p_topic; }
+const BarChart = Svg((node, props) => {  
 
     // chart dimensions
     var width = 300,
-        height = 600,
+        height = 420,
         barWidth = 20,
-        barSpacing = 5;
+        barSpacing = 1;
 
     const dataMax = d3.max(props.data.map(v => {
         return v.p_topic
     }));
 
+    function prob(d) { return d.p_topic; }    
+
     const lengthScale = d3.scaleLinear()
         .domain([0, dataMax])
-        .range([0, width-100])
+        .range([0, width-80])
     
     const colorScale = d3.scaleLinear()
         .domain([0, dataMax])
@@ -59,6 +63,19 @@ const BarChart = Svg((node, props) => {
     svg.selectAll('*').remove();
 
     svg.attr('height', height)
+
+    // add words
+    svg.selectAll('g')
+    .data(props.data)
+    .enter()
+    .append('text')        
+        .attr('y', (d, i) => i * (barWidth + barSpacing))
+        .attr('dy', '1em')
+        .attr('x', d => 0)
+        .attr('class', 'bar-title')
+        .text(function(d) { return d.name; })   
+
+    // add bars
     svg.selectAll('rect')
         .data(props.data)
         .enter()
@@ -70,23 +87,38 @@ const BarChart = Svg((node, props) => {
             .style('fill', d => colorScale(prob(d)))
             .on('mouseover', (data, index, nodes) => {
                 d3.select(nodes[index])
-                    .style('fill', '#444')                    
+                    .style('fill', '#444')        
+
+                d3.select("#tooltip")    
+                    .html(
+                        "<h4>" + data.name + "</h4>" +
+                        "<p><em>probability:</em> " + data.p_topic +
+                        "</br><em>count:</em> " + data.count +
+                        "</p>"
+                    )
+                    
             })
             .on('mouseout', function (data, index, nodes) {
+                var col = colorScale(prob(data))
                 d3.select(nodes[index])
                     .transition()
                     .duration(200)
-                    .style('fill', d => colorScale(prob(d)))
+                    .style('fill', col);
+
+                d3.select("#tooltip")
+                    .attr('style',
+                        'opacity:0;border: 2px solid ' + col +
+                        ';border-top: 15px solid ' + col + 
+                        ';top:' + (d3.event.clientY - 10) + 
+                        'px;left:' + (d3.event.clientX + 10) + "px")      
             })
-            .append('title').text(function (d) { return d.name; });
-    
-    svg.selectAll('g')
-        .data(props.data)
-        .enter()
-        .append('text')        
-            .attr('y', (d, i) => i * (barWidth + barSpacing))
-            .attr('dy', '1.2em')
-            .attr('x', d => 0)
-            .attr('class', 'bar-title')
-            .text(function(d) { return d.name; })
+            .on('mousemove', function(data, index, nodes) {
+                var col = colorScale(prob(data))                
+                d3.select("#tooltip")
+                    .attr('style', 
+                        'opacity:.95;border: 2px solid ' + col +
+                        ';border-top: 15px solid ' + col + 
+                        ';top:' + (d3.event.clientY - 10) + 
+                        'px;left:' + (d3.event.clientX + 10) + "px")      
+            })    
 });
