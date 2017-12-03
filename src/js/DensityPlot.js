@@ -69,8 +69,9 @@ const Graph = Svg((node, props) => {
         .curve(d3.curveBasis)
 
     svg.selectAll("path").data(layers).enter().append("path").attr("d", rect)
-        .style("fill-opacity", 0.3)
+        .style("fill-opacity", 0.8)
         .style("fill", function (d, i) { return i ? props.colorA : props.colorB; })
+        // .style("fill", "transparent")
         .style("stroke", "black")
 
     svg.append("g")
