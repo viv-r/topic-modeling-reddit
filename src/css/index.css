@@ -1,6 +1,7 @@
 body {
     font-family: 'Montserrat', sans-serif;
     background: rgb(247, 247, 247);
+    min-width: 980px;
 }
 
 .selector {

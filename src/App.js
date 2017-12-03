@@ -155,6 +155,7 @@ export default class Main extends React.Component {
 
                 <section id="scatter_plot">
                     <ScatterPlot {...this.state} />
+                    <DensityPlot {...this.state} />
                 </section>
 
                 <div className="bar_charts">
@@ -165,7 +166,7 @@ export default class Main extends React.Component {
                 </div>
 
                 <div id="joke_content">
-                    <DensityPlot {...this.state} />
+                   
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
 
