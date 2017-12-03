@@ -28,13 +28,14 @@ export default class Main extends React.Component {
             topicScores,
             topicA: 1,
             topicB: 2,
-            topicA_color: '#FF005A',        // color of 1st topic
-            topicB_color: '#00A9FF',       // color of 2nd topic
+            topicA_color: '#FF005A',    // color of 1st topic
+            topicB_color: '#00A9FF',    // color of 2nd topic
             words_to_show: 100,         // number of words to show in the bar chart
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
             displayColorPicker: false,  // color picker
-            color_to_change: -1
+            color_to_change: -1,
+            bar_ordering: 'prob',            
         }
     }
 
