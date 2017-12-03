@@ -33,20 +33,20 @@ const Graph = Svg((node, props) => {
         yStackMax = d3.max(layers, function (layer) { return d3.max(layer, function (d) { return d[1]; }); });
 
     var margin = { top: 40, right: 10, bottom: 20, left: 10 },
-        width = 980 - margin.left - margin.right,
-        height = 200 - margin.top - margin.bottom;
+        width = (980 - margin.left - margin.right)/2,
+        height = 400 - margin.top - margin.bottom;
 
     var x = d3.scaleLinear()
-        .domain([0, 12])
+        .domain([0, 7])
         .range([0, width]);
 
     var y = d3.scaleLinear()
-        .domain([0, 0.4])
+        .domain([0, 0.35])
         .range([height, 0]);
 
-    var xAxis = d3.axisBottom(x)
-        .tickSize(10)
-        .tickPadding(6);
+    // var xAxis = d3.axisBottom(x)
+    //     .tickSize(10)
+    //     .tickPadding(6);
 
     var yAxis = d3.axisLeft(y)
         .tickSize(10)
@@ -68,19 +68,30 @@ const Graph = Svg((node, props) => {
         .y1(function (d) { return y(d[1] - d[0]); })
         .curve(d3.curveBasis)
 
-    svg.selectAll("path").data(layers).enter().append("path").attr("d", rect)
-        .style("fill-opacity", 0.3)
-        .style("fill", function (d, i) { return i ? props.colorA : props.colorB; })
-        .style("stroke", "black")
+    svg.selectAll("path").data(layers).enter()
+        .append("path")
+            .attr("d", rect)
+            .style("fill-opacity", 0.5)
+            .style("fill", function (d, i) { return i ? props.colorA : props.colorB; })    
+            .attr("class", "area")
+            .style("stroke", "black")
+            .on("click", function() {
+                let paths = svg.selectAll(".area")._groups[0]
+                const d_0 = d3.select(paths[0]).attr('d')
+                const d_1 = d3.select(paths[1]).attr('d')
 
+                d3.select(paths[0]).attr('d', d_1)
+                d3.select(paths[1]).attr('d', d_0)
+            })
+            
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        // .call(xAxis);
 
     svg.append("g")
         .attr("class", "y axis")
-        .attr("transform", "translate(0," + 0 + ")")
+        .attr("transform", "translate(0," + -0.5 + ")")
         .call(yAxis);
 
     function bumpLayer(topic, bins) {

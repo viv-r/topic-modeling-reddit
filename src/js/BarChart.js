@@ -8,11 +8,6 @@ export default class Bar extends React.Component {
     getBarData() {
             let set = (this.props.topic === 1)
                 ? this.props.topics[this.props.topicA].words.slice(0, 20)
-                    .sort((a, b) => {
-                        if (this.props.bar_ordering === 'count') {
-                            return ((a.count < b.count) ? a.count : b.count)
-                        } 
-                    })
                 : this.props.topics[this.props.topicB].words.slice(0, 20)
             set = set.map(v => {
                 return {
