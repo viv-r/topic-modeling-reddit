@@ -6,16 +6,21 @@ const d3 = window.d3;
 
 export default class Bar extends React.Component {
     getBarData() {
-        let set = (this.props.topic === 1)
-            ? this.props.topics[this.props.topicA].words.slice(0, 20)
-            : this.props.topics[this.props.topicB].words.slice(0, 20)
-        set = set.map(v => {
-            return {
-                p_topic: v.prob,
-                count: v.count,
-                name: v.name
-            }});       
-        return set;
+            let set = (this.props.topic === 1)
+                ? this.props.topics[this.props.topicA].words.slice(0, 20)
+                    .sort((a, b) => {
+                        if (this.props.bar_ordering === 'count') {
+                            return ((a.count < b.count) ? a.count : b.count)
+                        } 
+                    })
+                : this.props.topics[this.props.topicB].words.slice(0, 20)
+            set = set.map(v => {
+                return {
+                    p_topic: v.prob,
+                    count: v.count,
+                    name: v.name
+                }});       
+            return set;
     }
 
     getColor() {
@@ -45,18 +50,22 @@ const BarChart = Svg((node, props) => {
         barWidth = 20,
         barSpacing = 1;
 
-    const dataMax = d3.max(props.data.map(v => {
+    const probMax = d3.max(props.data.map(v => {
         return v.p_topic
+    }));
+    const countMax =  d3.max(props.data.map(v => {
+        return v.count
     }));
 
     function prob(d) { return d.p_topic; }    
+    function w_count(d) { return d.count ;}
 
     const lengthScale = d3.scaleLinear()
-        .domain([0, dataMax])
+        .domain([0, probMax])
         .range([0, width-80])
     
     const colorScale = d3.scaleLinear()
-        .domain([0, dataMax])
+        .domain([0, countMax])
         .range(['#444', props.color])
 
     var svg = d3.select(node);
@@ -84,7 +93,7 @@ const BarChart = Svg((node, props) => {
             .attr('x', d => 100)
             .attr('width', d => lengthScale(prob(d)))
             .attr('height', barWidth)
-            .style('fill', d => colorScale(prob(d)))
+            .style('fill', d => colorScale(d.count))
             .on('mouseover', (data, index, nodes) => {
                 d3.select(nodes[index])
                     .style('fill', '#444')        
@@ -99,7 +108,7 @@ const BarChart = Svg((node, props) => {
                     
             })
             .on('mouseout', function (data, index, nodes) {
-                var col = colorScale(prob(data))
+                var col = colorScale(w_count(data))
                 d3.select(nodes[index])
                     .transition()
                     .duration(200)
@@ -113,7 +122,7 @@ const BarChart = Svg((node, props) => {
                         'px;left:' + (d3.event.clientX + 10) + "px")      
             })
             .on('mousemove', function(data, index, nodes) {
-                var col = colorScale(prob(data))                
+                var col = colorScale(w_count(data))                
                 d3.select("#tooltip")
                     .attr('style', 
                         'opacity:.95;border: 2px solid ' + col +
