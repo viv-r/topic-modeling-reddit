@@ -33,11 +33,7 @@ const Graph = Svg((node, props) => {
         yStackMax = d3.max(layers, function (layer) { return d3.max(layer, function (d) { return d[1]; }); });
 
     var margin = { top: 40, right: 10, bottom: 20, left: 10 },
-<<<<<<< HEAD
         width = (980 - margin.left - margin.right)/2 - 100,
-=======
-        width = (980 - margin.left - margin.right) / 2,
->>>>>>> da39743fd3c2f90908ff280b3b74b6f2704b34a0
         height = 400 - margin.top - margin.bottom;
 
     var x = d3.scaleLinear()
