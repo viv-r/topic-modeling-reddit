@@ -104,7 +104,7 @@ nav {
     background: #394B59;
 }
 .pt-dialog-header h5 {
-    color: rgb(235, 132, 107);
+    color: #E1E8ED
 }
 .help_content {
     height: 455px;
@@ -112,4 +112,11 @@ nav {
 }
 .help_content h6 {
     color: rgb(243, 171, 155);
+}
+.bar_charts{
+    float: right;
+}
+.topic_chart {
+    float: right;
+    margin-top: -20px;
 }

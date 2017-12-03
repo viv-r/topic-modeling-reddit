@@ -163,10 +163,14 @@ export default class Main extends React.Component {
                 </section>
 
                 <div className="bar_charts">
-                    <BarChart {...this.state} topic={1} />
+                    <BarChart {...this.state} topic={2} />               
                 </div>
                 <div className="bar_charts">
-                    <BarChart {...this.state} topic={2} />
+                    <BarChart {...this.state} topic={1} />
+                </div>
+                
+                <div className="topic_chart">
+                    <TopicBarChart {...this.state} />
                 </div>
 
                 <div id="joke_content">                   
