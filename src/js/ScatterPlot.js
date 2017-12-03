@@ -128,7 +128,7 @@ const Graph = Svg((node, props) => {
         .attr("fill", "#fefefe")
         .attr("width", size)
         .attr("height", size)
-        .attr("clip-path", "url(#mask)")
+        // .attr("clip-path", "url(#mask)")
         .call(zoom)
 
     const gX = svg.append("g")

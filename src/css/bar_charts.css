@@ -8,3 +8,8 @@
 .bar_container {
     margin-top: 20px;
 }
+
+.topic-bar-container {
+    padding: 20px;
+    margin: 20px;
+}

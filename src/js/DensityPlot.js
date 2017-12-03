@@ -33,7 +33,11 @@ const Graph = Svg((node, props) => {
         yStackMax = d3.max(layers, function (layer) { return d3.max(layer, function (d) { return d[1]; }); });
 
     var margin = { top: 40, right: 10, bottom: 20, left: 10 },
+<<<<<<< HEAD
         width = (980 - margin.left - margin.right)/2 - 100,
+=======
+        width = (980 - margin.left - margin.right) / 2,
+>>>>>>> da39743fd3c2f90908ff280b3b74b6f2704b34a0
         height = 400 - margin.top - margin.bottom;
 
     var x = d3.scaleLinear()
@@ -70,24 +74,24 @@ const Graph = Svg((node, props) => {
 
     svg.selectAll("path").data(layers).enter()
         .append("path")
-            .attr("d", rect)
-            .style("fill-opacity", 0.5)
-            .style("fill", function (d, i) { return i ? props.colorA : props.colorB; })    
-            .attr("class", "area")
-            .style("stroke", "black")
-            .on("click", function() {
-                let paths = svg.selectAll(".area")._groups[0]
-                const d_0 = d3.select(paths[0]).attr('d')
-                const d_1 = d3.select(paths[1]).attr('d')
+        .attr("d", rect)
+        .style("fill-opacity", 0.5)
+        .style("fill", function (d, i) { return i ? props.colorA : props.colorB; })
+        .attr("class", "area")
+        .style("stroke", "black")
+        .on("click", function () {
+            let paths = svg.selectAll(".area")._groups[0]
+            const d_0 = d3.select(paths[0]).attr('d')
+            const d_1 = d3.select(paths[1]).attr('d')
 
-                d3.select(paths[0]).attr('d', d_1)
-                d3.select(paths[1]).attr('d', d_0)
-            })
-            
+            d3.select(paths[0]).attr('d', d_1)
+            d3.select(paths[1]).attr('d', d_0)
+        })
+
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        // .call(xAxis);
+    // .call(xAxis);
 
     svg.append("g")
         .attr("class", "y axis")
