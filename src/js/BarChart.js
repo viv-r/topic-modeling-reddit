@@ -140,5 +140,11 @@ const BarChart = Svg((node, props) => {
 });
 
 const LilHisty = Svg((data) => {
+    var margin = { top: 10, right: 5, bottom: 5, left: 5},
+        width = 200 - margin.left - margin.right,
+        height = 200,
+        barwidth = 2,
+        barSpacing = 0;
 
+        
 })
