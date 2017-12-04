@@ -7,17 +7,19 @@ import Lists from './js/Lists'
 import TopicSelector from './js/TopicSelector'
 import { Button, Dialog } from '@blueprintjs/core'
 import SketchPicker from 'react-color'
+import ta from './data/topic_files/topic_2.json'
+import tb from './data/topic_files/topic_3.json'
 // import Filter from './js/Filter'
 
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
 
-        const topicA = 1;
-        const topicB = 2;
+        const topicA = 1; // change import ta above as well
+        const topicB = 2; // change import tb above as well
         let topics = {
-            [topicA]: require(`./data/topic_files/topic_${topicA + 1}.json`),
-            [topicB]: require(`./data/topic_files/topic_${topicB + 1}.json`),
+            [topicA]: ta,
+            [topicB]: tb
         };
         // for (let i = 0; i < 50; i++) {
         // let t = require(`./data/topic_files/topic_${i + 1}.json`);
