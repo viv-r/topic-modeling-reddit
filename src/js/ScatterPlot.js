@@ -46,13 +46,6 @@ export default class Scatter extends React.Component {
                 ...val
             }
         }
-        // let wordMap = words.reduce((map, val) => ({
-        //     ...map,
-        //     [val.name]: {
-        //         ...(map[val.name] || {}),
-        //         ...val
-        //     }
-        // }), {});
 
         const scatter = Object.keys(wordMap).map(k => wordMap[k]).map(v => {
             const pa = v.p_topicA || 0;
@@ -255,12 +248,8 @@ const Graph = Svg((node, props) => {
         gX.call(xAxis.scale(xs));
         gY.call(yAxis.scale(ys));
 
+        lineP.attr('transform', d3.event.transform);
         dot.call(position, xs, ys);
-        // const a = dot.attr("transform");
-        // console.log(a)
-        // const t = a.substring(0, a.lastIndexOf('(')) + "(" + 1 / d3.event.transform.k + ")"
-        // dot.attr("transform", t);
-
     }
 
     svg.on("mousemove", function () {

@@ -35,8 +35,14 @@ export default class Main extends React.Component {
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
             displayColorPicker: false,  // color picker
-            color_to_change: -1, 
-        }      
+            color_to_change: -1,
+            bar_selection: {
+                open: false,
+                topic: '',
+                index: -1,
+                word: null,
+            }
+        }
     }
 
     setTopicA = (topicA) => {
@@ -103,6 +109,17 @@ export default class Main extends React.Component {
                 word: w
             }
         })
+    }
+
+    clearSelection = () => {
+        this.setState({
+            bar_selection: {
+                open: false,
+                topic: '',
+                index: -1,
+                word: null,
+            }
+        });
     }
 
     render() {
@@ -202,26 +219,19 @@ export default class Main extends React.Component {
                         />
                     </div>
 
-                <div className="bar_charts">
-                    <BarChart {...this.state} topic={2} />               
-                </div>
-                <div className="bar_charts">
-                    <BarChart {...this.state} topic={1} />
-                </div>
-                
-                <div className="topic_chart">
-                    <TopicBarChart {...this.state} 
-                        showTooltip={this.showTooltip}
-                        moveTooltip={this.moveTooltip}
-                        hideTooltip={this.hideTooltip}
-                    />
-                </div>
+                    <div className="topic_chart">
+                        <TopicBarChart {...this.state}
+                            showTooltip={this.showTooltip}
+                            moveTooltip={this.moveTooltip}
+                            hideTooltip={this.hideTooltip}
+                        />
+                    </div>
 
-                <div className="joke_content">
-                    <Lists {...this.state} clearSelection={this.clearSelection} />
-                </div>  
+                    <div className="joke_content">
+                        <Lists {...this.state} clearSelection={this.clearSelection} />
+                    </div>
+                </div>
             </div>
-        </div>
         );
     }
 }
