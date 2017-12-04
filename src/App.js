@@ -13,11 +13,16 @@ export default class Main extends React.Component {
     constructor(props) {
         super(props);
 
-        let topics = [];
-        for (let i = 0; i < 50; i++) {
-            let t = require(`./data/topic_files/topic_${i + 1}.json`);
-            topics = [...topics, t];
-        }
+        const topicA = 1;
+        const topicB = 2;
+        let topics = {
+            [topicA]: require(`./data/topic_files/topic_${topicA + 1}.json`),
+            [topicB]: require(`./data/topic_files/topic_${topicB + 1}.json`),
+        };
+        // for (let i = 0; i < 50; i++) {
+        // let t = require(`./data/topic_files/topic_${i + 1}.json`);
+        // topics = [...topics, t];
+        // }
 
         const topicScores = require('./data/topic_scores.json');
         const jokes = require('./data/jokefile.json');
@@ -26,9 +31,9 @@ export default class Main extends React.Component {
         this.state = {
             jokes,
             topics,
+            topicA, // default topic A
+            topicB, // default topic B
             topicScores,
-            topicA: 1,
-            topicB: 2,
             topicA_color: '#00FF24',    // color of 1st topic
             topicB_color: '#00A9FF',    // color of 2nd topic
             words_to_show: 100,         // number of words to show in the bar chart
@@ -42,20 +47,46 @@ export default class Main extends React.Component {
                 index: -1,
                 word: null,
             },
-            word_page : 0,
+            word_page: 0,
         }
     }
 
-    setTopicA = (topicA) => {
-        this.setState({
-            topicA
-        })
+    setTopicA = async (topicA) => {
+        if (!this.state.topics[topicA]) {
+            this.setState({
+                topics: {
+                    ...this.state.topics,
+                    [topicA]: await import(`./data/topic_files/topic_${topicA + 1}.json`),
+                },
+                topicA
+
+            });
+        } else {
+            this.setState({
+                topicA
+            });
+        }
     }
 
-    setTopicB = (topicB) => {
-        this.setState({
-            topicB
-        })
+    setTopicB = async (topicB) => {
+        console.log('wut wut ', this.state.topics[topicB])
+        if (!this.state.topics[topicB]) {
+            console.log('setting state,', this.state.topics[topicB])
+            const data = await import(`./data/topic_files/topic_${topicB + 1}.json`);
+            console.log('got this mofo ', data)
+            this.setState({
+                topics: {
+                    ...this.state.topics,
+                    [topicB]: data
+                },
+                topicB
+            }, () => console.log('boom, ', this.state.topics[topicB]));
+        } else {
+            console.log('am i here lol')
+            this.setState({
+                topicB
+            });
+        }
     }
 
     toggleHelpOverlay = () => {
@@ -125,11 +156,12 @@ export default class Main extends React.Component {
 
     setWordPage = (s) => {
         this.setState({
-            word_page : s,          
+            word_page: s,
         })
     }
 
     render() {
+        console.log('wtf wtf wtf', this.state.topics, this.state.topicB)
         return (
             <div>
                 <nav id="interactions">
@@ -227,13 +259,13 @@ export default class Main extends React.Component {
                             page={this.word_page}
                         />
                     </div>
-                    <div id="bar_char_nav">  
-                        <Button 
+                    <div id="bar_char_nav">
+                        <Button
                             className={"page_button flip"}
                             onClick={this.setWordPage.bind(this, 0)}>
                             <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
-                        </Button>             
-                        <Button                             
+                        </Button>
+                        <Button
                             className={"page_button flip"}
                             disabled={this.state.word_page === 0 ? true : false}
                             onClick={this.setWordPage.bind(this, this.state.word_page - 1)}>
@@ -242,15 +274,15 @@ export default class Main extends React.Component {
                         <Button
                             className={"page_button"}
                             disabled={
-                                (Math.floor(this.state.topics[this.state.topicA].words.length/20) <= this.state.word_page &&
-                                Math.floor(this.state.topics[this.state.topicB].words.length/20) <= this.state.word_page ) 
-                                    ? true : false }
-                            onClick={this.setWordPage.bind(this, this.state.word_page+1)}>
+                                (Math.floor(this.state.topics[this.state.topicA].words.length / 20) <= this.state.word_page &&
+                                    Math.floor(this.state.topics[this.state.topicB].words.length / 20) <= this.state.word_page)
+                                    ? true : false}
+                            onClick={this.setWordPage.bind(this, this.state.word_page + 1)}>
                             <img className="paging_button" src={require("./css/chev.png")} alt="page right" />
                         </Button>
-                        <Button                             
+                        <Button
                             className={"page_button"}
-                            onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length/20))}>
+                            onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length / 20))}>
                             <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
                         </Button>
                     </div>

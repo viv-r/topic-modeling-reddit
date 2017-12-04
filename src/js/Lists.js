@@ -26,10 +26,10 @@ export default class Lists extends React.PureComponent {
         return list ? (list.map ? list : [list]) : [];
     }
 
-    collectJokesForTopic(topic) {
-        console.log('collecting jokes for topic', topic)
+    collectJokesForTopic(topics, topic) {
+        console.log('collecting jokes for topic', this.props.topics, topic)
 
-        const words = this.props.topics[topic].words;
+        const words = topics[topic].words;
         const list = []
         const map = {}
         for (let i = 0; i < words.length; i++) {
@@ -51,8 +51,8 @@ export default class Lists extends React.PureComponent {
     }
 
     checkCache(nextProps) {
-        if (!this.topicJokes[nextProps.topicA]) this.collectJokesForTopic(nextProps.topicA);
-        if (!this.topicJokes[nextProps.topicB]) this.collectJokesForTopic(nextProps.topicB);
+        if (!this.topicJokes[nextProps.topicA]) this.collectJokesForTopic(nextProps.topics, nextProps.topicA);
+        if (!this.topicJokes[nextProps.topicB]) this.collectJokesForTopic(nextProps.topics, nextProps.topicB);
     }
 
     render() {
