@@ -90,7 +90,14 @@ const Graph = Svg((node, props) => {
                     "<p><em>average score:</em> " + data +
                     "</p>")
         })
-        .on('mouseout', function (data, index, nodes) {            
+        .on('mouseout', function (data, index, nodes) {   
+            let col = color(data, index);
+            if (col === "#394B59" )
+                col = "#5C7080" 
+
+            let xPos = d3.event.clientX + 10;
+            if (xPos > 1000) xPos -= 220
+
             d3.select(nodes[index])
                 .transition()
                 .duration(200)
@@ -98,18 +105,25 @@ const Graph = Svg((node, props) => {
 
             d3.select("#tooltip")
                 .attr('style',
-                'opacity:0;border: 2px solid ' + "#5C7080" +
-                ';border-top: 15px solid ' + "#5C7080" +
-                ';top:' + (d3.event.clientY + 250) +
-                'px;left:' + (d3.event.clientX + 10) + "px")
+                    'opacity:0;border: 1px solid ' + col +
+                    ';border-top: 15px solid ' + col +
+                    ';top:' + (d3.event.clientY + 250) +
+                    'px;left:' + xPos + "px")
         })
         .on('mousemove', function (data, index, nodes) {
+            let col = color(data, index);
+            if (col === "#394B59" )
+                col = "#5C7080" 
+
+            let xPos = d3.event.clientX + 10;
+            if (xPos > 1000) xPos -= 220
+
             d3.select("#tooltip")
                 .attr('style',
-                'opacity:.95;border: 2px solid ' + "#5C7080" +
-                ';border-top: 15px solid ' + "#5C7080" +
-                ';top:' + (d3.event.clientY + 250) +
-                'px;left:' + (d3.event.clientX + 10) + "px")
+                    'opacity:.95;border: 1px solid ' + col +
+                    ';border-top: 15px solid ' + col +
+                    ';top:' + (d3.event.clientY + 250) +
+                    'px;left:' + xPos + "px")
         })
 
     // the red dotted line
