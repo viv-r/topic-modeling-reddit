@@ -103,21 +103,21 @@ const Graph = Svg((node, props) => {
             if (xPos > 1000) xPos -= 220
 
             let col = color(data, index);
-            if (col === "#394B59" )
-                col = "#5C7080" 
-            
+            if (col === "#394B59")
+                col = "#5C7080"
+
             d3.select("#tooltip")
                 .attr('style',
-                    'opacity:.95;border: 1px solid ' + col +
-                    ';border-top: 15px solid ' + col +
-                    ';top:' + (d3.event.clientY + 250) +
-                    'px;left:' + xPos + "px")
-            
+                'opacity:.95;border: 1px solid ' + col +
+                ';border-top: 15px solid ' + col +
+                ';top:' + (d3.event.clientY + 250) +
+                'px;left:' + xPos + "px")
+
         })
         .on('mouseout', function (data, index, nodes) {
             let col = color(data, index);
-            if (col === "#394B59" )
-                col = "#5C7080" 
+            if (col === "#394B59")
+                col = "#5C7080"
 
             let xPos = d3.event.clientX + 10;
             if (xPos > 1000) xPos -= 220
@@ -125,16 +125,16 @@ const Graph = Svg((node, props) => {
             d3.select(nodes[index])
                 .transition()
                 .duration(200)
-                .style('fill', color(data, index));         
+                .style('fill', color(data, index));
 
             d3.select("#tooltip")
                 .attr('style',
-                    'opacity:0;border: 1px solid ' + col +
-                    ';border-top: 15px solid ' + col +
-                    ';top:' + (d3.event.clientY + 250) +
-                    'px;left:' + xPos + "px")
+                'opacity:0;border: 1px solid ' + col +
+                ';border-top: 15px solid ' + col +
+                ';top:' + (d3.event.clientY + 250) +
+                'px;left:' + xPos + "px")
         })
-        
+
     // the red dotted line
     const total_mean = d3.mean(scores)
     svg.append("line")
