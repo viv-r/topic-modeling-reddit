@@ -76,6 +76,8 @@ export default class Scatter extends React.Component {
                     enableDistortion={this.props.enableDistortion}
                     ta_color={this.props.topicA_color}
                     tb_color={this.props.topicB_color}
+                    ta_num={this.props.topicA}
+                    tb_num={this.props.topicB}
                 />
             </div>
         );
@@ -180,7 +182,7 @@ const Graph = Svg((node, props) => {
         .attr("text-anchor", "end")
         .attr("x", size - 6)
         .attr("y", size - 6)
-        .text("Topic A");
+        .text("Topic " + (props.tb_num + 1));
 
     // Add a y-axis label.
     svg.append("text")
@@ -190,7 +192,7 @@ const Graph = Svg((node, props) => {
         .attr("y", 6)
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
-        .text("Topic B");
+        .text("Topic " + (props.ta_num + 1));
 
     // Add a dot per word and set the colors
     var dot = svg.append("g")

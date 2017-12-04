@@ -96,8 +96,8 @@ export default class Lists extends React.PureComponent {
                     {sidebar}
                 </Drawer>
                 <div className='lists_title'>
-                    <span style={topicA}>Jokes in Topic {this.props.topicA}</span>
-                    <span style={topicB}>Jokes in Topic {this.props.topicB}</span>
+                    <span style={topicA}>Jokes in Topic {this.props.topicA + 1}</span>
+                    <span style={topicB}>Jokes in Topic {this.props.topicB + 1}</span>
                 </div>
                 <div className='lists_body'>
                     <div className='list_container'>

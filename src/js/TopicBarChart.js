@@ -111,7 +111,8 @@ const Graph = Svg((node, props) => {
                 'opacity:.95;border: 1px solid ' + col +
                 ';border-top: 15px solid ' + col +
                 ';top:' + (d3.event.clientY + 250) +
-                'px;left:' + xPos + "px")
+                'px;height:100px;' +
+                'left:' + xPos + "px")
 
         })
         .on('mouseout', function (data, index, nodes) {
@@ -132,6 +133,7 @@ const Graph = Svg((node, props) => {
                 'opacity:0;border: 1px solid ' + col +
                 ';border-top: 15px solid ' + col +
                 ';top:' + (d3.event.clientY + 250) +
+                'px;height:100px;' +
                 'px;left:' + xPos + "px")
         })
 
