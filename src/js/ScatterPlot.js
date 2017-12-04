@@ -6,7 +6,7 @@ import '../css/scatter.css';
 
 const d3 = window.d3;
 
-export default class Scatter extends React.Component {
+export default class Scatter extends React.Component { 
 
     getScatterData() {
         let maxA = -1;
@@ -50,6 +50,12 @@ export default class Scatter extends React.Component {
         return scatter;
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return (
+            !(this.props.topicA === nextProps.topicA && 
+              this.props.topicB === nextProps.topicB))
+    }
+
     render() {
         return (
             <div className="scatter-container">
@@ -64,6 +70,7 @@ export default class Scatter extends React.Component {
         );
     }
 }
+
 
 const Graph = Svg((node, props) => {
     const x = d => d.p_topicA * 10;

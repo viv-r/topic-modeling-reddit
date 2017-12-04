@@ -35,9 +35,39 @@ export default class Main extends React.Component {
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
             displayColorPicker: false,  // color picker
-            color_to_change: -1,           
+            color_to_change: -1, 
+            tt_color: "#5C7080",
+            tt_left : -1,
+            tt_top: -1,
+            tt_opacity: 0,
+            tt_title: "",
+            tt_indicators: []
         }
+        this.showTooltip = this.showTooltip.bind(this)
+        this.moveTooltip = this.moveTooltip.bind(this)
+        this.hideTooltip = this.hideTooltip.bind(this)
     }
+
+    showTooltip(color, title, indicators) {
+        this.setState({
+            tt_opacity: .95,
+            tt_title: title,
+            tt_color: color,
+            tt_indicators: indicators
+        })
+    }
+    moveTooltip(left, top) {
+        this.setState({
+            tt_left:left,
+            tt_top: top,
+        })
+    }
+    hideTooltip(){
+        this.setState({
+            tt_opacity: 0
+        })
+    }
+
 
     setTopicA = (topicA) => {
         this.setState({
@@ -170,14 +200,18 @@ export default class Main extends React.Component {
                 </div>
                 
                 <div className="topic_chart">
-                    <TopicBarChart {...this.state} />
+                    <TopicBarChart {...this.state} 
+                        showTooltip={this.showTooltip}
+                        moveTooltip={this.moveTooltip}
+                        hideTooltip={this.hideTooltip}
+                    />
                 </div>
 
                 <div id="joke_content">                   
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
 
-                <Tooltip itemRef="Tooltip"/>
+                <Tooltip {...this.state} />
             </div>
         );
     }
