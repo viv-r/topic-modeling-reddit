@@ -85,15 +85,30 @@ const Graph = Svg((node, props) => {
         .on('mouseover', (data, index, nodes) => {
             d3.select(nodes[index])
                 .style('fill', "#5C7080")
-            d3.select("#tooltip")
-                .html("<h4>Topic " + (index+1) + "</h4>" +
-                    "<p><em>average score:</em> " + data +
-                    "</p>")
-        })
-        .on('mouseout', function (data, index, nodes) {   
+            // d3.select("#tooltip")
+            //     .html("<h4>Topic " + (index+1) + "</h4>" +
+            //         "<p><em>average score:</em> " + data +
+            //         "</p>")
             let col = color(data, index);
             if (col === "#394B59" )
                 col = "#5C7080" 
+            
+            this.refs.Tooltip.setState({
+                color: col,
+                opacity: .95,
+                title: "Topic" + (index+1),
+                indicators: [
+                    {
+                        "name" : "average score",
+                        "value" : data
+                    }
+                ]
+            })
+        })
+        .on('mouseout', function (data, index, nodes) {   
+            // let col = color(data, index);
+            // if (col === "#394B59" )
+            //     col = "#5C7080" 
 
             let xPos = d3.event.clientX + 10;
             if (xPos > 1000) xPos -= 220
@@ -103,27 +118,33 @@ const Graph = Svg((node, props) => {
                 .duration(200)
                 .style('fill', color(data, index));
 
-            d3.select("#tooltip")
-                .attr('style',
-                    'opacity:0;border: 1px solid ' + col +
-                    ';border-top: 15px solid ' + col +
-                    ';top:' + (d3.event.clientY + 250) +
-                    'px;left:' + xPos + "px")
+            this.refs.Tooltip.setState({
+                opacity: 0
+            })
+
+            // d3.select("#tooltip")
+            //     .attr('style',
+            //         'opacity:0;border: 1px solid ' + col +
+            //         ';border-top: 15px solid ' + col +
+            //         ';top:' + (d3.event.clientY + 250) +
+            //         'px;left:' + xPos + "px")
         })
         .on('mousemove', function (data, index, nodes) {
-            let col = color(data, index);
-            if (col === "#394B59" )
-                col = "#5C7080" 
+            
 
             let xPos = d3.event.clientX + 10;
             if (xPos > 1000) xPos -= 220
 
-            d3.select("#tooltip")
-                .attr('style',
-                    'opacity:.95;border: 1px solid ' + col +
-                    ';border-top: 15px solid ' + col +
-                    ';top:' + (d3.event.clientY + 250) +
-                    'px;left:' + xPos + "px")
+            // d3.select("#tooltip")
+            //     .attr('style',
+            //         'opacity:.95;border: 1px solid ' + col +
+            //         ';border-top: 15px solid ' + col +
+            //         ';top:' + (d3.event.clientY + 250) +
+            //         'px;left:' + xPos + "px")
+            this.refs.Tooltip.setState({
+                left: xPos,
+                top: d3.event.clientY + 250,
+            })
         })
 
     // the red dotted line

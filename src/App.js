@@ -6,6 +6,7 @@ import TopicBarChart from './js/TopicBarChart'
 import ScatterPlot from './js/ScatterPlot'
 import DensityPlot from './js/DensityPlot'
 import TopicSelector from './js/TopicSelector'
+import Tooltip from './js/Tooltip'
 import { Button, Dialog } from '@blueprintjs/core'
 import SketchPicker from 'react-color'
 // import Filter from './js/Filter'
@@ -34,8 +35,7 @@ export default class Main extends React.Component {
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
             displayColorPicker: false,  // color picker
-            color_to_change: -1,
-            bar_ordering: 'prob',            
+            color_to_change: -1,           
         }
     }
 
@@ -177,9 +177,7 @@ export default class Main extends React.Component {
                     {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
                 </div>
 
-                <div id="tooltip">
-                    <div id="color_indicator" />
-                </div>
+                <Tooltip itemRef="Tooltip"/>
             </div>
         );
     }
