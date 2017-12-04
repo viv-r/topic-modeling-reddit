@@ -1,8 +1,9 @@
 import React from 'react';
 import JokeList from './JokeList';
 import '../css/lists.css';
+import Drawer from 'material-ui/Drawer';
 
-export default class TopicLists extends React.PureComponent {
+export default class Lists extends React.PureComponent {
     constructor(props) {
         super(props);
         console.log('creating joke map', this.props.jokes.length, 'jokes')
@@ -13,10 +14,9 @@ export default class TopicLists extends React.PureComponent {
             const jk = this.props.jokes[i];
             this.idMap[jk.id] = jk
         }
-        // this.idMap = this.props.jokes.reduce((map, jk) => ({
-        //     ...map,
-        //     [jk.id]: jk
-        // }), {});
+        this.state = {
+            sidebarOpen: true
+        }
         console.log('done creating joke map')
         this.checkCache(props);
     }
@@ -55,7 +55,6 @@ export default class TopicLists extends React.PureComponent {
         if (!this.topicJokes[nextProps.topicB]) this.collectJokesForTopic(nextProps.topicB);
     }
 
-
     render() {
         const topicA = {
             border: '2px solid ' + this.props.topicA_color
@@ -63,8 +62,39 @@ export default class TopicLists extends React.PureComponent {
         const topicB = {
             border: '2px solid ' + this.props.topicB_color
         }
+        let sidebar = null;
+        if (this.props.bar_selection.open) {
+            console.log(this.props.bar_selection)
+            const selection = this.props.bar_selection;
+            const color = this.props[selection.topic + '_color'];
+            const topic = this.props[selection.topic];
+            const ids = this.fix(this.props.topics[topic].words[selection.index].joke_ids);
+            const data = ids.map(id => this.idMap[id])
+            sidebar = (
+                <div className='sidebar_content'>
+                    <div className='sidebar_title'>
+                        <h1 className='white'>"{selection.word.name}"...</h1>
+                        ... has an affinity of {selection.word.p_topic} towards Topic-{topic}, and occurs {selection.word.count} times.
+                        <br />
+                        <br />
+                        Here are some jokes containing "{selection.word.name}":
+                    </div>
+                    <div className='sidebar_body'>
+                        <JokeList
+                            color={this.props.topicA_color}
+                            data={data}
+                        />
+                    </div>
+                </div>
+            )
+        }
         return (
             <div>
+                <Drawer open={this.props.bar_selection.open}
+                    anchor='right'
+                    onRequestClose={this.props.clearSelection}>
+                    {sidebar}
+                </Drawer>
                 <div className='lists_title'>
                     <span style={topicA}>Jokes in Topic {this.props.topicA}</span>
                     <span style={topicB}>Jokes in Topic {this.props.topicB}</span>

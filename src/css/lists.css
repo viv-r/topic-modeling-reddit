@@ -2,9 +2,21 @@
     width: 100%;
     display: flex;
 }
-.lists_body {
+.sidebar_content {
+    width: 450px;
 }
-
+.sidebar_title {
+    background-color: #394B59;
+    color: white;
+    padding: 25px;
+}
+.sidebar_content {
+    height: 100%;
+    overflow: scroll
+}
+.white {
+    color: white;
+}
 .lists_title span {
     align-items: center;
     display: flex;

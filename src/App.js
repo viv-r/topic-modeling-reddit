@@ -1,10 +1,9 @@
 import React from 'react'
-import JokeList from './js/JokeList'
 import BarChart from './js/BarChart'
 import TopicBarChart from './js/TopicBarChart'
 import ScatterPlot from './js/ScatterPlot'
 import DensityPlot from './js/DensityPlot'
-import TopicLists from './js/TopicLists'
+import Lists from './js/Lists'
 import TopicSelector from './js/TopicSelector'
 import { Button, Dialog } from '@blueprintjs/core'
 import SketchPicker from 'react-color'
@@ -38,8 +37,23 @@ export default class Main extends React.Component {
             displayColorPicker: false,  // color picker
             color_to_change: -1,
             bar_ordering: 'prob',
+            bar_selection: {
+                open: false,
+                word: null,
+                topic: '', // 'topicA' or 'topicB'
+                index: -1 // which word in this topic
+            }
         }
     }
+
+    clearSelection = () => this.setState({
+        bar_selection: {
+            open: false,
+            topic: '', // 'topicA' or 'topicB'
+            index: -1, // which word in this topic
+            word: null // which word in this topic
+        }
+    });
 
     setTopicA = (topicA) => {
         this.setState({
@@ -85,6 +99,28 @@ export default class Main extends React.Component {
         }
     }
 
+    setTopicAWord = (w, i) => {
+        this.setState({
+            bar_selection: {
+                open: true,
+                topic: 'topicA',
+                index: i,
+                word: w
+            }
+        })
+    }
+
+    setTopicBWord = (w, i) => {
+        this.setState({
+            bar_selection: {
+                open: true,
+                topic: 'topicB',
+                index: i,
+                word: w
+            }
+        })
+    }
+
     render() {
         return (
             <div>
@@ -103,7 +139,9 @@ export default class Main extends React.Component {
                         onClick={this.toggleColorPicker.bind(this, 1)}
                         style={{ background: this.state.topicA_color }} />
 
-                    <img id="logo" src={require("./css/reddit_logo.png")} alt="reddit logo" />
+                    <a href="https://www.reddit.com/r/jokes/">
+                        <img id="logo" src={require("./css/reddit_logo.png")} alt="reddit logo" />
+                    </a>
 
                     <Button text="?"
                         onClick={this.toggleHelpOverlay}
@@ -146,7 +184,7 @@ export default class Main extends React.Component {
                 </Dialog>
 
                 {/* color picker */}
-                <Dialog
+                < Dialog
                     isOpen={this.state.displayColorPicker}
                     onClose={this.toggleColorPicker}
                     className={"color_container"} >
@@ -166,10 +204,18 @@ export default class Main extends React.Component {
                     </section>
 
                     <div className="bar_charts">
-                        <BarChart {...this.state} topic={2} />
+                        <BarChart
+                            {...this.state}
+                            onSelect={this.setTopicBWord}
+                            topic={2}
+                        />
                     </div>
                     <div className="bar_charts">
-                        <BarChart {...this.state} topic={1} />
+                        <BarChart
+                            {...this.state}
+                            onSelect={this.setTopicAWord}
+                            topic={1}
+                        />
                     </div>
 
                     <div className="topic_chart">
@@ -178,7 +224,7 @@ export default class Main extends React.Component {
                 </div>
 
                 <div className="joke_content">
-                    <TopicLists {...this.state} />
+                    <Lists {...this.state} clearSelection={this.clearSelection} />
                 </div>
 
                 <div id="tooltip">
