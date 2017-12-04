@@ -106,7 +106,11 @@ const BarChart = Svg((node, props) => {
 
         })
         .on('mouseout', function (data, index, nodes) {
-            var col = colorScale(w_count(data))
+            let col = colorScale(w_count(data))
+
+            let xPos = d3.event.clientX + 10;
+            if (xPos > 1100) xPos -= 220
+
             d3.select(nodes[index])
                 .transition()
                 .duration(200)
@@ -114,18 +118,22 @@ const BarChart = Svg((node, props) => {
 
             d3.select("#tooltip")
                 .attr('style',
-                'opacity:0;border: 2px solid ' + col +
+                'opacity:0;border: 1px solid ' + col +
                 ';border-top: 15px solid ' + col +
                 ';top:' + (d3.event.clientY - 10) +
-                'px;left:' + (d3.event.clientX + 10) + "px")
+                'px;left:' + xPos + "px")
         })
         .on('mousemove', function (data, index, nodes) {
-            var col = colorScale(w_count(data))
+            let col = colorScale(w_count(data))
+
+            let xPos = d3.event.clientX + 10;
+            if (xPos > 1100) xPos -= 220
+
             d3.select("#tooltip")
                 .attr('style',
-                'opacity:.95;border: 2px solid ' + col +
+                'opacity:.95;border: 1px solid ' + col +
                 ';border-top: 15px solid ' + col +
                 ';top:' + (d3.event.clientY - 10) +
-                'px;left:' + (d3.event.clientX + 10) + "px")
+                'px;left:' + xPos + "px")
         })
 });

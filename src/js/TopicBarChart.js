@@ -22,12 +22,24 @@ export default class TopicBarChart extends React.Component {
 
 const Graph = Svg((node, props) => {
     // chart dimensions
-    var width = 600,
-        height = 250,
-        barWidth = 10,
+    var margin = { top: 40, right: 10, bottom: 20, left: 0 },
+        width = (1000 - margin.left - margin.right) / 2 + 160,
+        height = 300 - margin.top - margin.bottom,
+        barWidth = 10.8,
         barSpacing = 1;
 
     const dataMax = d3.max(props.data);
+    function prob(d) { return d; }
+
+    // position scales
+    const lengthScale = d3.scaleLinear()
+        .domain([0, dataMax])
+        .range([0, height])
+
+    // coloring
+    const colorScale = d3.scaleLinear()
+        .domain([0, 1])
+        .range([props.colorA, props.colorB])
 
     const color = (d, i) => {
         if (i === props.topicA) return colorScale(0)
@@ -35,21 +47,30 @@ const Graph = Svg((node, props) => {
         return "#394B59"
     }
 
-    function prob(d) { return d; }
+    // axes    
+    var x = d3.scaleLinear()
+        .domain([0, 50])
+        .range([0, width - 72]);
 
-    const lengthScale = d3.scaleLinear()
+    var y = d3.scaleLinear()
         .domain([0, dataMax])
-        .range([0, height])
+        .range([height, 0]);
 
+    var xAxis = d3.axisBottom(x)
+        .tickSize(10)
+        .tickPadding(6);
+
+    var yAxis = d3.axisLeft(y)
+        .tickSize(10)
+        .tickPadding(6);
+
+    // build the vis
     var svg = d3.select(node);
     svg.selectAll('*').remove();
 
-    svg.attr('height', height)
-    svg.attr('width', width)
-
-    const colorScale = d3.scaleLinear()
-        .domain([0, 1])
-        .range([props.colorA, props.colorB])
+    svg.attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom + 40)
+        .style("padding", "40px 0px 40px 50px")
 
     // add bars
     svg.selectAll('rect')
@@ -64,31 +85,123 @@ const Graph = Svg((node, props) => {
         .on('mouseover', (data, index, nodes) => {
             d3.select(nodes[index])
                 .style('fill', "#5C7080")
-            d3.select("#tooltip")
-                .html("<h4>Topic " + index + "</h4>" +
-                "<p><em>average score:</em> " + data +
-                "</p>")
+            // d3.select("#tooltip")
+            //     .html("<h4>Topic " + (index+1) + "</h4>" +
+            //         "<p><em>average score:</em> " + data +
+            //         "</p>")
+            let col = color(data, index);
+            if (col === "#394B59")
+                col = "#5C7080"
+
+            this.refs.Tooltip.setState({
+                color: col,
+                opacity: .95,
+                title: "Topic" + (index + 1),
+                indicators: [
+                    {
+                        "name": "average score",
+                        "value": data
+                    }
+                ]
+            })
         })
         .on('mouseout', function (data, index, nodes) {
+            // let col = color(data, index);
+            // if (col === "#394B59" )
+            //     col = "#5C7080" 
+
+            let xPos = d3.event.clientX + 10;
+            if (xPos > 1000) xPos -= 220
 
             d3.select(nodes[index])
                 .transition()
                 .duration(200)
                 .style('fill', color(data, index));
 
-            d3.select("#tooltip")
-                .attr('style',
-                'opacity:0;border: 2px solid ' + "#5C7080" +
-                ';border-top: 15px solid ' + "#5C7080" +
-                ';top:' + (d3.event.clientY + 250) +
-                'px;left:' + (d3.event.clientX + 10) + "px")
+            this.refs.Tooltip.setState({
+                opacity: 0
+            })
+
+            // d3.select("#tooltip")
+            //     .attr('style',
+            //         'opacity:0;border: 1px solid ' + col +
+            //         ';border-top: 15px solid ' + col +
+            //         ';top:' + (d3.event.clientY + 250) +
+            //         'px;left:' + xPos + "px")
         })
         .on('mousemove', function (data, index, nodes) {
-            d3.select("#tooltip")
-                .attr('style',
-                'opacity:.95;border: 2px solid ' + "#5C7080" +
-                ';border-top: 15px solid ' + "#5C7080" +
-                ';top:' + (d3.event.clientY + 250) +
-                'px;left:' + (d3.event.clientX + 10) + "px")
+
+
+            let xPos = d3.event.clientX + 10;
+            if (xPos > 1000) xPos -= 220
+
+            // d3.select("#tooltip")
+            //     .attr('style',
+            //         'opacity:.95;border: 1px solid ' + col +
+            //         ';border-top: 15px solid ' + col +
+            //         ';top:' + (d3.event.clientY + 250) +
+            //         'px;left:' + xPos + "px")
+            this.refs.Tooltip.setState({
+                left: xPos,
+                top: d3.event.clientY + 250,
+            })
         })
+
+    // the red dotted line
+    const total_mean = d3.mean(props.data)
+    svg.append("line")
+        .attr("fill", "none")
+        .attr("stroke", "red")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 1.5)
+        .attr("stroke-dasharray", "5 5")
+        .attr("x1", 0)
+        .attr("y1", height - lengthScale(total_mean))
+        .attr("x2", width - 64)
+        .attr("y2", height - lengthScale(total_mean))
+    // add the label
+    svg.append("text")
+        .attr("text-anchor", 'left')
+        .attr("class", "topic_label")
+        .attr("x", 5)
+        .attr("y", (height - lengthScale(total_mean) - 5))
+        .text(total_mean.toFixed(3))
+
+    // add the x-axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // text label for the x axis
+    svg.append("text")
+        .attr("transform",
+        "translate(" + (width / 2) + " ," +
+        (height + margin.top) + ")")
+        .style("text-anchor", "middle")
+        .text("Topic Number");
+
+    // add the y-axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(0," + -0.5 + ")")
+        .call(yAxis);
+
+    // text label for the y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "-2.5em")
+        .style("text-anchor", "middle")
+        .text("Average Joke Score");
+
+    // add a graph title
+    svg.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .text("Average scores per topic");
 });
