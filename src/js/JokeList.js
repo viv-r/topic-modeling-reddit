@@ -9,6 +9,7 @@ export default class JokeList extends React.PureComponent {
     }
 
     render() {
+        return "Meh"
         const filter = (this.props.filter || '').toLowerCase().trim()
         const data = this.props.data.filter(d => (
             (d.title || '').toLowerCase().includes(filter) ||

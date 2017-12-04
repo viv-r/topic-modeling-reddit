@@ -59,7 +59,6 @@ const Graph = Svg((node, props) => {
         .text(function (d, i) { return "Topic " + i; })
 
     const color = (d, i) => {
-        console.log(props, i)
         if (i === props.topicA) return colorScale(0)
         if (i === props.topicB) return colorScale(1)
         return colorScale(0.5);

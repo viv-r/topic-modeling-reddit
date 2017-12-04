@@ -1,6 +1,6 @@
 import React from 'react'
 // import data from './data/reddit_jokes.json'
-// import JokeList from './js/JokeList'
+import JokeList from './js/JokeList'
 import BarChart from './js/BarChart'
 import TopicBarChart from './js/TopicBarChart'
 import ScatterPlot from './js/ScatterPlot'
@@ -35,7 +35,7 @@ export default class Main extends React.Component {
             helpIsOpen: false,          // help dialog
             displayColorPicker: false,  // color picker
             color_to_change: -1,
-            bar_ordering: 'prob',            
+            bar_ordering: 'prob',
         }
     }
 
@@ -169,8 +169,8 @@ export default class Main extends React.Component {
                     <BarChart {...this.state} topic={2} />
                 </div>
 
-                <div id="joke_content">                   
-                    {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
+                <div id="joke_content">
+                    <JokeList {...this.state} />
                 </div>
 
                 <div id="tooltip">
