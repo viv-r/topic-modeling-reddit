@@ -5,10 +5,12 @@ import '../css/bar_charts.css';
 const d3 = window.d3;
 
 export default class Bar extends React.Component {
-    getBarData() {
+    getBarData() { 
+        const start = this.props.word_page * 18;
+
         let set = (this.props.topic === 1)
-            ? this.props.topics[this.props.topicA].words.slice(0, 20)
-            : this.props.topics[this.props.topicB].words.slice(0, 20)
+            ? this.props.topics[this.props.topicA].words.slice(start, start+18)
+            : this.props.topics[this.props.topicB].words.slice(start, start+18)
         set = set.map(v => {
             return {
                 p_topic: v.prob,
@@ -17,6 +19,16 @@ export default class Bar extends React.Component {
             }
         });
         return set;
+    }
+
+    getMaxProb() {
+        return (this.props.topic === 1)
+            ? d3.max(this.props.topics[this.props.topicA].words.map(x => {
+                return x.prob
+            }))
+            : d3.max(this.props.topics[this.props.topicB].words.map(x => {
+                return x.prob
+            }))
     }
 
     getColor() {
@@ -31,6 +43,7 @@ export default class Bar extends React.Component {
             <div className="bar-container">
                 <BarChart
                     data={this.getBarData()}
+                    maxProb={this.getMaxProb()}
                     color={this.getColor()}
                     onWordSelect={this.props.onSelect}
                 />
@@ -40,16 +53,13 @@ export default class Bar extends React.Component {
 }
 
 const BarChart = Svg((node, props) => {
-
+    console.log(props)
     // chart dimensions
     var width = 300,
-        height = 420,
+        height = 375,
         barWidth = 20,
         barSpacing = 1;
 
-    const probMax = d3.max(props.data.map(v => {
-        return v.p_topic
-    }));
     const countMax = d3.max(props.data.map(v => {
         return v.count
     }));
@@ -58,8 +68,8 @@ const BarChart = Svg((node, props) => {
     function w_count(d) { return d.count; }
 
     const lengthScale = d3.scaleLinear()
-        .domain([0, probMax])
-        .range([0, width - 80])
+        .domain([0, props.maxProb])
+        .range([5, width - 80])
 
     const colorScale = d3.scaleLinear()
         .domain([0, countMax])
@@ -99,7 +109,7 @@ const BarChart = Svg((node, props) => {
             d3.select("#tooltip")
                 .html(
                 "<h4>" + data.name + "</h4>" +
-                "<p><em>probability:</em> " + data.p_topic +
+                "<p><em>probability:</em> " + data.p_topic.toFixed(5) +
                 "</br><em>count:</em> " + data.count +
                 "</p>"
                 )

@@ -26,7 +26,7 @@ export default class Main extends React.Component {
         this.state = {
             jokes,
             topics,
-            topicScores: topicScores.map(a => a[0]), // is the tuple part being used?
+            topicScores,
             topicA: 1,
             topicB: 2,
             topicA_color: '#00FF24',    // color of 1st topic
@@ -41,7 +41,8 @@ export default class Main extends React.Component {
                 topic: '',
                 index: -1,
                 word: null,
-            }
+            },
+            word_page : 0,
         }
     }
 
@@ -122,6 +123,12 @@ export default class Main extends React.Component {
         });
     }
 
+    setWordPage = (s) => {
+        this.setState({
+            word_page : s,          
+        })
+    }
+
     render() {
         return (
             <div>
@@ -177,7 +184,7 @@ export default class Main extends React.Component {
                         <p><strong>Cartesian Distortion</strong> is a means to scale the axese on demand allowing you to add separation inbetween the closely clustered words. It can be applied to the scatter plot to help compare word positions. You can enable or disable it by clicking the 'D' in the far left of the nav bar.</p>
 
                         <h6>Bar Plots</h6>
-                        <p>Most text modeling algorithms tend to destroy the semantic context associated with their results. Unfortunately, LDA modeling is one of them. As such, we're only able to discover a predetermined number of topics but not give a topic name to bring context to the associated words. Our model performed the best when tuned to 50 topics. The bar plots are used to give you back some more of that semantic context. It's quite fun to flip through the topics and see what they're about.</p>
+                        <p>Most text modeling algorithms tend to destroy the semantic context associated with their results. Unfortunately, LDA modeling is one of them. As such, we're only able to discover a predetermined number of topics but not give a topic name to bring context to the associated words. Our model performed the best when tuned to 50 topics. The bar plots are used to give you back some more of that semantic context. It's quite fun to flip through the topics and see what they're about. A longer bar indicates higher word to topic affinity and a brighter hue indicates higher word count.</p>
 
                         <h6>Area (Density) Plot</h6>
                         <p>The area chart shows how likely a joke written about a particular topic is going to recieve more views. If the area is all crammed up towards the left don't write a joke in that topic because it's unlikely to score well!</p>
@@ -209,6 +216,7 @@ export default class Main extends React.Component {
                             {...this.state}
                             onSelect={this.setTopicBWord}
                             topic={2}
+                            page={this.word_page}
                         />
                     </div>
                     <div className="bar_charts">
@@ -216,15 +224,39 @@ export default class Main extends React.Component {
                             {...this.state}
                             onSelect={this.setTopicAWord}
                             topic={1}
+                            page={this.word_page}
                         />
+                    </div>
+                    <div id="bar_char_nav">  
+                        <Button 
+                            className={"page_button flip"}
+                            onClick={this.setWordPage.bind(this, 0)}>
+                            <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
+                        </Button>             
+                        <Button                             
+                            className={"page_button flip"}
+                            disabled={this.state.word_page === 0 ? true : false}
+                            onClick={this.setWordPage.bind(this, this.state.word_page - 1)}>
+                            <img className="paging_button" src={require("./css/chev.png")} alt="page right" />
+                        </Button>
+                        <Button
+                            className={"page_button"}
+                            disabled={
+                                (Math.floor(this.state.topics[this.state.topicA].words.length/18) <= this.state.word_page &&
+                                Math.floor(this.state.topics[this.state.topicB].words.length/18) <= this.state.word_page ) 
+                                    ? true : false }
+                            onClick={this.setWordPage.bind(this, this.state.word_page+1)}>
+                            <img className="paging_button" src={require("./css/chev.png")} alt="page right" />
+                        </Button>
+                        <Button                             
+                            className={"page_button"}
+                            onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length/18))}>
+                            <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
+                        </Button>
                     </div>
 
                     <div className="topic_chart">
-                        <TopicBarChart {...this.state}
-                            showTooltip={this.showTooltip}
-                            moveTooltip={this.moveTooltip}
-                            hideTooltip={this.hideTooltip}
-                        />
+                        <TopicBarChart {...this.state} />
                     </div>
 
                     <div className="joke_content">
