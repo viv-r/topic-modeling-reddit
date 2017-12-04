@@ -29,7 +29,7 @@ export default class Main extends React.Component {
             topicScores: topicScores.map(a => a[0]), // is the tuple part being used?
             topicA: 1,
             topicB: 2,
-            topicA_color: '#FF005A',    // color of 1st topic
+            topicA_color: '#00FF24',    // color of 1st topic
             topicB_color: '#00A9FF',    // color of 2nd topic
             words_to_show: 100,         // number of words to show in the bar chart
             enableDistortion: false,    // toggle cartesian distortion
@@ -231,6 +231,8 @@ export default class Main extends React.Component {
                         <Lists {...this.state} clearSelection={this.clearSelection} />
                     </div>
                 </div>
+
+                <div id="tooltip"/>
             </div>
         );
     }
