@@ -13,6 +13,11 @@
     margin: 30px 0px 0px 0px;
 }
 
+rect:hover {
+ cursor: pointer;
+ opacity: 0.8;
+}
+
 .topic_label {    
     font-weight: bold;
     fill: rgb(168, 3, 3);

@@ -97,3 +97,8 @@ nav {
     float: right;
     margin-top: -20px;
 }
+.joke_content {
+    height: 250px;
+    clear:both;
+    padding: 10px;
+}

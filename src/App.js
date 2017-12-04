@@ -1,10 +1,9 @@
 import React from 'react'
-// import data from './data/reddit_jokes.json'
-// import JokeList from './js/JokeList'
 import BarChart from './js/BarChart'
 import TopicBarChart from './js/TopicBarChart'
 import ScatterPlot from './js/ScatterPlot'
 import DensityPlot from './js/DensityPlot'
+import Lists from './js/Lists'
 import TopicSelector from './js/TopicSelector'
 import Tooltip from './js/Tooltip'
 import { Button, Dialog } from '@blueprintjs/core'
@@ -22,9 +21,11 @@ export default class Main extends React.Component {
         }
 
         const topicScores = require('./data/topic_scores.json');
+        const jokes = require('./data/jokefile.json');
 
         // initial app state
         this.state = {
+            jokes,
             topics,
             topicScores,
             topicA: 1,
@@ -113,6 +114,28 @@ export default class Main extends React.Component {
         }
     }
 
+    setTopicAWord = (w, i) => {
+        this.setState({
+            bar_selection: {
+                open: true,
+                topic: 'topicA',
+                index: i,
+                word: w
+            }
+        })
+    }
+
+    setTopicBWord = (w, i) => {
+        this.setState({
+            bar_selection: {
+                open: true,
+                topic: 'topicB',
+                index: i,
+                word: w
+            }
+        })
+    }
+
     render() {
         return (
             <div>
@@ -131,7 +154,9 @@ export default class Main extends React.Component {
                         onClick={this.toggleColorPicker.bind(this, 1)}
                         style={{ background: this.state.topicA_color }} />
 
-                    <img id="logo" src={require("./css/reddit_logo.png")} alt="reddit logo" />
+                    <a href="https://www.reddit.com/r/jokes/">
+                        <img id="logo" src={require("./css/reddit_logo.png")} alt="reddit logo" />
+                    </a>
 
                     <Button text="?"
                         onClick={this.toggleHelpOverlay}
@@ -174,7 +199,7 @@ export default class Main extends React.Component {
                 </Dialog>
 
                 {/* color picker */}
-                <Dialog
+                < Dialog
                     isOpen={this.state.displayColorPicker}
                     onClose={this.toggleColorPicker}
                     className={"color_container"} >
@@ -187,10 +212,26 @@ export default class Main extends React.Component {
                         className={"colorSelector"} />
                 </Dialog>
 
-                <section id="scatter_plot">
-                    <ScatterPlot {...this.state} />
-                    <DensityPlot {...this.state} />
-                </section>
+                <div>
+                    <section id="scatter_plot">
+                        <ScatterPlot {...this.state} />
+                        <DensityPlot {...this.state} />
+                    </section>
+
+                    <div className="bar_charts">
+                        <BarChart
+                            {...this.state}
+                            onSelect={this.setTopicBWord}
+                            topic={2}
+                        />
+                    </div>
+                    <div className="bar_charts">
+                        <BarChart
+                            {...this.state}
+                            onSelect={this.setTopicAWord}
+                            topic={1}
+                        />
+                    </div>
 
                 <div className="bar_charts">
                     <BarChart {...this.state} topic={2} />               
@@ -207,12 +248,13 @@ export default class Main extends React.Component {
                     />
                 </div>
 
-                <div id="joke_content">                   
-                    {/*<JokeList filter={this.state.filter} data={this.state.data} /> */}
+                <div className="joke_content">
+                    <Lists {...this.state} clearSelection={this.clearSelection} />
                 </div>
 
                 <Tooltip {...this.state} />
             </div>
+        </div>
         );
     }
 }

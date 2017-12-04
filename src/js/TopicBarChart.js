@@ -26,7 +26,7 @@ export default class TopicBarChart extends React.Component {
 const Graph = Svg((node, props) => {
     // chart dimensions
     var margin = { top: 40, right: 10, bottom: 20, left: 0 },
-        width = (1000 - margin.left - margin.right)/2 + 160,
+        width = (1000 - margin.left - margin.right) / 2 + 160,
         height = 300 - margin.top - margin.bottom,
         barWidth = 10.8,
         barSpacing = 1;
@@ -53,7 +53,7 @@ const Graph = Svg((node, props) => {
     // axes    
     var x = d3.scaleLinear()
         .domain([0, 50])
-        .range([0, width-72]);
+        .range([0, width - 72]);
 
     var y = d3.scaleLinear()
         .domain([0, dataMax])
@@ -66,11 +66,11 @@ const Graph = Svg((node, props) => {
     var yAxis = d3.axisLeft(y)
         .tickSize(10)
         .tickPadding(6);
-    
+
     // build the vis
     var svg = d3.select(node);
     svg.selectAll('*').remove();
-    
+
     svg.attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom + 40)
         .style("padding", "40px 0px 40px 50px")
@@ -107,7 +107,7 @@ const Graph = Svg((node, props) => {
            
             
         })
-        .on('mouseout', function (data, index, nodes) {   
+        .on('mouseout', function (data, index, nodes) {
             // let col = color(data, index);
             // if (col === "#394B59" )
             //     col = "#5C7080" 
@@ -164,24 +164,24 @@ const Graph = Svg((node, props) => {
         .attr("x2", width - 64)
         .attr("y2", height - lengthScale(total_mean))
     // add the label
-    svg.append("text")       
+    svg.append("text")
         .attr("text-anchor", 'left')
         .attr("class", "topic_label")
-        .attr("x",5)
+        .attr("x", 5)
         .attr("y", (height - lengthScale(total_mean) - 5))
         .text(total_mean.toFixed(3))
 
-     // add the x-axis
-     svg.append("g")
-     .attr("class", "x axis")
-     .attr("transform", "translate(0," + height + ")")
-     .call(xAxis);
+    // add the x-axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
 
     // text label for the x axis
-    svg.append("text")             
+    svg.append("text")
         .attr("transform",
-        "translate(" + (width/2) + " ," + 
-                    (height + margin.top) + ")")
+        "translate(" + (width / 2) + " ," +
+        (height + margin.top) + ")")
         .style("text-anchor", "middle")
         .text("Topic Number");
 
@@ -195,16 +195,16 @@ const Graph = Svg((node, props) => {
     svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left)
-        .attr("x",0 - (height / 2))
+        .attr("x", 0 - (height / 2))
         .attr("dy", "-2.5em")
         .style("text-anchor", "middle")
-        .text("Average Joke Score");      
+        .text("Average Joke Score");
 
     // add a graph title
     svg.append("text")
-        .attr("x", (width / 2))             
+        .attr("x", (width / 2))
         .attr("y", 0 - (margin.top / 2))
-        .attr("text-anchor", "middle")  
+        .attr("text-anchor", "middle")
         .style("font-size", "16px")
         .text("Average scores per topic");
 });

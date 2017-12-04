@@ -6,7 +6,16 @@ import '../css/scatter.css';
 
 const d3 = window.d3;
 
-export default class Scatter extends React.Component { 
+export default class Scatter extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return (
+            this.props.enableDistortion !== nextProps.enableDistortion ||
+            this.props.topicA !== nextProps.topicA ||
+            this.props.topicA_color !== nextProps.topicA_color ||
+            this.props.topicB !== nextProps.topicB ||
+            this.props.topicB_color !== nextProps.topicB_color
+        )
+    }
 
     getScatterData() {
         let maxA = -1;
@@ -29,13 +38,21 @@ export default class Scatter extends React.Component {
         });
         const words = [...tA, ...tB];
 
-        let wordMap = words.reduce((map, val) => ({
-            ...map,
-            [val.name]: {
-                ...(map[val.name] || {}),
+        let wordMap = {}
+        for (let i = 0; i < words.length; i++) {
+            const val = words[i];
+            wordMap[val.name] = {
+                ...(wordMap[val.name] || {}),
                 ...val
             }
-        }), {});
+        }
+        // let wordMap = words.reduce((map, val) => ({
+        //     ...map,
+        //     [val.name]: {
+        //         ...(map[val.name] || {}),
+        //         ...val
+        //     }
+        // }), {});
 
         const scatter = Object.keys(wordMap).map(k => wordMap[k]).map(v => {
             const pa = v.p_topicA || 0;
@@ -43,8 +60,8 @@ export default class Scatter extends React.Component {
 
             return {
                 ...v,
-                p_topicA: pa / maxA,
-                p_topicB: pb / maxB,
+                p_topicA: pa,
+                p_topicB: pb,
             };
         });
         return scatter;
@@ -75,7 +92,7 @@ export default class Scatter extends React.Component {
 const Graph = Svg((node, props) => {
     const x = d => d.p_topicA * 10;
     const y = d => d.p_topicB * 10;
-    const radius = d => Math.log(d.count);
+    const radius = d => Math.log(d.count) + 5;
     const color = d => d.p_topicA / (d.p_topicB + d.p_topicA);
 
     const svg = d3.select(node);
@@ -86,19 +103,19 @@ const Graph = Svg((node, props) => {
         line = [...line, { x: i / 40, y: i / 40 }]
     }
     const zoom = d3.zoom()
-        .scaleExtent([1, 100])
-        // .translateExtent([[90, 90], [size - 40, size - 40]])
+        .scaleExtent([1, 12500])
+        // .translateExtent([[0, 0], [size - 40, size - 40]])
         .on("zoom", zoomed);
 
     const distortion = (scale) => props.enableDistortion
         ? d3.fisheye.scale(scale)
         : scale();
 
-    const xScale = distortion(d3.scaleLinear)
+    let xScale = distortion(d3.scaleLinear)
         .domain([0, 10])
         .range([0, size]);
 
-    const yScale = distortion(d3.scaleLinear)
+    let yScale = distortion(d3.scaleLinear)
         .domain([0, 10])
         .range([size, 0]);
 
@@ -117,8 +134,15 @@ const Graph = Svg((node, props) => {
         .style("padding", 15)
         .append("g")
 
-    const xAxis = d3.axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-size);
-    const yAxis = d3.axisLeft(yScale).tickFormat(d3.format(",d")).tickSize(-size);
+    let xAxis = d3.axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-size);
+    let yAxis = d3.axisLeft(yScale).tickFormat(d3.format(",d")).tickSize(-size);
+
+    const view = svg.append("rect")
+        .attr("fill", "#fefefe")
+        .attr("width", size)
+        .attr("height", size)
+        // .attr("clip-path", "url(#mask)")
+        .call(zoom)
 
     var mask = svg.append("defs")
         .append("clipPath")
@@ -126,17 +150,11 @@ const Graph = Svg((node, props) => {
         .style("pointer-events", "none")
         .append("rect")
         .attr({
-            x: 0,
-            y: 0,
-            width: size,
-            height: size,
+            x: 100,
+            y: 100,
+            width: size - 100,
+            height: size - 100,
         })
-    const view = svg.append("rect")
-        .attr("fill", "#fefefe")
-        .attr("width", size)
-        .attr("height", size)
-        // .attr("clip-path", "url(#mask)")
-        .call(zoom)
 
     const gX = svg.append("g")
         .attr("class", "x axis")
@@ -196,26 +214,26 @@ const Graph = Svg((node, props) => {
         .on("mouseover", function (d) {
             d3.select("#tooltip")
                 .html(
-                    "<h4>" + d.name + "</h4>" +
-                    "<p><em>probability of topic A:</em>" + d.p_topicA.toFixed(4) +
-                    "</br><em>probability of topic B:</em>" + d.p_topicB.toFixed(4) +
-                    "</br><em>count:</em> " + d.count +
-                    "</p>"
+                "<h4>" + d.name + "</h4>" +
+                "<p><em>probability of topic A:</em>" + d.p_topicA.toFixed(4) +
+                "</br><em>probability of topic B:</em>" + d.p_topicB.toFixed(4) +
+                "</br><em>count:</em> " + d.count +
+                "</p>"
                 )
                 .attr('style',
-                    'opacity:.95;border: 1px solid ' + colorScale(color(d)) +
-                    ';border-top: 15px solid ' + colorScale(color(d)) +
-                    ';top:' + (d3.event.clientY - 10) +
-                    'px;left:' + (d3.event.clientX + 10) + "px;" +
-                    'width: 250px;height:120px')
+                'opacity:.95;border: 1px solid ' + colorScale(color(d)) +
+                ';border-top: 15px solid ' + colorScale(color(d)) +
+                ';top:' + (d3.event.clientY - 10) +
+                'px;left:' + (d3.event.clientX + 10) + "px;" +
+                'width: 250px;height:120px')
         })
         .on("mouseout", function (d) {
             d3.select("#tooltip")
                 .attr('style',
-                    'opacity:0;border: 1px solid ' + colorScale(color(d)) +
-                    ';border-top: 15px solid ' + colorScale(color(d)) +
-                    ';top:' + (d3.event.clientY - 10) +
-                    'px;left:' + (d3.event.clientX + 10) + "px")
+                'opacity:0;border: 1px solid ' + colorScale(color(d)) +
+                ';border-top: 15px solid ' + colorScale(color(d)) +
+                ';top:' + (d3.event.clientY - 10) +
+                'px;left:' + (d3.event.clientX + 10) + "px")
         })
         .attr("class", "dot")
         .style("fill", function (d) { return colorScale(color(d)); })
@@ -223,18 +241,26 @@ const Graph = Svg((node, props) => {
         .sort(function (a, b) { return radius(b) - radius(a); });
 
     // Positions the dots based on data.
-    function position(dot) {
-        dot.attr("cx", d => xScale(x(d)))
-            .attr("cy", d => yScale(y(d)))
-            .attr("r", d => radiusScale(radius(d)))
+    function position(dot, xs, ys) {
+        dot.attr("cx", d => (xs || xScale)(x(d)))
+            .attr("cy", d => (ys || yScale)(y(d)));
+
+        if (!xs) dot.attr("r", d => radiusScale(radius(d)))
     }
 
-
     function zoomed() {
-        dot.attr("transform", d3.event.transform);
-        lineP.attr("transform", d3.event.transform);
-        gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
-        gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
+        const xs = d3.event.transform.rescaleX(xScale)
+        const ys = d3.event.transform.rescaleY(yScale)
+
+        gX.call(xAxis.scale(xs));
+        gY.call(yAxis.scale(ys));
+
+        dot.call(position, xs, ys);
+        // const a = dot.attr("transform");
+        // console.log(a)
+        // const t = a.substring(0, a.lastIndexOf('(')) + "(" + 1 / d3.event.transform.k + ")"
+        // dot.attr("transform", t);
+
     }
 
     svg.on("mousemove", function () {
