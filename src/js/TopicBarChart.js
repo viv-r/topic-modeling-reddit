@@ -14,9 +14,9 @@ export default class TopicBarChart extends React.Component {
                     topicB={this.props.topicB}
                     colorA={this.props.topicA_color}
                     colorB={this.props.topicB_color}
-                    showTooltip={this.props.showTooltip}
-                    moveTooltip={this.props.moveTooltip}
-                    hideTooltip={this.props.hideTooltip}
+                    // showTooltip={this.props.showTooltip}
+                    // moveTooltip={this.props.moveTooltip}
+                    // hideTooltip={this.props.hideTooltip}
                 />
             </div>
         );
@@ -88,68 +88,48 @@ const Graph = Svg((node, props) => {
         .on('mouseover', (data, index, nodes) => {
             d3.select(nodes[index])
                 .style('fill', "#5C7080")
-            // d3.select("#tooltip")
-            //     .html("<h4>Topic " + (index+1) + "</h4>" +
-            //         "<p><em>average score:</em> " + data +
-            //         "</p>")
-            let col = color(data, index);
-            if (col === "#394B59" )
-                col = "#5C7080" 
-            
-            const indicators = [
-                {
-                    "name" : "average score",
-                    "value" : data
-                }
-            ]
-            props.showTooltip(col, ("Topic" + (index + 1)), indicators)
-                
-           
-            
-        })
-        .on('mouseout', function (data, index, nodes) {
-            // let col = color(data, index);
-            // if (col === "#394B59" )
-            //     col = "#5C7080" 
-
-            // let xPos = d3.event.clientX + 10;
-            // if (xPos > 1000) xPos -= 220
-
-            d3.select(nodes[index])
-                .transition()
-                .duration(200)
-                .style('fill', color(data, index));
-
-            props.hideTooltip();
-
-            // this.refs.Tooltip.setState({
-            //     opacity: 0
-            // })
-
-            // d3.select("#tooltip")
-            //     .attr('style',
-            //         'opacity:0;border: 1px solid ' + col +
-            //         ';border-top: 15px solid ' + col +
-            //         ';top:' + (d3.event.clientY + 250) +
-            //         'px;left:' + xPos + "px")
+            d3.select("#tooltip")
+                .html("<h4>Topic " + (index+1) + "</h4>" +
+                    "<p><em>average score:</em> " + data +
+                    "</p>")            
         })
         .on('mousemove', function (data, index, nodes) {
             let xPos = d3.event.clientX + 10;
             if (xPos > 1000) xPos -= 220
 
-            props.moveTooltip(xPos, d3.event.clientY + 250)
-            // d3.select("#tooltip")
-            //     .attr('style',
-            //         'opacity:.95;border: 1px solid ' + col +
-            //         ';border-top: 15px solid ' + col +
-            //         ';top:' + (d3.event.clientY + 250) +
-            //         'px;left:' + xPos + "px")
-            // this.refs.Tooltip.setState({
-            //     left: xPos,
-            //     top: d3.event.clientY + 250,
-            // })
+            let col = color(data, index);
+            if (col === "#394B59" )
+                col = "#5C7080" 
+            
+            d3.select("#tooltip")
+                .attr('style',
+                    'opacity:.95;border: 1px solid ' + col +
+                    ';border-top: 15px solid ' + col +
+                    ';top:' + (d3.event.clientY + 250) +
+                    'px;left:' + xPos + "px")
+            
         })
+        .on('mouseout', function (data, index, nodes) {
+            let col = color(data, index);
+            if (col === "#394B59" )
+                col = "#5C7080" 
 
+            let xPos = d3.event.clientX + 10;
+            if (xPos > 1000) xPos -= 220
+
+            d3.select(nodes[index])
+                .transition()
+                .duration(200)
+                .style('fill', color(data, index));         
+
+            d3.select("#tooltip")
+                .attr('style',
+                    'opacity:0;border: 1px solid ' + col +
+                    ';border-top: 15px solid ' + col +
+                    ';top:' + (d3.event.clientY + 250) +
+                    'px;left:' + xPos + "px")
+        })
+        
     // the red dotted line
     const total_mean = d3.mean(props.data)
     svg.append("line")
