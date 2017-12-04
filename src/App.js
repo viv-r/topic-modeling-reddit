@@ -5,7 +5,6 @@ import ScatterPlot from './js/ScatterPlot'
 import DensityPlot from './js/DensityPlot'
 import Lists from './js/Lists'
 import TopicSelector from './js/TopicSelector'
-import Tooltip from './js/Tooltip'
 import { Button, Dialog } from '@blueprintjs/core'
 import SketchPicker from 'react-color'
 // import Filter from './js/Filter'
@@ -37,12 +36,6 @@ export default class Main extends React.Component {
             helpIsOpen: false,          // help dialog
             displayColorPicker: false,  // color picker
             color_to_change: -1,
-            tt_color: "#5C7080",
-            tt_left: -1,
-            tt_top: -1,
-            tt_opacity: 0,
-            tt_title: "",
-            tt_indicators: [],
             bar_selection: {
                 open: false,
                 topic: '',
@@ -50,31 +43,7 @@ export default class Main extends React.Component {
                 word: null,
             }
         }
-        this.showTooltip = this.showTooltip.bind(this)
-        this.moveTooltip = this.moveTooltip.bind(this)
-        this.hideTooltip = this.hideTooltip.bind(this)
     }
-
-    showTooltip(color, title, indicators) {
-        this.setState({
-            tt_opacity: .95,
-            tt_title: title,
-            tt_color: color,
-            tt_indicators: indicators
-        })
-    }
-    moveTooltip(left, top) {
-        this.setState({
-            tt_left: left,
-            tt_top: top,
-        })
-    }
-    hideTooltip() {
-        this.setState({
-            tt_opacity: 0
-        })
-    }
-
 
     setTopicA = (topicA) => {
         this.setState({
@@ -261,8 +230,6 @@ export default class Main extends React.Component {
                     <div className="joke_content">
                         <Lists {...this.state} clearSelection={this.clearSelection} />
                     </div>
-
-                    <Tooltip {...this.state} />
                 </div>
             </div>
         );
