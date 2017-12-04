@@ -103,8 +103,6 @@ const BarChart = Svg((node, props) => {
                 "</br><em>count:</em> " + data.count +
                 "</p>"
                 )
-            
-            
         })
         .on('mouseout', function (data, index, nodes) {
             let col = colorScale(w_count(data))
@@ -146,5 +144,5 @@ const LilHisty = Svg((data) => {
         barwidth = 2,
         barSpacing = 0;
 
-        
+
 })
