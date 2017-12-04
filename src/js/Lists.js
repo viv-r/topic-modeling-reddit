@@ -6,7 +6,6 @@ import Drawer from 'material-ui/Drawer';
 export default class Lists extends React.PureComponent {
     constructor(props) {
         super(props);
-        console.log('creating joke map', this.props.jokes.length, 'jokes')
         const len = this.props.jokes.length;
         this.idMap = {};
         this.topicJokes = {};
@@ -17,7 +16,6 @@ export default class Lists extends React.PureComponent {
         this.state = {
             sidebarOpen: true
         }
-        console.log('done creating joke map')
         this.checkCache(props);
     }
 
@@ -27,7 +25,6 @@ export default class Lists extends React.PureComponent {
     }
 
     collectJokesForTopic(topics, topic) {
-        console.log('collecting jokes for topic', this.props.topics, topic)
 
         const words = topics[topic].words;
         const list = []
@@ -42,8 +39,6 @@ export default class Lists extends React.PureComponent {
             }
         }
         this.topicJokes[topic] = list.slice(0, 500);
-        console.log('done collecting jokes for topic', topic)
-        console.log('got', list.length, 'jokes')
     }
 
     componentWillReceiveProps(nextProps) {
@@ -64,7 +59,6 @@ export default class Lists extends React.PureComponent {
         }
         let sidebar = null;
         if (this.props.bar_selection.open) {
-            console.log(this.props.bar_selection)
             const selection = this.props.bar_selection;
             const color = this.props[selection.topic + '_color'];
             const topic = this.props[selection.topic];

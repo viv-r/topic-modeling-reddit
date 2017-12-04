@@ -14,7 +14,6 @@ for (let i = 0; i < points - 1; i++) {
 
 export default class Scatter extends React.Component {
     shouldComponentUpdate(nextProps) {
-        console.log(nextProps.enableDistortion);
         return (
             this.props.enableDistortion !== nextProps.enableDistortion ||
             this.props.topicA !== nextProps.topicA ||

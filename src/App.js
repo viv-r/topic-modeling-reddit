@@ -69,20 +69,16 @@ export default class Main extends React.Component {
     }
 
     setTopicB = async (topicB) => {
-        console.log('wut wut ', this.state.topics[topicB])
         if (!this.state.topics[topicB]) {
-            console.log('setting state,', this.state.topics[topicB])
             const data = await import(`./data/topic_files/topic_${topicB + 1}.json`);
-            console.log('got this mofo ', data)
             this.setState({
                 topics: {
                     ...this.state.topics,
                     [topicB]: data
                 },
                 topicB
-            }, () => console.log('boom, ', this.state.topics[topicB]));
+            });
         } else {
-            console.log('am i here lol')
             this.setState({
                 topicB
             });
@@ -161,7 +157,6 @@ export default class Main extends React.Component {
     }
 
     render() {
-        console.log('wtf wtf wtf', this.state.topics, this.state.topicB)
         return (
             <div>
                 <nav id="interactions">
