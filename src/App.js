@@ -26,7 +26,7 @@ export default class Main extends React.Component {
         this.state = {
             jokes,
             topics,
-            topicScores: topicScores.map(a => a[0]), // is the tuple part being used?
+            topicScores,
             topicA: 1,
             topicB: 2,
             topicA_color: '#00FF24',    // color of 1st topic
@@ -231,13 +231,13 @@ export default class Main extends React.Component {
                         <Button 
                             className={"page_button flip"}
                             onClick={this.setWordPage.bind(this, 0)}>
-                            <img class="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
+                            <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
                         </Button>             
                         <Button                             
                             className={"page_button flip"}
                             disabled={this.state.word_page === 0 ? true : false}
                             onClick={this.setWordPage.bind(this, this.state.word_page - 1)}>
-                            <img class="paging_button" src={require("./css/chev.png")} alt="page right" />
+                            <img className="paging_button" src={require("./css/chev.png")} alt="page right" />
                         </Button>
                         <Button
                             className={"page_button"}
@@ -246,12 +246,12 @@ export default class Main extends React.Component {
                                 Math.floor(this.state.topics[this.state.topicB].words.length/18) <= this.state.word_page ) 
                                     ? true : false }
                             onClick={this.setWordPage.bind(this, this.state.word_page+1)}>
-                            <img class="paging_button" src={require("./css/chev.png")} alt="page right" />
+                            <img className="paging_button" src={require("./css/chev.png")} alt="page right" />
                         </Button>
                         <Button                             
                             className={"page_button"}
                             onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length/18))}>
-                            <img class="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
+                            <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
                         </Button>
                     </div>
 

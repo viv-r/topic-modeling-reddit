@@ -27,7 +27,7 @@ const Graph = Svg((node, props) => {
     const counts = props.data.map(i => {
         return i[1]
     })
-
+    console.log(props.data)
     // chart dimensions
     var margin = { top: 40, right: 10, bottom: 20, left: 0 },
         width = (1000 - margin.left - margin.right) / 2 + 160,
