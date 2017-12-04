@@ -242,15 +242,15 @@ export default class Main extends React.Component {
                         <Button
                             className={"page_button"}
                             disabled={
-                                (Math.floor(this.state.topics[this.state.topicA].words.length/18) <= this.state.word_page &&
-                                Math.floor(this.state.topics[this.state.topicB].words.length/18) <= this.state.word_page ) 
+                                (Math.floor(this.state.topics[this.state.topicA].words.length/20) <= this.state.word_page &&
+                                Math.floor(this.state.topics[this.state.topicB].words.length/20) <= this.state.word_page ) 
                                     ? true : false }
                             onClick={this.setWordPage.bind(this, this.state.word_page+1)}>
                             <img className="paging_button" src={require("./css/chev.png")} alt="page right" />
                         </Button>
                         <Button                             
                             className={"page_button"}
-                            onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length/18))}>
+                            onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length/20))}>
                             <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
                         </Button>
                     </div>
