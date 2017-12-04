@@ -103,6 +103,34 @@ nav {
     padding: 10px;
 }
 
+#bar_char_nav {
+    background: transparent;
+    height: 45px;
+    width: 642px;
+    text-align: center;
+    margin: -20px 20px 20px 0px;
+    float: right;
+}
+
+.page_button {
+    padding: 5px;
+    height:35px;
+    margin: 5px 5px 0px 5px;
+    background: #394B59 !important;
+}
+.page_button:hover {
+    background: #EB532D !important;
+}
+.page_button img {
+    height: 25px;
+    filter: invert(100%);
+}
+.flip {
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
+
 #tooltip {
     position: absolute;
     padding: 10px;		

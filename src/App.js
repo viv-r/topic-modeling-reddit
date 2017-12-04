@@ -41,7 +41,8 @@ export default class Main extends React.Component {
                 topic: '',
                 index: -1,
                 word: null,
-            }
+            },
+            word_page : 0,
         }
     }
 
@@ -120,6 +121,12 @@ export default class Main extends React.Component {
                 word: null,
             }
         });
+    }
+
+    setWordPage = (s) => {
+        this.setState({
+            word_page : s,          
+        })
     }
 
     render() {
@@ -209,6 +216,7 @@ export default class Main extends React.Component {
                             {...this.state}
                             onSelect={this.setTopicBWord}
                             topic={2}
+                            page={this.word_page}
                         />
                     </div>
                     <div className="bar_charts">
@@ -216,15 +224,39 @@ export default class Main extends React.Component {
                             {...this.state}
                             onSelect={this.setTopicAWord}
                             topic={1}
+                            page={this.word_page}
                         />
+                    </div>
+                    <div id="bar_char_nav">  
+                        <Button 
+                            className={"page_button flip"}
+                            onClick={this.setWordPage.bind(this, 0)}>
+                            <img class="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
+                        </Button>             
+                        <Button                             
+                            className={"page_button flip"}
+                            disabled={this.state.word_page === 0 ? true : false}
+                            onClick={this.setWordPage.bind(this, this.state.word_page - 1)}>
+                            <img class="paging_button" src={require("./css/chev.png")} alt="page right" />
+                        </Button>
+                        <Button
+                            className={"page_button"}
+                            disabled={
+                                (Math.floor(this.state.topics[this.state.topicA].words.length/18) <= this.state.word_page &&
+                                Math.floor(this.state.topics[this.state.topicB].words.length/18) <= this.state.word_page ) 
+                                    ? true : false }
+                            onClick={this.setWordPage.bind(this, this.state.word_page+1)}>
+                            <img class="paging_button" src={require("./css/chev.png")} alt="page right" />
+                        </Button>
+                        <Button                             
+                            className={"page_button"}
+                            onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length/18))}>
+                            <img class="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
+                        </Button>
                     </div>
 
                     <div className="topic_chart">
-                        <TopicBarChart {...this.state}
-                            showTooltip={this.showTooltip}
-                            moveTooltip={this.moveTooltip}
-                            hideTooltip={this.hideTooltip}
-                        />
+                        <TopicBarChart {...this.state} />
                     </div>
 
                     <div className="joke_content">

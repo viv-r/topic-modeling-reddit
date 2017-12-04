@@ -9,14 +9,11 @@ export default class TopicBarChart extends React.Component {
         return (
             <div className="topic-bar-container">
                 <Graph
-                    data={this.props.topicScores.topic_scores}
+                    data={this.props.topicScores}
                     topicA={this.props.topicA}
                     topicB={this.props.topicB}
                     colorA={this.props.topicA_color}
                     colorB={this.props.topicB_color}
-                    // showTooltip={this.props.showTooltip}
-                    // moveTooltip={this.props.moveTooltip}
-                    // hideTooltip={this.props.hideTooltip}
                 />
             </div>
         );
@@ -24,6 +21,13 @@ export default class TopicBarChart extends React.Component {
 }
 
 const Graph = Svg((node, props) => {
+    const scores = props.data.map(i => {
+        return i[0]
+    });
+    const counts = props.data.map(i => {
+        return i[1]
+    })
+
     // chart dimensions
     var margin = { top: 40, right: 10, bottom: 20, left: 0 },
         width = (1000 - margin.left - margin.right) / 2 + 160,
@@ -31,7 +35,7 @@ const Graph = Svg((node, props) => {
         barWidth = 10.8,
         barSpacing = 1;
 
-    const dataMax = d3.max(props.data);
+    const dataMax = d3.max(scores);
     function prob(d) { return d; }
 
     // position scales
@@ -77,7 +81,7 @@ const Graph = Svg((node, props) => {
 
     // add bars
     svg.selectAll('rect')
-        .data(props.data)
+        .data(scores)
         .enter()
         .append('rect')
         .attr('x', (d, i) => i * (barWidth + barSpacing))
@@ -90,7 +94,8 @@ const Graph = Svg((node, props) => {
                 .style('fill', "#5C7080")
             d3.select("#tooltip")
                 .html("<h4>Topic " + (index+1) + "</h4>" +
-                    "<p><em>average score:</em> " + data +
+                    "<p><em>average score:</em> " + data + "</br>" +
+                    "<em>number of jokes:<em> " + counts[index] +
                     "</p>")            
         })
         .on('mousemove', function (data, index, nodes) {
@@ -131,7 +136,7 @@ const Graph = Svg((node, props) => {
         })
         
     // the red dotted line
-    const total_mean = d3.mean(props.data)
+    const total_mean = d3.mean(scores)
     svg.append("line")
         .attr("fill", "none")
         .attr("stroke", "red")
