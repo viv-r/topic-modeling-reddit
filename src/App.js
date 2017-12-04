@@ -26,7 +26,7 @@ export default class Main extends React.Component {
         this.state = {
             jokes,
             topics,
-            topicScores,
+            topicScores: topicScores.map(a => a[0]), // is the tuple part being used?
             topicA: 1,
             topicB: 2,
             topicA_color: '#FF005A',    // color of 1st topic
