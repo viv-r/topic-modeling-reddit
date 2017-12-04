@@ -7,6 +7,15 @@ import '../css/scatter.css';
 const d3 = window.d3;
 
 export default class Scatter extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return (
+            this.props.enableDistortion !== nextProps.enableDistortion ||
+            this.props.topicA !== nextProps.topicA ||
+            this.props.topicA_color !== nextProps.topicA_color ||
+            this.props.topicB !== nextProps.topicB ||
+            this.props.topicB_color !== nextProps.topicB_color
+        )
+    }
 
     getScatterData() {
         let maxA = -1;
@@ -29,13 +38,21 @@ export default class Scatter extends React.Component {
         });
         const words = [...tA, ...tB];
 
-        let wordMap = words.reduce((map, val) => ({
-            ...map,
-            [val.name]: {
-                ...(map[val.name] || {}),
+        let wordMap = {}
+        for (let i = 0; i < words.length; i++) {
+            const val = words[i];
+            wordMap[val.name] = {
+                ...(wordMap[val.name] || {}),
                 ...val
             }
-        }), {});
+        }
+        // let wordMap = words.reduce((map, val) => ({
+        //     ...map,
+        //     [val.name]: {
+        //         ...(map[val.name] || {}),
+        //         ...val
+        //     }
+        // }), {});
 
         const scatter = Object.keys(wordMap).map(k => wordMap[k]).map(v => {
             const pa = v.p_topicA || 0;
@@ -190,26 +207,26 @@ const Graph = Svg((node, props) => {
         .on("mouseover", function (d) {
             d3.select("#tooltip")
                 .html(
-                    "<h4>" + d.name + "</h4>" +
-                    "<p><em>probability of topic A:</em>" + d.p_topicA.toFixed(4) +
-                    "</br><em>probability of topic B:</em>" + d.p_topicB.toFixed(4) +
-                    "</br><em>count:</em> " + d.count +
-                    "</p>"
+                "<h4>" + d.name + "</h4>" +
+                "<p><em>probability of topic A:</em>" + d.p_topicA.toFixed(4) +
+                "</br><em>probability of topic B:</em>" + d.p_topicB.toFixed(4) +
+                "</br><em>count:</em> " + d.count +
+                "</p>"
                 )
                 .attr('style',
-                    'opacity:.95;border: 1px solid ' + colorScale(color(d)) +
-                    ';border-top: 15px solid ' + colorScale(color(d)) +
-                    ';top:' + (d3.event.clientY - 10) +
-                    'px;left:' + (d3.event.clientX + 10) + "px;" +
-                    'width: 250px;height:120px')
+                'opacity:.95;border: 1px solid ' + colorScale(color(d)) +
+                ';border-top: 15px solid ' + colorScale(color(d)) +
+                ';top:' + (d3.event.clientY - 10) +
+                'px;left:' + (d3.event.clientX + 10) + "px;" +
+                'width: 250px;height:120px')
         })
         .on("mouseout", function (d) {
             d3.select("#tooltip")
                 .attr('style',
-                    'opacity:0;border: 1px solid ' + colorScale(color(d)) +
-                    ';border-top: 15px solid ' + colorScale(color(d)) +
-                    ';top:' + (d3.event.clientY - 10) +
-                    'px;left:' + (d3.event.clientX + 10) + "px")
+                'opacity:0;border: 1px solid ' + colorScale(color(d)) +
+                ';border-top: 15px solid ' + colorScale(color(d)) +
+                ';top:' + (d3.event.clientY - 10) +
+                'px;left:' + (d3.event.clientX + 10) + "px")
         })
         .attr("class", "dot")
         .style("fill", function (d) { return colorScale(color(d)); })

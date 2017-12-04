@@ -36,7 +36,6 @@ export default class Main extends React.Component {
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
             displayColorPicker: false,  // color picker
-<<<<<<< HEAD
             color_to_change: -1,
             bar_ordering: 'prob',
             bar_selection: {
@@ -45,9 +44,6 @@ export default class Main extends React.Component {
                 topic: '', // 'topicA' or 'topicB'
                 index: -1 // which word in this topic
             }
-=======
-            color_to_change: -1,           
->>>>>>> ff31b23a816a2911063d358e126bd699fc3d7607
         }
     }
 
@@ -232,7 +228,7 @@ export default class Main extends React.Component {
                     <Lists {...this.state} clearSelection={this.clearSelection} />
                 </div>
 
-                <Tooltip itemRef="Tooltip"/>
+                <Tooltip itemRef="Tooltip" />
             </div>
         );
     }

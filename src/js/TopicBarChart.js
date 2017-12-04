@@ -93,17 +93,17 @@ const Graph = Svg((node, props) => {
             if (col === "#394B59")
                 col = "#5C7080"
 
-            this.refs.Tooltip.setState({
-                color: col,
-                opacity: .95,
-                title: "Topic" + (index + 1),
-                indicators: [
-                    {
-                        "name": "average score",
-                        "value": data
-                    }
-                ]
-            })
+            // this.refs.Tooltip.setState({
+            //     color: col,
+            //     opacity: .95,
+            //     title: "Topic" + (index + 1),
+            //     indicators: [
+            //         {
+            //             "name": "average score",
+            //             "value": data
+            //         }
+            //     ]
+            // })
         })
         .on('mouseout', function (data, index, nodes) {
             // let col = color(data, index);
