@@ -1,0 +1,57 @@
+.lists_body, .lists_title {
+    width: 100%;
+    display: flex;
+}
+.lists_body {
+}
+
+.lists_title span {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    background: #394B59;
+    color: white;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.list_container {
+    width: 50%;
+    padding: 5px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    overflow: scroll;
+}
+
+.listitem_joke {
+    display: flex;
+    margin-bottom: 5px;
+    border: 1px solid black;
+    background-color: #fafafa;
+}
+.listitem_col {
+    display: flex;
+    flex-direction: column;
+}
+.listitem_left {
+    align-items: center;
+    flex: 1;
+    opacity: 0.8;
+    color: white;
+    text-align: center;
+}
+.listitem_right {
+    flex: 9;
+}
+.listitem_title {
+    padding: 5px;
+    line-height: 1.2em;
+}
+.listitem_body {
+    padding: 5px;
+    line-height: 1.2em;
+}

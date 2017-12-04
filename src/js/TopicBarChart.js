@@ -22,12 +22,18 @@ export default class TopicBarChart extends React.Component {
 
 const Graph = Svg((node, props) => {
     // chart dimensions
-    var width = 1200,
+    var width = 600,
         height = 250,
         barWidth = 10,
         barSpacing = 1;
 
     const dataMax = d3.max(props.data);
+
+    const color = (d, i) => {
+        if (i === props.topicA) return colorScale(0)
+        if (i === props.topicB) return colorScale(1)
+        return "#394B59"
+    }
 
     function prob(d) { return d; }
 
@@ -40,29 +46,11 @@ const Graph = Svg((node, props) => {
 
     svg.attr('height', height)
     svg.attr('width', width)
-    const colorScale = d3.scaleLinear()
 
+    const colorScale = d3.scaleLinear()
         .domain([0, 1])
         .range([props.colorA, props.colorB])
 
-
-    // add words
-    svg.selectAll('g')
-        .data(props.data)
-        .enter()
-        .append('text')
-        .attr('x', (d, i) => i * (barWidth + barSpacing))
-        .attr('dx', '1em')
-        .attr('y', d => height)
-        .attr('class', 'bar-title')
-        .attr("transform", "rotate(-90)")
-        .text(function (d, i) { return "Topic " + i; })
-
-    const color = (d, i) => {
-        if (i === props.topicA) return colorScale(0)
-        if (i === props.topicB) return colorScale(1)
-        return colorScale(0.5);
-    }
     // add bars
     svg.selectAll('rect')
         .data(props.data)
@@ -72,42 +60,35 @@ const Graph = Svg((node, props) => {
         .attr('height', d => lengthScale(prob(d)))
         .attr('y', d => height - lengthScale(prob(d)))
         .attr('width', barWidth)
-        .style('fill', color)
+        .style('fill', (d, i) => color(d, i))
         .on('mouseover', (data, index, nodes) => {
             d3.select(nodes[index])
-                .style('fill', '#444')
-
+                .style('fill', "#5C7080")
             d3.select("#tooltip")
-                .html(
-                "<h4>" + data.name + "</h4>" +
-                "<p><em>probability:</em> " + data.p_topic +
-                "</br><em>count:</em> " + data.count +
-                "</p>"
-                )
-
+                .html("<h4>Topic " + index + "</h4>" +
+                "<p><em>average score:</em> " + data +
+                "</p>")
         })
         .on('mouseout', function (data, index, nodes) {
 
-            var col = color(data, index);
             d3.select(nodes[index])
                 .transition()
                 .duration(200)
-                .style('fill', col);
+                .style('fill', color(data, index));
 
             d3.select("#tooltip")
                 .attr('style',
-                'opacity:0;border: 2px solid ' + col +
-                ';border-top: 15px solid ' + col +
-                ';top:' + (d3.event.clientY - 10) +
+                'opacity:0;border: 2px solid ' + "#5C7080" +
+                ';border-top: 15px solid ' + "#5C7080" +
+                ';top:' + (d3.event.clientY + 250) +
                 'px;left:' + (d3.event.clientX + 10) + "px")
         })
         .on('mousemove', function (data, index, nodes) {
-            var col = colorScale(prob(data))
             d3.select("#tooltip")
                 .attr('style',
-                'opacity:.95;border: 2px solid ' + col +
-                ';border-top: 15px solid ' + col +
-                ';top:' + (d3.event.clientY - 10) +
+                'opacity:.95;border: 2px solid ' + "#5C7080" +
+                ';border-top: 15px solid ' + "#5C7080" +
+                ';top:' + (d3.event.clientY + 250) +
                 'px;left:' + (d3.event.clientX + 10) + "px")
         })
 });
