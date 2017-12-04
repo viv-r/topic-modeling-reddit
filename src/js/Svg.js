@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default f => class Svg extends React.PureComponent {
+export default f => class Svg extends React.Component {
     componentWillUpdate(nextProps) {
         if (!f) {
             console.warn("unused svg component");
