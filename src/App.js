@@ -264,7 +264,7 @@ export default class Main extends React.Component {
                     </div>
                 </div>
 
-                <div id="tooltip"/>
+                <div id="tooltip" />
             </div>
         );
     }

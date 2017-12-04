@@ -5,9 +5,16 @@ import React from 'react';
 import '../css/scatter.css';
 
 const d3 = window.d3;
+const points = 50;
+let line = [];
+for (let i = 0; i < points - 1; i++) {
+    const a = i * 10 / points;
+    line.push({ x: a, y: a });
+}
 
 export default class Scatter extends React.Component {
     shouldComponentUpdate(nextProps) {
+        console.log(nextProps.enableDistortion);
         return (
             this.props.enableDistortion !== nextProps.enableDistortion ||
             this.props.topicA !== nextProps.topicA ||
@@ -60,17 +67,11 @@ export default class Scatter extends React.Component {
         return scatter;
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return (
-            !(this.props.topicA === nextProps.topicA && 
-              this.props.topicB === nextProps.topicB))
-    }
-
     render() {
         return (
             <div className="scatter-container">
                 <Graph
-                    size={420}
+                    size={450}
                     data={this.getScatterData()}
                     enableDistortion={this.props.enableDistortion}
                     ta_color={this.props.topicA_color}
@@ -85,19 +86,15 @@ export default class Scatter extends React.Component {
 const Graph = Svg((node, props) => {
     const x = d => d.p_topicA * 10;
     const y = d => d.p_topicB * 10;
-    const radius = d => Math.log(d.count) + 5;
+    const radius = d => Math.log(d.count) + (props.enableDistortion ? 0 : 15);
     const color = d => d.p_topicA / (d.p_topicB + d.p_topicA);
 
     const svg = d3.select(node);
     const size = props.size;
 
-    let line = [];
-    for (let i = 1; i < size - 20; i++) {
-        line = [...line, { x: i / 40, y: i / 40 }]
-    }
     const zoom = d3.zoom()
         .scaleExtent([1, 12500])
-        // .translateExtent([[0, 0], [size - 40, size - 40]])
+        // .translateExtent([0, 0], [1000, size])
         .on("zoom", zoomed);
 
     const distortion = (scale) => props.enableDistortion
@@ -123,7 +120,6 @@ const Graph = Svg((node, props) => {
     svg.selectAll("*").remove();
     svg.attr("width", size + 40)
         .attr("height", size + 40)
-        // .style("margin", 5)
         .style("padding", 15)
         .append("g")
 
@@ -134,20 +130,17 @@ const Graph = Svg((node, props) => {
         .attr("fill", "#fefefe")
         .attr("width", size)
         .attr("height", size)
-        // .attr("clip-path", "url(#mask)")
         .call(zoom)
 
     var mask = svg.append("defs")
         .append("clipPath")
-        .attr("id", "mask")
+        .attr("id", "clip")
         .style("pointer-events", "none")
         .append("rect")
-        .attr({
-            x: 100,
-            y: 100,
-            width: size - 100,
-            height: size - 100,
-        })
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", size)
+        .attr("height", size)
 
     const gX = svg.append("g")
         .attr("class", "x axis")
@@ -162,6 +155,7 @@ const Graph = Svg((node, props) => {
         .y(d => yScale(d.y))
 
     const drawLineP = () => svg.append("path")
+        .attr("clip-path", "url(#clip)")
         .attr("class", "sep-line")
         .datum(line)
         .attr("fill", "none")
@@ -201,6 +195,7 @@ const Graph = Svg((node, props) => {
     // Add a dot per word and set the colors
     var dot = svg.append("g")
         .attr("class", "dots")
+        .attr("clip-path", "url(#clip)")
         .selectAll(".dot")
         .data(props.data)
         .enter().append("circle")
@@ -248,16 +243,24 @@ const Graph = Svg((node, props) => {
         gX.call(xAxis.scale(xs));
         gY.call(yAxis.scale(ys));
 
-        lineP.attr('transform', d3.event.transform);
+        lineP.attr('d', d3.line()
+            .curve(d3.curveBasis)
+            .x(d => xs(d.x))
+            .y(d => ys(d.y)));
         dot.call(position, xs, ys);
     }
 
     svg.on("mousemove", function () {
         if (!props.enableDistortion) return;
-        const mouseX = event.pageX;
-        const mouseY = event.pageY;
-        xScale.distortion(2.5).focus(mouseX);
-        yScale.distortion(2.5).focus(mouseY);
+        let mouseX = event.pageX - 30;
+        let mouseY = event.pageY - 70;
+        mouseX = Math.max(0, mouseX)
+        mouseX = Math.min(size, mouseX)
+        mouseY = Math.max(0, mouseY)
+        mouseY = Math.min(size, mouseY)
+        const d = 7.5;
+        xScale.distortion(d).focus(mouseX);
+        yScale.distortion(d).focus(mouseY);
 
         dot.call(position);
 
