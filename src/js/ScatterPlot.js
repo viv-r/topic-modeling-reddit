@@ -223,7 +223,7 @@ const Graph = Svg((node, props) => {
                 'opacity:0;border: 1px solid ' + colorScale(color(d)) +
                 ';border-top: 15px solid ' + colorScale(color(d)) +
                 ';top:' + (d3.event.clientY - 10) +
-                'px;left:' + (d3.event.clientX + 10) + "px")
+                'px;left:' + (d3.event.clientX + 10) + "px;width:250px;height:120px")
         })
         .attr("class", "dot")
         .style("fill", function (d) { return colorScale(color(d)); })
