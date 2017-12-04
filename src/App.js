@@ -36,13 +36,19 @@ export default class Main extends React.Component {
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
             displayColorPicker: false,  // color picker
-            color_to_change: -1, 
+            color_to_change: -1,
             tt_color: "#5C7080",
-            tt_left : -1,
+            tt_left: -1,
             tt_top: -1,
             tt_opacity: 0,
             tt_title: "",
-            tt_indicators: []
+            tt_indicators: [],
+            bar_selection: {
+                open: false,
+                topic: '',
+                index: -1,
+                word: null,
+            }
         }
         this.showTooltip = this.showTooltip.bind(this)
         this.moveTooltip = this.moveTooltip.bind(this)
@@ -59,11 +65,11 @@ export default class Main extends React.Component {
     }
     moveTooltip(left, top) {
         this.setState({
-            tt_left:left,
+            tt_left: left,
             tt_top: top,
         })
     }
-    hideTooltip(){
+    hideTooltip() {
         this.setState({
             tt_opacity: 0
         })
@@ -134,6 +140,17 @@ export default class Main extends React.Component {
                 word: w
             }
         })
+    }
+
+    clearSelection = () => {
+        this.setState({
+            bar_selection: {
+                open: false,
+                topic: '',
+                index: -1,
+                word: null,
+            }
+        });
     }
 
     render() {
@@ -233,28 +250,21 @@ export default class Main extends React.Component {
                         />
                     </div>
 
-                <div className="bar_charts">
-                    <BarChart {...this.state} topic={2} />               
-                </div>
-                <div className="bar_charts">
-                    <BarChart {...this.state} topic={1} />
-                </div>
-                
-                <div className="topic_chart">
-                    <TopicBarChart {...this.state} 
-                        showTooltip={this.showTooltip}
-                        moveTooltip={this.moveTooltip}
-                        hideTooltip={this.hideTooltip}
-                    />
-                </div>
+                    <div className="topic_chart">
+                        <TopicBarChart {...this.state}
+                            showTooltip={this.showTooltip}
+                            moveTooltip={this.moveTooltip}
+                            hideTooltip={this.hideTooltip}
+                        />
+                    </div>
 
-                <div className="joke_content">
-                    <Lists {...this.state} clearSelection={this.clearSelection} />
-                </div>
+                    <div className="joke_content">
+                        <Lists {...this.state} clearSelection={this.clearSelection} />
+                    </div>
 
-                <Tooltip {...this.state} />
+                    <Tooltip {...this.state} />
+                </div>
             </div>
-        </div>
         );
     }
 }
