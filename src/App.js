@@ -133,13 +133,13 @@ export default class Main extends React.Component {
 
                         <h6>Scatter Plot</h6>
                         <p>Each dot on the scatter plot represents a word. The dot's position along the horizontal and vertical axises describe the probablity that the associated word belongs to the first or second selected topics respectively. The hue of the dot helps distinguish associated topics as well indicating how probable the associated word belongs to a particular topic. The stronger the hue is towards a topic's main color the more probable they're associated!</p>
-                        <p><strong>cartesian distortion</strong> can be applied to the scatter plot to help compare word positions. You can enable or disable it by clicking the 'D' in the far left of the nav bar!</p>
+                        <p><strong>Cartesian Distortion</strong> is a means to scale the axese on demand allowing you to add separation inbetween the closely clustered words. It can be applied to the scatter plot to help compare word positions. You can enable or disable it by clicking the 'D' in the far left of the nav bar.</p>
 
                         <h6>Bar Plots</h6>
-                        <p>Most text modeling algorithms tend to destroy the semantic context associated with their results. Unfortunately, LDA modeling is one of them. As such, we're only able to discover a predetermined number of topics but not give a topic name to bring context to the associated words. Our model performed the best when tuned to 50 topics. The bar plots are used to give you back some more of that semantic context. It's quite fun to flip through the topics and see what they're about!</p>
+                        <p>Most text modeling algorithms tend to destroy the semantic context associated with their results. Unfortunately, LDA modeling is one of them. As such, we're only able to discover a predetermined number of topics but not give a topic name to bring context to the associated words. Our model performed the best when tuned to 50 topics. The bar plots are used to give you back some more of that semantic context. It's quite fun to flip through the topics and see what they're about.</p>
 
                         <h6>Area (Density) Plot</h6>
-                        <p>The area chart shows how likely a joke written about a particular topic is going to recieve more views. If the area is all crammed up towards the left (also called right skewed ~ weirdo statitians) don't write a joke in that topic because it's unlikely to score well!</p>
+                        <p>The area chart shows how likely a joke written about a particular topic is going to recieve more views. If the area is all crammed up towards the left don't write a joke in that topic because it's unlikely to score well!</p>
                     </div>
                 </Dialog>
 
