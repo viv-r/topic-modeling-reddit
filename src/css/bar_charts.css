@@ -22,3 +22,7 @@ rect:hover {
     font-weight: bold;
     fill: rgb(168, 3, 3);
 }
+
+.lilHisty_axis {
+    stroke: white;
+}

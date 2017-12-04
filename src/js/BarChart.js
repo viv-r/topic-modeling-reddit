@@ -15,7 +15,8 @@ export default class Bar extends React.Component {
             return {
                 p_topic: v.prob,
                 count: v.count,
-                name: v.name
+                name: v.name,
+                topic_dist: v.topic_dist
             }
         });
         return set;
@@ -52,8 +53,7 @@ export default class Bar extends React.Component {
     }
 }
 
-const BarChart = Svg((node, props) => {
-    console.log(props)
+const BarChart = Svg((node, props) => {   
     // chart dimensions
     var width = 300,
         height = 375,
@@ -106,19 +106,60 @@ const BarChart = Svg((node, props) => {
             d3.select(nodes[index])
                 .style('fill', '#444')
 
+            // create little histogram           
+            var lhmargin = { top: 10, right: 5, bottom: 5, left: 5},
+                lhwidth = 200 - lhmargin.left - lhmargin.right,
+                lheight = 200,
+                lhbar = 5,
+                lhspacing = 0
+
+            var lilHisty = document.createElement("svg");          
+            lilHisty.id = "lilhisty"
+
+            const lhMax = d3.max(data.topic_dist);        
+
+            // position scales
+            const lhYScale = d3.scaleLinear()
+                .domain([0, lhMax])
+                .range([0, lheight])      
+
+            // build the histy boi
+            lilHisty = d3.select(lilHisty);
+            lilHisty.selectAll('*').remove();
+        
+            lilHisty.attr("width", lhwidth + lhmargin.left + lhmargin.right)
+                .attr("height", lhwidth + lhmargin.top + lhmargin.bottom + 100)
+        
+            // add bars
+            lilHisty.selectAll('rect')
+                .data(data.topic_dist)
+                .enter()
+                .append('rect')
+                    .attr('x', (d, i) => i * (lhbar + lhspacing))
+                    .attr('height', d => lhYScale(d))
+                    .attr('y', d => lheight - lhYScale(d) - 100)
+                    .attr('width', lhbar)
+                    .style('fill', (d, i) => props.color)            
+
             d3.select("#tooltip")
                 .html(
                 "<h4>" + data.name + "</h4>" +
-                "<p><em>probability:</em> " + data.p_topic.toFixed(5) +
+                "<p><em>affinity:</em> " + data.p_topic.toFixed(5) +
                 "</br><em>count:</em> " + data.count +
-                "</p>"
+                "</br><em>affinitly to all topics</em>" +
+                "</p>" + "<svg width:" + lhwidth + ";height:" + lheight + ">" +  lilHisty.html() + "</svg>"
                 )
+            
         })
         .on('mouseout', function (data, index, nodes) {
             let col = colorScale(w_count(data))
 
             let xPos = d3.event.clientX + 10;
-            if (xPos > 1100) xPos -= 220
+            let yPos = d3.event.clientY + 10;
+            if (xPos > 900) {
+                xPos -= 90;
+                yPos += 30;
+            }            
 
             d3.select(nodes[index])
                 .transition()
@@ -129,30 +170,24 @@ const BarChart = Svg((node, props) => {
                 .attr('style',
                 'opacity:0;border: 1px solid ' + col +
                 ';border-top: 15px solid ' + col +
-                ';top:' + (d3.event.clientY - 10) +
+                ';top:' + yPos +
                 'px;left:' + xPos + "px")
         })
         .on('mousemove', function (data, index, nodes) {
             let col = colorScale(w_count(data))
 
             let xPos = d3.event.clientX + 10;
-            if (xPos > 1100) xPos -= 220
+            let yPos = d3.event.clientY + 10;
+            if (xPos > 900) {
+                xPos -= 90;
+                yPos += 30;
+            }  
 
             d3.select("#tooltip")
                 .attr('style',
                 'opacity:.95;border: 1px solid ' + col +
                 ';border-top: 15px solid ' + col +
-                ';top:' + (d3.event.clientY - 10) +
+                ';top:' + yPos +
                 'px;left:' + xPos + "px")
         })
 });
-
-const LilHisty = Svg((data) => {
-    var margin = { top: 10, right: 5, bottom: 5, left: 5},
-        width = 200 - margin.left - margin.right,
-        height = 200,
-        barwidth = 2,
-        barSpacing = 0;
-
-
-})

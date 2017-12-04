@@ -137,8 +137,8 @@ nav {
 #tooltip {
     position: absolute;
     padding: 10px;		
-    width: 200px;					
-    height: 100px;								
+    width: 275px;					
+    height: 220px;								
     border-radius: 2px;			
 	pointer-events: none;	
     z-index: 2;	
