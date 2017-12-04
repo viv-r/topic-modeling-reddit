@@ -33,7 +33,7 @@ const Graph = Svg((node, props) => {
         yStackMax = d3.max(layers, function (layer) { return d3.max(layer, function (d) { return d[1]; }); });
 
     var margin = { top: 40, right: 10, bottom: 20, left: 10 },
-        width = (980 - margin.left - margin.right)/2 - 60,
+        width = (980 - margin.left - margin.right)/2 - 80,
         height = 300 - margin.top - margin.bottom,
         x_axis_title_height = 20;
 
@@ -94,7 +94,7 @@ const Graph = Svg((node, props) => {
     svg.append("text")             
         .attr("transform",
         "translate(" + (width/2) + " ," + 
-                    (height + margin.top + 10) + ")")
+                    (height + margin.top) + ")")
         .style("text-anchor", "middle")
         .text("Joke Score");
 
