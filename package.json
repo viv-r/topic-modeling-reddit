@@ -13,9 +13,13 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "start": "react-scripts start",
+    "start": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },  
+  "license": "Apache",
+  "engines": {
+      "node": "4.2.4"
   }
 }
