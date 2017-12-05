@@ -8,7 +8,7 @@ const d3 = window.d3;
 const points = 50;
 let line = [];
 for (let i = 0; i < points - 1; i++) {
-    const a = i * 10 / points;
+    const a = i * 4000 / points;
     line.push({ x: a, y: a });
 }
 
@@ -28,7 +28,7 @@ export default class Scatter extends React.Component {
         const tA = this.props.topics[this.props.topicA].words.map(v => {
             maxA = maxA > v.prob ? maxA : v.prob;
             return {
-                p_topicA: v.prob,
+                p_topicA: v.count_topic,
                 count: v.count,
                 name: v.name
             }
@@ -37,7 +37,7 @@ export default class Scatter extends React.Component {
         const tB = this.props.topics[this.props.topicB].words.map(v => {
             maxB = maxB > v.prob ? maxB : v.prob;
             return {
-                p_topicB: v.prob,
+                p_topicB: v.count_topic,
                 count: v.count,
                 name: v.name
             }
@@ -103,11 +103,11 @@ const Graph = Svg((node, props) => {
         : scale();
 
     let xScale = distortion(d3.scaleLinear)
-        .domain([0, 10])
+        .domain([0, 2000])
         .range([0, size]);
 
     let yScale = distortion(d3.scaleLinear)
-        .domain([0, 10])
+        .domain([0, 2000])
         .range([size, 0]);
 
     const radiusScale = distortion(d3.scaleLinear)
