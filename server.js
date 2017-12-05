@@ -1,15 +1,15 @@
 var http = require('http');
+var fs = require('fs');
 
 http.createServer(function (req, res) {
-
-    fs.readFile("./public/index.html" + request.url,function(error,data)
-    {
-        if(error){
-            response.writeHead(404,{"Content-type":"text/plain"});
-            response.end("Sorry the page was not found");
+    fs.readFile("public/index.html" , function(err, data) {
+        if(err){
+            res.writeHead(404,{"Content-type":"text/plain"});
+            res.end("Sorry the page was not found");
         }else{
-            response.writeHead(202,{"Content-type":"text/html"});
-            response.end(data);
+            res.writeHead(202,{"Content-type":"text/html"});
+            res.write(data);
+            res.end();
         }
-    }); 
+    });    
 }).listen(process.env.PORT || 8080);
