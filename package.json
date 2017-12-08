@@ -17,9 +17,5 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },  
-  "license": "Apache",
-  "engines": {
-      "node": "4.2.4"
   }
 }
