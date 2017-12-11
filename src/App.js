@@ -174,23 +174,35 @@ export default class Main extends React.Component {
         }
 
         var toggleScatter = (s) => {
-            var el =document.getElementById("scatter_plot")
+            var el = document.getElementById("scatter_plot")
             toggle(el, s)
+
+            var help = document.getElementById("scatter_plot_help")
+            toggle(help, s)
         }
 
         var toggleBars = (s) => {
             var el = document.getElementById("bar_chart_container")
             toggle(el, s)  
+
+            var help = document.getElementById("bar_chart_help")
+            toggle(help, s)
         }
 
         var toggleTopicChart = (s) => {
             var el = document.getElementById("topic_chart")
            toggle(el, s)
+
+           var help = document.getElementById("topic_chart_help")
+           toggle(help, s)
         }
 
         var toggleDensity = (s) => {
             var el = document.getElementById("density_plot")
             toggle(el, s)
+
+            var help = document.getElementById("density_plot_help")
+            toggle(help, s)
         }
 
         if (content === "scatter" ) {
@@ -230,6 +242,19 @@ export default class Main extends React.Component {
             toggleScatter("show");
             toggleTopicChart("show");
             toggleBars("show");
+
+            // hide the helps
+            var help = document.getElementById("scatter_plot_help")
+            toggle(help, "hide")
+
+            help = document.getElementById("bar_chart_help")
+            toggle(help, "hide")
+            
+            help = document.getElementById("topic_chart_help")
+            toggle(help, "hide")
+
+            help = document.getElementById("density_plot_help")
+            toggle(help, "hide")
         }
     }
 
@@ -337,12 +362,32 @@ export default class Main extends React.Component {
 
                 <div>
                     <section id="scatter_plot">
-                        <ScatterPlot {...this.state} />
+                        <ScatterPlot {...this.state} />                        
                     </section>
+                    <div id="scatter_plot_help" className="hidden">
+                        <div className="header">
+                            <h3>Relative frequency between words</h3>
+                        </div>
+                        <p>
+                            Here we’re able to compare how often words are used in each topic. The closer it is to a topic, the more it’s used there. Words closer to the red line indicate that they’re used more evenly between the two topics.
+                        </p>
+                        <p>
+                            Feel free to <strong>hover</strong> over a point to see the word and the occurrences in each topic. You can <strong>zoom</strong> and <strong>pan</strong>, and if you select the ‘D’ at the top left corner you can activate <strong>cartesian distortion</strong> to shuffle the clustered words apart!
+                        </p>
+                    </div>
 
                     <div id="density_plot">
                         <DensityPlot {...this.state} />
                     </div>
+                    <div id="density_plot_help" className="hidden">
+                        <div className="header">
+                            <h3>See how well these topics scored</h3>
+                        </div>
+                        <p>
+                            This is a density plot showing how the two topics scored. The densities for the topics are overlapping. The more ‘weight’ a distribution has to the right indicates it has higher scores!
+                        </p>                        
+                    </div>
+
 
                     <div id="bar_chart_container">
                         <div className="bar_charts">
@@ -360,7 +405,22 @@ export default class Main extends React.Component {
                                 page={this.word_page} />
                         </div>
                     </div>
-                    
+
+                    <div id="bar_chart_help" className="hidden">
+                        <div className="header">
+                            <h3>See which words make up the topic</h3>
+                        </div>
+                        <p>
+                            Here’s the bread and butter for finding out what the topics are actually about. The bar plot on the left shows the words most associated with the topic selected on the left hand corner (and vice versa for the right). The length of the bar next to a word indicates the probability that the word is associated with the topic, but all that really means is that it’s used more in that topic than others.
+                        </p>
+                        <p>
+                            If you <strong>hover</strong> over a word you’ll get the counts, along with a bar plot in the tooltip showing how often the word is used in other topics. If you only see one bar, that means it’s used only in that topic. Some words, like ‘get’, will be used often in many topics.
+                        </p>
+                        <p>
+                            Finally, if you <strong>select</strong> a word, a window will pop up showing the top jokes where that word appears!
+                        </p>
+                    </div>
+
                     {/*   <div id="bar_char_nav">
                         <Button
                             className={"page_button flip"}
@@ -398,6 +458,17 @@ export default class Main extends React.Component {
 
                     <div className="joke_content">
                         <Lists {...this.state} clearSelection={this.clearSelection} />
+                    </div>
+                    <div id="topic_chart_help" className="hidden">
+                        <div className="header">
+                            <h3>See how all topics scored</h3>
+                        </div>
+                        <p>
+                             Here we average the scores for each topic and put them on a bar plot. The higher the bar, the better the topic! The red line indicates the average number of upvotes for all topics, so you can see which ones do better than the rest, and which don’t make the cut. Can you tell which topic does better than all the rest?
+                        </p>
+                        <p>
+                            You can <strong>hover</strong> over a bar to see a bit more information or <strong>click</strong> a bar to change the page topic!
+                        </p>
                     </div>
                 </div>
 
