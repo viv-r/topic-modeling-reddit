@@ -68,7 +68,7 @@ export default class Lists extends React.PureComponent {
                 <div className='sidebar_content'>
                     <div className='sidebar_title'>
                         <h1 className='white'>"{selection.word.name}"...</h1>
-                        ... has an affinity of {selection.word.p_topic} towards Topic-{topic}, and occurs {selection.word.count} times.
+                        ... has an affinity of {selection.word.p_topic} towards Topic-{topic + 1}, and occurs {selection.word.count} times.
                         <br />
                         <br />
                         Here are some jokes containing "{selection.word.name}":
