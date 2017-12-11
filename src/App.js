@@ -235,8 +235,8 @@ export default class Main extends React.Component {
 
     topicFifo = (num) => {
         this.state.topic_fifo
-            ? this.setState({ topicA : num })
-            : this.setState({ topicB : num })
+            ? this.setTopicA(num)
+            : this.setTopicB(num)
         this.state.topic_fifo ^= true;
     } 
 
