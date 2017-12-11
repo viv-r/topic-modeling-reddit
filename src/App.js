@@ -321,22 +321,24 @@ export default class Main extends React.Component {
                     <div id="density_plot">
                         <DensityPlot {...this.state} />
                     </div>
-                    
-                    <div className="bar_charts">
-                        <BarChart
-                            {...this.state}
-                            onSelect={this.setTopicBWord}
-                            topic={2}
-                            page={this.word_page}
-                    />
-                    </div>
-                    <div className="bar_charts">
-                        <BarChart
-                            {...this.state}
-                            onSelect={this.setTopicAWord}
-                            topic={1}
-                            page={this.word_page}
-                    />
+
+                    <div id="bar_chart_container">
+                        <div className="bar_charts">
+                            <BarChart
+                                {...this.state}
+                                onSelect={this.setTopicBWord}
+                                topic={2}
+                                page={this.word_page}
+                        />
+                        </div>
+                        <div className="bar_charts">
+                            <BarChart
+                                {...this.state}
+                                onSelect={this.setTopicAWord}
+                                topic={1}
+                                page={this.word_page}
+                        />
+                        </div>
                     </div>
                     {/*   <div id="bar_char_nav">
                         <Button

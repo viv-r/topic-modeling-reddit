@@ -1,6 +1,6 @@
 import Svg from './Svg';
 import React from 'react';
-import '../css/bar_charts.css';
+import '../css/topic_bar.css';
 
 const d3 = window.d3;
 

@@ -1,8 +1,10 @@
-#density_plot {
+.topic-bar-container {
+    margin: 0px 0px 0px 0px;
+}
+.topic_chart {
     position: absolute;
     top: 650px;
-    left: 0px;
-    opacity: 1;
+    left: 565px;
     -webkit-transition: opacity 1s, left 0.1s ease-out, border .3s ease-out;
     transition: opacity 1s, left 0.1s ease-out, border .3s ease-out;
 }
