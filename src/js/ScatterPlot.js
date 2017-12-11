@@ -206,8 +206,8 @@ const Graph = Svg((node, props) => {
             d3.select("#tooltip")
                 .html(
                 "<h4>" + d.name + "</h4>" +
-                "<p><em>occurrences in topic " + props.ta_num + ":</em>" + d.p_topicA +
-                "</br><em>occurrences of topic " + props.tb_num + ":</em>" + d.p_topicB +
+                "<p><em>occurrences in topic " + (props.ta_num+1) + ":</em>" + d.p_topicA +
+                "</br><em>occurrences of topic " + (props.tb_num+1) + ":</em>" + d.p_topicB +
                 "</br><em>occurrences in all topics:</em> " + d.count +
                 "</p>"
                 )
