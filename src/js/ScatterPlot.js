@@ -85,8 +85,8 @@ export default class Scatter extends React.Component {
 
 
 const Graph = Svg((node, props) => {
-    const x = d => d.p_topicA * 10;
-    const y = d => d.p_topicB * 10;
+    const x = d => d.p_topicB * 10;
+    const y = d => d.p_topicA * 10;
     const radius = d => Math.log(d.count) + (props.enableDistortion ? 0 : 15);
     const color = d => d.p_topicA / (d.p_topicB + d.p_topicA);
 
