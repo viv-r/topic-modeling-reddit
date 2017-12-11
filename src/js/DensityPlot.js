@@ -1,6 +1,6 @@
 import Svg from './Svg';
 import React from 'react';
-// import '../css/density.css';
+import '../css/density.css';
 
 const d3 = window.d3;
 

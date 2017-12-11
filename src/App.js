@@ -168,8 +168,7 @@ export default class Main extends React.Component {
                     el.className += " hidden"
 
                 else if (s === "show" && el.classList.contains("hidden"))
-                    el.classList.remove("hidden")
-                    
+                    el.classList.remove("hidden")                    
             }
         }
 
@@ -317,9 +316,12 @@ export default class Main extends React.Component {
                 <div>
                     <section id="scatter_plot">
                         <ScatterPlot {...this.state} />
-                        <DensityPlot {...this.state} />
                     </section>
 
+                    <div id="density_plot">
+                        <DensityPlot {...this.state} />
+                    </div>
+                    
                     <div className="bar_charts">
                         <BarChart
                             {...this.state}
