@@ -6,11 +6,11 @@ const d3 = window.d3;
 
 export default class Bar extends React.Component {
     getBarData() { 
-        const start = this.props.word_page * 18;
+        const start = this.props.word_page * this.props.words_per_bar;
 
         let set = (this.props.topic === 1)
-            ? this.props.topics[this.props.topicA].words.slice(start, start+20)
-            : this.props.topics[this.props.topicB].words.slice(start, start+20)
+            ? this.props.topics[this.props.topicA].words.slice(start, start+this.props.words_per_bar)
+            : this.props.topics[this.props.topicB].words.slice(start, start+this.props.words_per_bar)
         set = set.map(v => {
             return {
                 p_topic: v.prob,
@@ -56,7 +56,7 @@ export default class Bar extends React.Component {
 const BarChart = Svg((node, props) => {   
     // chart dimensions
     var width = 300,
-        height = 420,
+        height = 440,
         barWidth = 20,
         barSpacing = 1;
 

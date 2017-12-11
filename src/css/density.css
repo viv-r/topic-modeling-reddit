@@ -1,0 +1,8 @@
+#density_plot {
+    position: absolute;
+    top: 650px;
+    left: 0px;
+    opacity: 1;
+    -webkit-transition: opacity 1s, left 1s ease-in-out;
+    transition: opacity 1s, left 1s ease-in-out;
+}

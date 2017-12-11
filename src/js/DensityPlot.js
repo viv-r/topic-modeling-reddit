@@ -1,13 +1,13 @@
 import Svg from './Svg';
 import React from 'react';
-// import '../css/density.css';
+import '../css/density.css';
 
 const d3 = window.d3;
 
 export default class DensityPlot extends React.Component {
     render() {
         return (
-            <div className="density-container">
+            <div>
                 <Graph
                     topicA={this.props.topics[this.props.topicA].scores}
                     topicB={this.props.topics[this.props.topicB].scores}

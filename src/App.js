@@ -36,8 +36,8 @@ export default class Main extends React.Component {
             topicA, // default topic A
             topicB, // default topic B
             topicScores,
-            topicA_color: '#00FF24',    // color of 1st topic
-            topicB_color: '#00A9FF',    // color of 2nd topic
+            topicA_color: '#32973F',    // color of 1st topic
+            topicB_color: '#236C92',    // color of 2nd topic
             words_to_show: 100,         // number of words to show in the bar chart
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
@@ -50,6 +50,7 @@ export default class Main extends React.Component {
                 word: null,
             },
             word_page: 0,
+            words_per_bar: 21
         }
     }
 
@@ -152,10 +153,83 @@ export default class Main extends React.Component {
         });
     }
 
-    setWordPage = (s) => {
-        this.setState({
-            word_page: s,
-        })
+    // removed per Brock's suggestion
+    // setWordPage = (s) => {
+    //     this.setState({
+    //         word_page: s,
+    //     })
+    // }
+
+    switchActiveView = (content) => {
+        var toggle = (el, s) => {
+
+            if (el) {
+                if (s === "hide" && !el.classList.contains("hidden"))
+                    el.className += " hidden"
+
+                else if (s === "show" && el.classList.contains("hidden"))
+                    el.classList.remove("hidden")                    
+            }
+        }
+
+        var toggleScatter = (s) => {
+            var el =document.getElementById("scatter_plot")
+            toggle(el, s)
+        }
+
+        var toggleBars = (s) => {
+            var el = document.getElementById("bar_chart_container")
+            toggle(el, s)  
+        }
+
+        var toggleTopicChart = (s) => {
+            var el = document.getElementById("topic_chart")
+           toggle(el, s)
+        }
+
+        var toggleDensity = (s) => {
+            var el = document.getElementById("density_plot")
+            toggle(el, s)
+        }
+
+        if (content === "scatter" ) {
+            toggleScatter("show");
+
+            toggleBars("hide");  
+            toggleTopicChart("hide");  
+            toggleDensity("hide");
+        }
+
+        else if (content === "bars") {
+            toggleBars("show")
+
+            toggleScatter("hide");
+            toggleTopicChart("hide");
+            toggleDensity("hide");
+        }
+
+        else if(content === "density") {
+            toggleDensity("show");
+
+            toggleScatter("hide");
+            toggleTopicChart("hide");
+            toggleBars("hide");
+        }
+
+        else if(content === "topics") {
+            toggleTopicChart("show");
+            
+            toggleScatter("hide");
+            toggleDensity("hide");
+            toggleBars("hide");
+        }
+
+        else if(content === "all") {
+            toggleDensity("show");
+            toggleScatter("show");
+            toggleTopicChart("show");
+            toggleBars("show");
+        }
     }
 
     render() {
@@ -190,9 +264,28 @@ export default class Main extends React.Component {
                         onChange={this.setTopicB} />
 
                     <Button
+                        id={"topic_b_color_selector"}
                         className={"selector color_selector float_right"}
                         onClick={this.toggleColorPicker.bind(this, 2)}
                         style={{ background: this.state.topicB_color }} />
+                </nav>
+
+                <nav id="page_selection_nav">
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "scatter")} >
+                    <span>See the relative frequency of words in these topics</span>
+                 </div>
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "bars")}>
+                    <span>See which words make up the topic</span>
+                 </div>
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "density")}>
+                    <span>See how well these topics scored</span>
+                 </div>
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "topics")}>
+                    <span>See how all topics scored</span>
+                 </div>
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "all")}>
+                    <span>See them all together</span>
+                 </div>
                 </nav>
 
                 {/* help dialog */}
@@ -237,26 +330,30 @@ export default class Main extends React.Component {
                 <div>
                     <section id="scatter_plot">
                         <ScatterPlot {...this.state} />
-                        <DensityPlot {...this.state} />
                     </section>
 
-                    <div className="bar_charts">
-                        <BarChart
-                            {...this.state}
-                            onSelect={this.setTopicBWord}
-                            topic={2}
-                            page={this.word_page}
-                        />
+                    <div id="density_plot">
+                        <DensityPlot {...this.state} />
                     </div>
-                    <div className="bar_charts">
-                        <BarChart
-                            {...this.state}
-                            onSelect={this.setTopicAWord}
-                            topic={1}
-                            page={this.word_page}
-                        />
+
+                    <div id="bar_chart_container">
+                        <div className="bar_charts">
+                            <BarChart
+                                {...this.state}
+                                onSelect={this.setTopicBWord}
+                                topic={2}
+                                page={this.word_page} />
+                        </div>
+                        <div className="bar_charts">
+                            <BarChart
+                                {...this.state}
+                                onSelect={this.setTopicAWord}
+                                topic={1}
+                                page={this.word_page} />
+                        </div>
                     </div>
-                    <div id="bar_char_nav">
+                    
+                    {/*   <div id="bar_char_nav">
                         <Button
                             className={"page_button flip"}
                             onClick={this.setWordPage.bind(this, 0)}>
@@ -282,9 +379,10 @@ export default class Main extends React.Component {
                             onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length / 20))}>
                             <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
                         </Button>
-                    </div>
+                    </div> 
+                    */}
 
-                    <div className="topic_chart">
+                    <div id="topic_chart">
                         <TopicBarChart {...this.state} />
                     </div>
 
