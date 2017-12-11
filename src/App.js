@@ -50,7 +50,8 @@ export default class Main extends React.Component {
                 word: null,
             },
             word_page: 0,
-            words_per_bar: 21
+            words_per_bar: 21,
+            topic_fifo: true,
         }
     }
 
@@ -232,6 +233,13 @@ export default class Main extends React.Component {
         }
     }
 
+    topicFifo = (num) => {
+        this.state.topic_fifo
+            ? this.setState({ topicA : num })
+            : this.setState({ topicB : num })
+        this.state.topic_fifo ^= true;
+    } 
+
     render() {
         return (
             <div>
@@ -383,7 +391,9 @@ export default class Main extends React.Component {
                     */}
 
                     <div id="topic_chart">
-                        <TopicBarChart {...this.state} />
+                        <TopicBarChart {...this.state}
+                            topicFifo={this.topicFifo}
+                        />
                     </div>
 
                     <div className="joke_content">
