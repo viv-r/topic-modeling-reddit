@@ -192,7 +192,6 @@ export default class Main extends React.Component {
             toggle(el, s)
         }
 
-
         if (content === "scatter" ) {
             toggleScatter("show");
 
@@ -200,6 +199,7 @@ export default class Main extends React.Component {
             toggleTopicChart("hide");  
             toggleDensity("hide");
         }
+
         else if (content === "bars") {
             toggleBars("show")
 
@@ -207,12 +207,28 @@ export default class Main extends React.Component {
             toggleTopicChart("hide");
             toggleDensity("hide");
         }
+
         else if(content === "density") {
             toggleDensity("show");
 
             toggleScatter("hide");
             toggleTopicChart("hide");
             toggleBars("hide");
+        }
+
+        else if(content === "topics") {
+            toggleTopicChart("show");
+            
+            toggleScatter("hide");
+            toggleDensity("hide");
+            toggleBars("hide");
+        }
+
+        else if(content === "all") {
+            toggleDensity("show");
+            toggleScatter("show");
+            toggleTopicChart("show");
+            toggleBars("show");
         }
     }
 
