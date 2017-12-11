@@ -8,7 +8,7 @@ import TopicSelector from './js/TopicSelector'
 import { Button, Dialog } from '@blueprintjs/core'
 import SketchPicker from 'react-color'
 import ta from './data/topic_files/topic_1.json'
-import tb from './data/topic_files/topic_2.json'
+import tb from './data/topic_files/topic_3.json'
 // import Filter from './js/Filter'
 
 export default class Main extends React.Component {
