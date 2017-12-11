@@ -14,6 +14,7 @@ export default class TopicBarChart extends React.Component {
                     topicB={this.props.topicB}
                     colorA={this.props.topicA_color}
                     colorB={this.props.topicB_color}
+                    setTopicA={this.props.setTopicA}
                 />
             </div>
         );
@@ -135,6 +136,9 @@ const Graph = Svg((node, props) => {
                 ';top:' + (d3.event.clientY + 10) +
                 'px;height:100px;' +
                 'px;left:' + xPos + "px")
+        })
+        .on('click', function (data, index, nodes) {
+            
         })
 
     // the red dotted line

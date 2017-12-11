@@ -383,7 +383,10 @@ export default class Main extends React.Component {
                     */}
 
                     <div id="topic_chart">
-                        <TopicBarChart {...this.state} />
+                        <TopicBarChart {...this.state}
+                            setTopicA={this.setTopicA}
+                            setTopicB={this.setTopicB}
+                        />
                     </div>
 
                     <div className="joke_content">
