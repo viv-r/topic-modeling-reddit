@@ -116,7 +116,6 @@ nav {
     margin: -20px 20px 10px 0px;
     float: right;
 }
-
 .page_button {
     padding: 5px;
     height:35px;
@@ -157,4 +156,32 @@ nav {
 #tooltip em {
     margin-right: 10px;
     margin-bottom: 5px;
+}
+
+#page_selection_nav {
+    background: transparent;
+    text-align: center;
+}
+.page_selector {
+    width: 200px;
+    height: 60px;
+    background: #5C7080;
+    border: 1px solid rgba(124, 148, 167, .9);
+    display: inline-block;
+    margin: 5px 10px 5px 10px;
+    padding: 5px;
+}
+.page_selector:hover {
+    background: rgba(124, 148, 167, .9);
+    cursor: pointer;
+}
+.page_selector:active {
+    background: rgba(100, 119, 134, 0.9);
+}
+.page_selector span {
+    position: relative;
+    top: 5px;
+    font-weight: bolder;
+    font-size: 12px;
+    color: rgb(243, 243, 243);
 }

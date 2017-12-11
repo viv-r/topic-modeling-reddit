@@ -36,8 +36,8 @@ export default class Main extends React.Component {
             topicA, // default topic A
             topicB, // default topic B
             topicScores,
-            topicA_color: '#00FF24',    // color of 1st topic
-            topicB_color: '#00A9FF',    // color of 2nd topic
+            topicA_color: '#32973F',    // color of 1st topic
+            topicB_color: '#236C92',    // color of 2nd topic
             words_to_show: 100,         // number of words to show in the bar chart
             enableDistortion: false,    // toggle cartesian distortion
             helpIsOpen: false,          // help dialog
@@ -50,6 +50,7 @@ export default class Main extends React.Component {
                 word: null,
             },
             word_page: 0,
+            words_per_bar: 21
         }
     }
 
@@ -152,11 +153,12 @@ export default class Main extends React.Component {
         });
     }
 
-    setWordPage = (s) => {
-        this.setState({
-            word_page: s,
-        })
-    }
+    // removed per Brock's suggestion
+    // setWordPage = (s) => {
+    //     this.setState({
+    //         word_page: s,
+    //     })
+    // }
 
     render() {
         return (
@@ -190,9 +192,28 @@ export default class Main extends React.Component {
                         onChange={this.setTopicB} />
 
                     <Button
+                        id={"topic_b_color_selector"}
                         className={"selector color_selector float_right"}
                         onClick={this.toggleColorPicker.bind(this, 2)}
                         style={{ background: this.state.topicB_color }} />
+                </nav>
+
+                <nav id="page_selection_nav">
+                 <div class="page_selector">
+                    <span>See the relative frequency of words in these topics</span>
+                 </div>
+                 <div class="page_selector">
+                    <span>See which words make up the topic.</span>
+                 </div>
+                 <div class="page_selector">
+                    <span>See how well these topics scored</span>
+                 </div>
+                 <div class="page_selector">
+                    <span>See how all topics scored</span>
+                 </div>
+                 <div class="page_selector">
+                    <span>See them all together</span>
+                 </div>
                 </nav>
 
                 {/* help dialog */}
@@ -246,7 +267,7 @@ export default class Main extends React.Component {
                             onSelect={this.setTopicBWord}
                             topic={2}
                             page={this.word_page}
-                        />
+                    />
                     </div>
                     <div className="bar_charts">
                         <BarChart
@@ -254,9 +275,9 @@ export default class Main extends React.Component {
                             onSelect={this.setTopicAWord}
                             topic={1}
                             page={this.word_page}
-                        />
+                    />
                     </div>
-                    <div id="bar_char_nav">
+                  {/*   <div id="bar_char_nav">
                         <Button
                             className={"page_button flip"}
                             onClick={this.setWordPage.bind(this, 0)}>
@@ -282,7 +303,7 @@ export default class Main extends React.Component {
                             onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length / 20))}>
                             <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
                         </Button>
-                    </div>
+                    </div> */}
 
                     <div className="topic_chart">
                         <TopicBarChart {...this.state} />
