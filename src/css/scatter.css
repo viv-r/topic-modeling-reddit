@@ -2,8 +2,8 @@
     position: absolute;
     top: 130px;
     left: 20px;
-    -webkit-transition: opacity 1s, left 1s ease-in;
-    transition: opacity 1s, left 1s ease-in;
+    -webkit-transition: opacity 1s, left .1s ease-in-out;
+    transition: opacity 1s, left .1s ease-in-out;
 }
 
 .scatter-container {
@@ -16,4 +16,22 @@
     opacity: 0.2;
     stroke-dasharray: 5,5;
   }
+
+#scatter_plot_help {
+    position: absolute;
+    top: 200px;
+    left: 580px;
+    width: 550px;
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s;
+}
+#scatter_plot_help .header {
+    text-align: center;
+}
+#scatter_plot_help p {
+    text-align: justify;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 2em;
+}
   

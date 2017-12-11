@@ -3,6 +3,25 @@
     top: 670px;
     left: 0px;
     opacity: 1;
-    -webkit-transition: opacity 1s, left 1s ease-in-out;
-    transition: opacity 1s, left 1s ease-in-out;
+    -webkit-transition: opacity 1s, left .5s ease-in-out;
+    transition: opacity 1s, left .5s ease-in-out;
 }
+
+#density_plot_help {
+    position: absolute;
+    top: 750px;
+    left: 580px;
+    width: 600px;
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s;
+}
+#density_plot_help .header {
+    text-align: center;
+}
+#density_plot_help p {
+    text-align: justify;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 2em;
+}
+  

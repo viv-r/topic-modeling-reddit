@@ -2,9 +2,27 @@
     position: absolute;
     top: 670px;
     left: 565px;
-    -webkit-transition: opacity 1s, left 1s ease-in;
-    transition: opacity 1s, left 1s ease-in;
+    -webkit-transition: opacity 1s, left .5s ease-in-out;
+    transition: opacity 1s, left .5s ease-in-out;
 }
 .topic-bar-container {
     margin: 0;
+}
+
+#topic_chart_help {
+    position: absolute;
+    top: 300px;
+    left: 250px;
+    width: 720px;
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s;
+}
+#topic_chart_help .header {
+    text-align: center;
+}
+#topic_chart_help p {
+    text-align: justify;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 2em;
 }

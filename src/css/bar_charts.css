@@ -3,8 +3,8 @@
     top: 130px;
     left: 580px;
     padding-top: 15px;
-    -webkit-transition: opacity 1s, left 1s ease-in;
-    transition: opacity 1s, left 1s ease-in;
+    -webkit-transition: opacity 1s, left .2s ease-in-out;
+    transition: opacity 1s, left .2s ease-in-out;
 }
 
 .bar_charts {
@@ -23,3 +23,22 @@ rect:hover {
     font-weight: bold;
     fill: rgb(168, 3, 3);
 }
+
+#bar_chart_help {
+    position: absolute;
+    top: 145px;
+    left: 80px;
+    width: 450px;
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s;
+}
+#bar_chart_help .header {
+    text-align: center;
+}
+#bar_chart_help p {
+    text-align: justify;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 2em;
+}
+  
