@@ -119,9 +119,9 @@ const Graph = Svg((node, props) => {
         .range([props.tb_color, props.ta_color])
 
     svg.selectAll("*").remove();
-    svg.attr("width", size + 40)
+    svg.attr("width", size + 50)
         .attr("height", size + 40)
-        .style("padding", 15)
+        .style("padding", "15px 15px 15px 35px")
         .append("g")
 
     let xAxis = d3.axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-size);
@@ -200,6 +200,8 @@ const Graph = Svg((node, props) => {
         .selectAll(".dot")
         .data(props.data)
         .enter().append("circle")
+        .style("stroke", "#5c7080")
+        .style("stroke-width", .5)
         .on("mouseover", function (d) {
             d3.select("#tooltip")
                 .html(
