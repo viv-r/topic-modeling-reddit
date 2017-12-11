@@ -249,7 +249,7 @@ export default class Main extends React.Component {
 
             help = document.getElementById("bar_chart_help")
             toggle(help, "hide")
-            
+
             help = document.getElementById("topic_chart_help")
             toggle(help, "hide")
 
@@ -329,20 +329,20 @@ export default class Main extends React.Component {
                     title={"Help"} >
                     <div className="help_content">
                         <h6>What are we looking at?</h6>
-                        <p>This web app visualizes the results of performing LDA topic modeling analysis with the Reddit joke dataset - 200K jokes!</p>
+                        <p>This web app visualizes the results of fitting an LDA topic model with the Reddit joke dataset - 200K jokes! The goal is to explore the topics to find out what the topics are about, and if any of them tend to score higher.</p>
 
                         <h6>Switching Topics</h6>
-                        <p>Topics can be changed with the dropdowns in the upper left and right of the navbar. Their associated <strong>colors</strong> can also be changed by clicking on the color squares next to the dropdowns!</p>
+                        <p>Topics can be changed with the dropdowns in the upper left and right of the navbar. Their associated colors can also be changed by clicking on the color squares next to the dropdowns!</p>
 
                         <h6>Scatter Plot</h6>
-                        <p>Each dot on the scatter plot represents a word. The dot's position along the horizontal and vertical axises describe the probablity that the associated word belongs to the first or second selected topics respectively. The hue of the dot helps distinguish associated topics as well indicating how probable the associated word belongs to a particular topic. The stronger the hue is towards a topic's main color the more probable they're associated!</p>
-                        <p><strong>Cartesian Distortion</strong> is a means to scale the axese on demand allowing you to add separation inbetween the closely clustered words. It can be applied to the scatter plot to help compare word positions. You can enable or disable it by clicking the 'D' in the far left of the nav bar.</p>
+                        <p>Each dot on the scatter plot represents a word, and the position represents how often it occurs in either topic. Words closer to the red line mean they occur evenly between the two topics.</p>
+                        <p><strong>Cartesian Distortion</strong> is a means to scale the axes on demand allowing you to add separation in between the closely clustered words. It can be applied to the scatter plot to help compare word positions. You can enable or disable it by clicking the 'D' in the far left of the nav bar.</p>
 
                         <h6>Bar Plots</h6>
                         <p>Most text modeling algorithms tend to destroy the semantic context associated with their results. Unfortunately, LDA modeling is one of them. As such, we're only able to discover a predetermined number of topics but not give a topic name to bring context to the associated words. Our model performed the best when tuned to 50 topics. The bar plots are used to give you back some more of that semantic context. It's quite fun to flip through the topics and see what they're about. A longer bar indicates higher word to topic affinity and a brighter hue indicates higher word count.</p>
 
                         <h6>Area (Density) Plot</h6>
-                        <p>The area chart shows how likely a joke written about a particular topic is going to recieve more views. If the area is all crammed up towards the left don't write a joke in that topic because it's unlikely to score well!</p>
+                        <p>The area chart shows how likely a joke written about a particular topic is going to receive more upvotes. If the area is all crammed up towards the left don't write a joke in that topic because it's unlikely to score well!</p>
                     </div>
                 </Dialog>
 
