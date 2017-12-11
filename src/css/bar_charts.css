@@ -3,8 +3,8 @@
     top: 130px;
     left: 580px;
     padding-top: 15px;
-    -webkit-transition: opacity 1s, left 2s ease-in;
-    transition: opacity 1s, left 2s ease-in;
+    -webkit-transition: opacity 1s, left 1s ease-in;
+    transition: opacity 1s, left 1s ease-in;
 }
 
 .bar_charts {

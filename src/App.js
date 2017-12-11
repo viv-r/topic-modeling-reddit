@@ -178,20 +178,18 @@ export default class Main extends React.Component {
         }
 
         var toggleBars = (s) => {
-            var el = document.getElementsByClassName("bar_charts")
-            for (var i=0; i<el.length;++i) {
-                toggle(el[i], s)           
-            }  
+            var el = document.getElementById("bar_chart_container")
+            toggle(el, s)  
         }
 
         var toggleTopicChart = (s) => {
-            var el = document.getElementsByClassName("topic_chart")
-           toggle(el[0], s)
+            var el = document.getElementById("topic_chart")
+           toggle(el, s)
         }
 
         var toggleDensity = (s) => {
-            var el = document.getElementsByClassName("density-container")
-            toggle(el[0], s)
+            var el = document.getElementById("density_plot")
+            toggle(el, s)
         }
 
 
@@ -328,18 +326,17 @@ export default class Main extends React.Component {
                                 {...this.state}
                                 onSelect={this.setTopicBWord}
                                 topic={2}
-                                page={this.word_page}
-                        />
+                                page={this.word_page} />
                         </div>
                         <div className="bar_charts">
                             <BarChart
                                 {...this.state}
                                 onSelect={this.setTopicAWord}
                                 topic={1}
-                                page={this.word_page}
-                        />
+                                page={this.word_page} />
                         </div>
                     </div>
+                    
                     {/*   <div id="bar_char_nav">
                         <Button
                             className={"page_button flip"}
@@ -369,7 +366,7 @@ export default class Main extends React.Component {
                     </div> 
                     */}
 
-                    <div className="topic_chart">
+                    <div id="topic_chart">
                         <TopicBarChart {...this.state} />
                     </div>
 
