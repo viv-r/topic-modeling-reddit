@@ -9,9 +9,9 @@
 
 #density_plot_help {
     position: absolute;
-    top: 750px;
-    left: 580px;
-    width: 600px;
+    top: 400px;
+    left: 250px;
+    width: 720px;
     -webkit-transition: opacity 1s;
     transition: opacity 1s;
 }
