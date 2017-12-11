@@ -1,6 +1,7 @@
 #scatter_plot {
     margin-top: 10px;
     float:left;
+    margin-left: 20px;
 }
 
 .scatter-container {
@@ -8,6 +9,8 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    -webkit-transition: opacity 1s, left 0.1s ease-out, border .3s ease-out;
+    transition: opacity 1s, left 0.1s ease-out, border .3s ease-out;
 }
 
 .tick line{

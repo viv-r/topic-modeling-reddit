@@ -160,6 +160,65 @@ export default class Main extends React.Component {
     //     })
     // }
 
+    switchActiveView = (content) => {
+        var toggle = (el, s) => {
+
+            if (el) {
+                if (s === "hide" && !el.classList.contains("hidden"))
+                    el.className += " hidden"
+
+                else if (s === "show" && el.classList.contains("hidden"))
+                    el.classList.remove("hidden")
+                    
+            }
+        }
+
+        var toggleScatter = (s) => {
+            var el =document.getElementById("scatter_plot")
+            toggle(el, s)
+        }
+
+        var toggleBars = (s) => {
+            var el = document.getElementsByClassName("bar_charts")
+            for (var i=0; i<el.length;++i) {
+                toggle(el[i], s)           
+            }  
+        }
+
+        var toggleTopicChart = (s) => {
+            var el = document.getElementsByClassName("topic_chart")
+           toggle(el[0], s)
+        }
+
+        var toggleDensity = (s) => {
+            var el = document.getElementsByClassName("density-container")
+            toggle(el[0], s)
+        }
+
+
+        if (content === "scatter" ) {
+            toggleScatter("show");
+
+            toggleBars("hide");  
+            toggleTopicChart("hide");  
+            toggleDensity("hide");
+        }
+        else if (content === "bars") {
+            toggleBars("show")
+
+            toggleScatter("hide");
+            toggleTopicChart("hide");
+            toggleDensity("hide");
+        }
+        else if(content === "density") {
+            toggleDensity("show");
+
+            toggleScatter("hide");
+            toggleTopicChart("hide");
+            toggleBars("hide");
+        }
+    }
+
     render() {
         return (
             <div>
@@ -199,19 +258,19 @@ export default class Main extends React.Component {
                 </nav>
 
                 <nav id="page_selection_nav">
-                 <div class="page_selector">
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "scatter")} >
                     <span>See the relative frequency of words in these topics</span>
                  </div>
-                 <div class="page_selector">
-                    <span>See which words make up the topic.</span>
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "bars")}>
+                    <span>See which words make up the topic</span>
                  </div>
-                 <div class="page_selector">
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "density")}>
                     <span>See how well these topics scored</span>
                  </div>
-                 <div class="page_selector">
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "topics")}>
                     <span>See how all topics scored</span>
                  </div>
-                 <div class="page_selector">
+                 <div className="page_selector" onClick={this.switchActiveView.bind(this, "all")}>
                     <span>See them all together</span>
                  </div>
                 </nav>
@@ -277,7 +336,7 @@ export default class Main extends React.Component {
                             page={this.word_page}
                     />
                     </div>
-                  {/*   <div id="bar_char_nav">
+                    {/*   <div id="bar_char_nav">
                         <Button
                             className={"page_button flip"}
                             onClick={this.setWordPage.bind(this, 0)}>
@@ -303,7 +362,8 @@ export default class Main extends React.Component {
                             onClick={this.setWordPage.bind(this, Math.floor(this.state.topics[this.state.topicA].words.length / 20))}>
                             <img className="paging_button" src={require("./css/chev_dbl.png")} alt="page right" />
                         </Button>
-                    </div> */}
+                    </div> 
+                    */}
 
                     <div className="topic_chart">
                         <TopicBarChart {...this.state} />

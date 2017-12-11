@@ -110,7 +110,7 @@ const Graph = Svg((node, props) => {
                 .attr('style',
                 'opacity:.95;border: 1px solid ' + col +
                 ';border-top: 15px solid ' + col +
-                ';top:' + (d3.event.clientY + 250) +
+                ';top:' + (d3.event.clientY + 10) +
                 'px;height:100px;' +
                 'left:' + xPos + "px")
 
@@ -132,7 +132,7 @@ const Graph = Svg((node, props) => {
                 .attr('style',
                 'opacity:0;border: 1px solid ' + col +
                 ';border-top: 15px solid ' + col +
-                ';top:' + (d3.event.clientY + 250) +
+                ';top:' + (d3.event.clientY + 10) +
                 'px;height:100px;' +
                 'px;left:' + xPos + "px")
         })

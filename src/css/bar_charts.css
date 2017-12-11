@@ -1,16 +1,10 @@
 .bar_charts {
+    float: right;
     margin: 40px 20px 20px 0px;
-    display: inline-block;
     border-left: 1px solid #5C7080;
     padding-left: 10px;
-}
-
-.bar_container {
-    margin-top: 20px;
-}
-
-.topic-bar-container {
-    margin: 40px 0px 0px 0px;
+    -webkit-transition: opacity 1s, left 2s ease-in;
+    transition: opacity 1s, left 2s ease-in;
 }
 
 rect:hover {
@@ -21,8 +15,4 @@ rect:hover {
 .topic_label {    
     font-weight: bold;
     fill: rgb(168, 3, 3);
-}
-
-.lilHisty_axis {
-    stroke: white;
 }
