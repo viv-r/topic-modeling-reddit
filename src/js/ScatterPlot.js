@@ -116,12 +116,12 @@ const Graph = Svg((node, props) => {
 
     const colorScale = d3.scaleLinear()
         .domain([0, 1])
-        .range([props.ta_color, props.tb_color])
+        .range([props.tb_color, props.ta_color])
 
     svg.selectAll("*").remove();
-    svg.attr("width", size + 40)
+    svg.attr("width", size + 50)
         .attr("height", size + 40)
-        .style("padding", 15)
+        .style("padding", "15px 15px 15px 35px")
         .append("g")
 
     let xAxis = d3.axisBottom(xScale).tickFormat(d3.format(",d")).tickSize(-size);
@@ -181,7 +181,7 @@ const Graph = Svg((node, props) => {
         .attr("text-anchor", "end")
         .attr("x", size - 6)
         .attr("y", size - 6)
-        .text("Topic " + (props.ta_num + 1));
+        .text("Topic " + (props.tb_num + 1));
 
     // Add a y-axis label.
     svg.append("text")
@@ -191,7 +191,7 @@ const Graph = Svg((node, props) => {
         .attr("y", 6)
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
-        .text("Topic " + (props.tb_num + 1));
+        .text("Topic " + (props.ta_num + 1));
 
     // Add a dot per word and set the colors
     var dot = svg.append("g")
@@ -200,12 +200,14 @@ const Graph = Svg((node, props) => {
         .selectAll(".dot")
         .data(props.data)
         .enter().append("circle")
+        .style("stroke", "#5c7080")
+        .style("stroke-width", .5)
         .on("mouseover", function (d) {
             d3.select("#tooltip")
                 .html(
                 "<h4>" + d.name + "</h4>" +
-                "<p><em>occurrences in topic A:</em>" + d.p_topicA +
-                "</br><em>occurrences of topic B:</em>" + d.p_topicB +
+                "<p><em>occurrences in topic " + (props.ta_num+1) + ":</em>" + d.p_topicA +
+                "</br><em>occurrences of topic " + (props.tb_num+1) + ":</em>" + d.p_topicB +
                 "</br><em>occurrences in all topics:</em> " + d.count +
                 "</p>"
                 )

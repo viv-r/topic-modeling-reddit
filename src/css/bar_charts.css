@@ -5,6 +5,7 @@
     padding-top: 15px;
     -webkit-transition: opacity 1s, left .2s ease-in-out;
     transition: opacity 1s, left .2s ease-in-out;
+    width: 645px;
 }
 
 .bar_charts {

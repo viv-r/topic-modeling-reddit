@@ -8,7 +8,7 @@ import TopicSelector from './js/TopicSelector'
 import { Button, Dialog } from '@blueprintjs/core'
 import SketchPicker from 'react-color'
 import ta from './data/topic_files/topic_1.json'
-import tb from './data/topic_files/topic_2.json'
+import tb from './data/topic_files/topic_3.json'
 // import Filter from './js/Filter'
 
 export default class Main extends React.Component {
@@ -366,7 +366,7 @@ export default class Main extends React.Component {
                     </section>
                     <div id="scatter_plot_help" className="hidden">
                         <div className="header">
-                            <h3>Relative frequency between words</h3>
+                            <h3>Relative frequency between topics</h3>
                         </div>
                         <p>
                             Here we’re able to compare how often words are used in each topic. The closer it is to a topic, the more it’s used there. Words closer to the red line indicate that they’re used more evenly between the two topics.
@@ -411,7 +411,7 @@ export default class Main extends React.Component {
                             <h3>See which words make up the topic</h3>
                         </div>
                         <p>
-                            Here’s the bread and butter for finding out what the topics are actually about. The bar plot on the left shows the words most associated with the topic selected on the left hand corner (and vice versa for the right). The length of the bar next to a word indicates the probability that the word is associated with the topic, but all that really means is that it’s used more in that topic than others.
+                            Here’s the bread and butter for finding out what the topics are actually about. The bar plot on the left shows the words most associated with the topic selected on the left hand corner (and vice versa for the right). The length of the bar next to a word indicates the probability that the word is associated with the topic, but all that really means is that it’s used more in that topic than others. The lightness of the bar allows you to compare frequencies of use. A brighter hue indicates the word was used more than a darker.
                         </p>
                         <p>
                             If you <strong>hover</strong> over a word you’ll get the counts, along with a bar plot in the tooltip showing how often the word is used in other topics. If you only see one bar, that means it’s used only in that topic. Some words, like ‘get’, will be used often in many topics.
